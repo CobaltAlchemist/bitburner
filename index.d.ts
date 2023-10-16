@@ -1,97 +1,20 @@
-/** @public */
-export type ValuesFrom<T> = T[keyof T];
-
-/** @public */
-export interface HP {
-  current: number;
-  max: number;
-}
-
-/** @public */
-export interface Skills {
-  hacking: number;
-  strength: number;
-  defense: number;
-  dexterity: number;
-  agility: number;
-  charisma: number;
-  intelligence: number;
-}
-
-/** @public */
-export interface PossibleInfiltrationLocation {
-  city: string;
-  name: string;
+/**
+ * @public
+ */
+ export declare interface ActiveFragment {
+  id: number;
+  highestCharge: number;
+  numCharge: number;
+  rotation: number;
+  x: number;
+  y: number;
 }
 
 /**
- * Coding contract data will differ depending on coding contract.
- * @public
- */
-type CodingContractData = any;
-
-/** @public */
-type PortData = string | number;
-
-/** @public */
-type ScriptArg = string | number | boolean;
-
-/** @public */
-type FilenameOrPID = number | string;
-
-/** @public */
-interface Player {
-  hp: HP;
-  skills: Skills;
-  exp: Skills;
-  mults: Multipliers;
-  numPeopleKilled: number;
-  money: number;
-  city: string;
-  location: string;
-  bitNodeN: number;
-  totalPlaytime: number;
-  playtimeSinceLastAug: number;
-  playtimeSinceLastBitnode: number;
-  jobs: Record<string, string>;
-  factions: string[];
-  tor: boolean;
-  hasCorporation: boolean;
-  inBladeburner: boolean;
-  entropy: number;
-}
-
-/** @public */
-interface MoneySource {
-  bladeburner: number;
-  casino: number;
-  class: number;
-  codingcontract: number;
-  corporation: number;
-  crime: number;
-  gang: number;
-  hacking: number;
-  hacknet: number;
-  hacknet_expenses: number;
-  hospitalization: number;
-  infiltration: number;
-  sleeves: number;
-  stock: number;
-  total: number;
-  work: number;
-  servers: number;
-  other: number;
-  augmentations: number;
-}
-
-/** @public */
-interface MoneySources {
-  sinceInstall: MoneySource;
-  sinceStart: MoneySource;
-}
-
-/** @public */
-export interface Multipliers {
+* Data representing the internal values of an Augmentation.
+* @public
+*/
+export declare interface AugmentationStats {
   /** Multiplier to hacking skill */
   hacking?: number;
   /** Multiplier to strength skill */
@@ -154,373 +77,44 @@ export interface Multipliers {
   bladeburner_success_chance?: number;
 }
 
-/** @public */
-export interface RunningScript {
-  /** Arguments the script was called with */
-  args: (string | number | boolean)[];
-  /** Filename of the script */
-  filename: string;
-  /**
-   * Script logs as an array. The newest log entries are at the bottom.
-   * Timestamps, if enabled, are placed inside `[brackets]` at the start of each line.
-   **/
-  logs: string[];
-  /** Total amount of hacking experience earned from this script when offline */
-  offlineExpGained: number;
-  /** Total amount of money made by this script when offline */
-  offlineMoneyMade: number;
-  /** Number of seconds that the script has been running offline */
-  offlineRunningTime: number;
-  /** Total amount of hacking experience earned from this script when online */
-  onlineExpGained: number;
-  /** Total amount of money made by this script when online */
-  onlineMoneyMade: number;
-  /** Number of seconds that this script has been running online */
-  onlineRunningTime: number;
-  /** Process ID. Must be an integer */
-  pid: number;
-  /** How much RAM this script uses for ONE thread */
-  ramUsage: number;
-  /** Hostname of the server on which this script runs */
-  server: string;
-  /** Number of threads that this script runs with */
-  threads: number;
-}
-
-/** @public */
-export interface RecentScript extends RunningScript {
-  /** Timestamp of when the script was killed */
-  timeOfDeath: Date;
-}
-
 /**
- * Data representing the internal values of a crime.
- * @public
- */
-export interface CrimeStats {
-  /** Number representing the difficulty of the crime. Used for success chance calculations */
-  difficulty: number;
-  /** Amount of karma lost for successfully committing this crime */
-  karma: number;
-  /** How many people die as a result of this crime */
-  kills: number;
-  /** How much money is given */
-  money: number;
-  /** Name of crime */
-  name: string;
-  /** Milliseconds it takes to attempt the crime */
-  time: number;
-  /** Description of the crime activity */
-  type: string;
-  /** hacking level impact on success change of the crime */
-  hacking_success_weight: number;
-  /** strength level impact on success change of the crime */
-  strength_success_weight: number;
-  /** defense level impact on success change of the crime */
-  defense_success_weight: number;
-  /** dexterity level impact on success change of the crime */
-  dexterity_success_weight: number;
-  /** agility level impact on success change of the crime */
-  agility_success_weight: number;
-  /** charisma level impact on success change of the crime */
-  charisma_success_weight: number;
-  /** hacking exp gained from crime */
-  hacking_exp: number;
-  /** strength exp gained from crime */
-  strength_exp: number;
-  /** defense exp gained from crime */
-  defense_exp: number;
-  /** dexterity exp gained from crime */
-  dexterity_exp: number;
-  /** agility exp gained from crime */
-  agility_exp: number;
-  /** charisma exp gained from crime */
-  charisma_exp: number;
-  /** intelligence exp gained from crime */
-  intelligence_exp: number;
-}
-
-/**
- * Options to affect the behavior of {@link NS.hack | hack}, {@link NS.grow | grow}, and {@link NS.weaken | weaken}.
- * @public
- */
-export interface BasicHGWOptions {
-  /** Number of threads to use for this function.
-   * Must be less than or equal to the number of threads the script is running with. */
-  threads?: number;
-  /** Set to true this action will affect the stock market. */
-  stock?: boolean;
-}
-
-/**
- * Options to affect the behavior of {@link CodingContract} attempt.
- * @public
- */
-export interface CodingAttemptOptions {
-  /** If truthy, then the function will return a string that states the contract’s reward when it is successfully solved. */
-  returnReward: boolean;
-}
-
-/**
- * Return value of {@link Sleeve.getSleevePurchasableAugs | getSleevePurchasableAugs}
- * @public
- */
-export interface AugmentPair {
+* Return value of {@link Sleeve.getSleevePurchasableAugs | getSleevePurchasableAugs}
+* @public
+*/
+export declare interface AugmentPair {
   /** augmentation name */
   name: string;
   /** augmentation cost */
   cost: number;
 }
 
-/** @public */
-export enum PositionTypes {
-  Long = "L",
-  Short = "S",
-}
-
-/** @public */
-export enum OrderTypes {
-  LimitBuy = "Limit Buy Order",
-  LimitSell = "Limit Sell Order",
-  StopBuy = "Stop Buy Order",
-  StopSell = "Stop Sell Order",
+/**
+* Used for autocompletion
+* @public
+*/
+export declare interface AutocompleteData {
+  servers: string[];
+  scripts: string[];
+  txts: string[];
+  flags(schema: [string, string | number | boolean | string[]][]): { [key: string]: ScriptArg | string[] };
 }
 
 /**
- * Value in map of {@link StockOrder}
- * @public
- */
-export interface StockOrderObject {
-  /** Number of shares */
-  shares: number;
-  /** Price per share */
-  price: number;
-  /** Order type */
-  type: OrderTypes;
-  /** Order position */
-  position: PositionTypes;
+* Options to affect the behavior of {@link NS.hack | hack}, {@link NS.grow | grow}, and {@link NS.weaken | weaken}.
+* @public
+*/
+export declare interface BasicHGWOptions {
+  /** Number of threads to use for this function. Must be less than or equal to the number of threads the script is running with. */
+  threads?: number;
+  /** Set to true this action will affect the stock market. */
+  stock?: boolean;
 }
 
 /**
- * Return value of {@link TIX.getOrders | getOrders}
- *
- * Keys are stock symbols, properties are arrays of {@link StockOrderObject}
- * @public
- */
-export interface StockOrder {
-  [key: string]: StockOrderObject[];
-}
-
-/**
- * A single process on a server.
- * @public
- */
-export interface ProcessInfo {
-  /** Script name. */
-  filename: string;
-  /** Number of threads script is running with */
-  threads: number;
-  /** Script's arguments */
-  args: (string | number | boolean)[];
-  /** Process ID */
-  pid: number;
-}
-
-/**
- * Hack related multipliers.
- * @public
- */
-export interface HackingMultipliers {
-  /** Player's hacking chance multiplier. */
-  chance: number;
-  /** Player's hacking speed multiplier. */
-  speed: number;
-  /** Player's hacking money stolen multiplier. */
-  money: number;
-  /** Player's hacking growth multiplier */
-  growth: number;
-}
-
-/**
- * Hacknet related multipliers.
- * @public
- */
-export interface HacknetMultipliers {
-  /** Player's hacknet production multiplier */
-  production: number;
-  /** Player's hacknet purchase cost multiplier */
-  purchaseCost: number;
-  /** Player's hacknet ram cost multiplier */
-  ramCost: number;
-  /** Player's hacknet core cost multiplier */
-  coreCost: number;
-  /** Player's hacknet level cost multiplier */
-  levelCost: number;
-}
-
-/**
- * Hacknet node related constants
- * @public
- */
-export interface HacknetNodeConstants {
-  /** Amount of money gained per level */
-  MoneyGainPerLevel: number;
-  /** Base cost for a new node */
-  BaseCost: number;
-  /** Base cost per level */
-  LevelBaseCost: number;
-  /** Base cost to increase RAM */
-  RamBaseCost: number;
-  /** Base cost to increase cores */
-  CoreBaseCost: number;
-  /** Multiplier to purchase new node */
-  PurchaseNextMult: number;
-  /** Multiplier to increase node level */
-  UpgradeLevelMult: number;
-  /** Multiplier to increase RAM */
-  UpgradeRamMult: number;
-  /** Multiplier to increase cores */
-  UpgradeCoreMult: number;
-  /** Max node level */
-  MaxLevel: number;
-  /** Max amount of RAM in GB */
-  MaxRam: number;
-  /** Max number of cores */
-  MaxCores: number;
-}
-
-/**
- * Hacknet server related constants
- * @public
- */
-export interface HacknetServerConstants {
-  /** Number of hashes calculated per level */
-  HashesPerLevel: number;
-  /** Base cost for a new server */
-  BaseCost: number;
-  /** Base cost to increase RAM */
-  RamBaseCost: number;
-  /** Base cost to increase cores */
-  CoreBaseCost: number;
-  /** Base cost to upgrade cache */
-  CacheBaseCost: number;
-  /** Multiplier to purchase a new server */
-  PurchaseMult: number;
-  /** Multiplier to increase server level */
-  UpgradeLevelMult: number;
-  /** Multiplier to increase RAM */
-  UpgradeRamMult: number;
-  /** Multiplier to increase cores */
-  UpgradeCoreMult: number;
-  /** Multiplier to upgrade cache */
-  UpgradeCacheMult: number;
-  /** Max number of servers */
-  MaxServers: number;
-  /** Max level for a server */
-  MaxLevel: number;
-  /** Max amount of RAM in GB */
-  MaxRam: number;
-  /** Max number of cores */
-  MaxCores: number;
-  /** Max cache size */
-  MaxCache: number;
-}
-
-/**
- * A single server.
- * @public
- */
-export interface Server {
-  /**
-   * How many CPU cores this server has. Maximum of 8.
-   * Affects magnitude of grow and weaken.
-   */
-  cpuCores: number;
-
-  /** Flag indicating whether the FTP port is open */
-  ftpPortOpen: boolean;
-
-  /** Flag indicating whether player has admin/root access to this server */
-  hasAdminRights: boolean;
-
-  /** Hostname. Must be unique */
-  hostname: string;
-
-  /** Flag indicating whether HTTP Port is open */
-  httpPortOpen: boolean;
-
-  /** IP Address. Must be unique */
-  ip: string;
-
-  /** Flag indicating whether player is currently connected to this server */
-  isConnectedTo: boolean;
-
-  /** RAM (GB) available on this server */
-  maxRam: number;
-
-  /**
-   * Name of company/faction/etc. that this server belongs to.
-   * Optional, not applicable to all Servers
-   */
-  organizationName: string;
-
-  /** RAM (GB) used. i.e. unavailable RAM */
-  ramUsed: number;
-
-  /** Flag indicating whether SMTP Port is open */
-  smtpPortOpen: boolean;
-
-  /** Flag indicating whether SQL Port is open */
-  sqlPortOpen: boolean;
-
-  /** Flag indicating whether the SSH Port is open */
-  sshPortOpen: boolean;
-
-  /** Flag indicating whether this is a purchased server */
-  purchasedByPlayer: boolean;
-
-  /** Flag indicating whether this server has a backdoor installed by a player */
-  backdoorInstalled: boolean;
-
-  /**
-   * Initial server security level
-   * (i.e. security level when the server was created)
-   */
-  baseDifficulty: number;
-
-  /** Server Security Level */
-  hackDifficulty: number;
-
-  /** Minimum server security level that this server can be weakened to */
-  minDifficulty: number;
-
-  /** How much money currently resides on the server and can be hacked */
-  moneyAvailable: number;
-
-  /** Maximum amount of money that this server can hold */
-  moneyMax: number;
-
-  /** Number of open ports required in order to gain admin/root access */
-  numOpenPortsRequired: number;
-
-  /** How many ports are currently opened on the server */
-  openPortCount: number;
-
-  /** Hacking level required to hack this server */
-  requiredHackingSkill: number;
-
-  /**
-   * Parameter that affects how effectively this server's money can
-   * be increased using the grow() Netscript function
-   */
-  serverGrowth: number;
-}
-
-/**
- * All multipliers affecting the difficulty of the current challenge.
- * @public
- */
-export interface BitNodeMultipliers {
+* All multipliers affecting the difficulty of the current challenge.
+* @public
+*/
+export declare interface BitNodeMultipliers {
   /** Influences how quickly the player's agility level (not exp) scales */
   AgilityLevelMultiplier: number;
   /** Influences the base cost to purchase an augmentation. */
@@ -571,8 +165,7 @@ export interface BitNodeMultipliers {
   HackExpGain: number;
   /** Influences how quickly the player's hacking level (not experience) scales */
   HackingLevelMultiplier: number;
-  /** Influences how much money is produced by Hacknet Nodes
-   *  and the hash rate of Hacknet Servers (unlocked in BitNode-9) */
+  /** Influences how much money is produced by Hacknet Nodes and the hash rate of Hacknet Servers (unlocked in BitNode-9) */
   HacknetNodeMoney: number;
   /** Influences how much money it costs to upgrade your home computer's RAM */
   HomeComputerRamCost: number;
@@ -580,8 +173,7 @@ export interface BitNodeMultipliers {
   InfiltrationMoney: number;
   /** Influences how much rep the player can gain from factions when selling stolen documents and secrets */
   InfiltrationRep: number;
-  /** Influences how much money can be stolen from a server when the player
-   *  performs a hack against it through the Terminal. */
+  /** Influences how much money can be stolen from a server when the player performs a hack against it through the Terminal. */
   ManualHackMoney: number;
   /** Influence how much it costs to purchase a server */
   PurchasedServerCost: number;
@@ -618,2108 +210,13 @@ export interface BitNodeMultipliers {
 }
 
 /**
- * Object representing all the values related to a hacknet node.
- * @public
- */
-export interface NodeStats {
-  /** Node's name */
-  name: string;
-  /** Node's level */
-  level: number;
-  /** Node's RAM (GB) */
-  ram: number;
-  /** Node's used RAM (GB) */
-  ramUsed?: number;
-  /** Node's number of cores */
-  cores: number;
-  /** Cache level. Only applicable for Hacknet Servers */
-  cache?: number;
-  /** Hash Capacity provided by this Node. Only applicable for Hacknet Servers */
-  hashCapacity?: number;
-  /** Node's production per second */
-  production: number;
-  /** Number of seconds since Node has been purchased */
-  timeOnline: number;
-  /** Total number of money Node has produced */
-  totalProduction: number;
-}
-
-/** @public */
-export interface CharacterMult {
-  /** Agility stat */
-  agility: number;
-  /** Agility exp */
-  agilityExp: number;
-  /** Charisma stat */
-  charisma: number;
-  /** Charisma exp */
-  charismaExp: number;
-  /** Company reputation */
-  companyRep: number;
-  /** Money earned from crimes */
-  crimeMoney: number;
-  /** Crime success chance */
-  crimeSuccess: number;
-  /** Defense stat */
-  defense: number;
-  /** Defense exp */
-  defenseExp: number;
-  /** Dexterity stat */
-  dexterity: number;
-  /** Dexterity exp */
-  dexterityExp: number;
-  /** Faction reputation */
-  factionRep: number;
-  /** Hacking stat */
-  hacking: number;
-  /** Hacking exp */
-  hackingExp: number;
-  /** Strength stat */
-  strength: number;
-  /** Strength exp */
-  strengthExp: number;
-  /** Money earned from jobs */
-  workMoney: number;
-}
-
-/** @public */
-export interface SleeveWorkGains {
-  /** Hacking exp gained from work */
-  workHackExpGain: number;
-  /** Strength exp gained from work */
-  workStrExpGain: number;
-  /** Defense exp gained from work, */
-  workDefExpGain: number;
-  /** Dexterity exp gained from work */
-  workDexExpGain: number;
-  /** Agility exp gained from work */
-  workAgiExpGain: number;
-  /** Charisma exp gained from work */
-  workChaExpGain: number;
-  /** Money gained from work */
-  workMoneyGain: number;
-}
-
-/** @public */
-export interface SourceFileLvl {
-  /** The number of the source file */
-  n: number;
-  /** The level of the source file */
-  lvl: number;
-}
-
-/**
- * Bladeburner current action.
- * @public
- */
-export interface BladeburnerCurAction {
-  /** Type of Action */
-  type: string;
-  /** Name of Action */
-  name: string;
-}
-
-/**
- * Gang general info.
- * @public
- */
-export interface GangGenInfo {
-  /** Name of faction that the gang belongs to ("Slum Snakes", etc.) */
-  faction: string;
-  /** Indicating whether or not it's a hacking gang */
-  isHacking: boolean;
-  /** Money earned per game cycle */
-  moneyGainRate: number;
-  /** Gang's power for territory warfare */
-  power: number;
-  /** Gang's respect */
-  respect: number;
-  /** Respect earned per game cycle */
-  respectGainRate: number;
-  /** Amount of territory held */
-  territory: number;
-  /** Clash chance */
-  territoryClashChance: number;
-  /** Gang's wanted level */
-  wantedLevel: number;
-  /** Wanted level gained/lost per game cycle (negative for losses) */
-  wantedLevelGainRate: number;
-  /** Indicating if territory warfare is enabled */
-  territoryWarfareEngaged: boolean;
-  /** Number indicating the current wanted penalty */
-  wantedPenalty: number;
-}
-
-/** @public */
-export interface GangOtherInfoObject {
-  /** Gang power */
-  power: number;
-  /** Gang territory, in decimal form */
-  territory: number;
-}
-
-/** @public */
-export interface GangOtherInfo {
-  [key: string]: GangOtherInfoObject;
-}
-
-/**
- * Object representing data representing a gang member task.
- * @public
- */
-export interface GangTaskStats {
-  /** Task name */
-  name: string;
-  /** Task Description */
-  desc: string;
-  /** Is a task of a hacking gang */
-  isHacking: boolean;
-  /** Is a task of a combat gang */
-  isCombat: boolean;
-  /** Base respect earned */
-  baseRespect: number;
-  /** Base wanted earned */
-  baseWanted: number;
-  /** Base money earned */
-  baseMoney: number;
-  /** Hacking skill impact on task scaling */
-  hackWeight: number;
-  /** Strength skill impact on task scaling */
-  strWeight: number;
-  /** Defense skill impact on task scaling */
-  defWeight: number;
-  /** Dexterity skill impact on task scaling */
-  dexWeight: number;
-  /** Agility skill impact on task scaling */
-  agiWeight: number;
-  /** Charisma skill impact on task scaling */
-  chaWeight: number;
-  /** Number representing the difficulty of the task */
-  difficulty: number;
-  /** Territory impact on task scaling */
-  territory: GangTerritory;
-}
-
-/**
- * Object representing data representing a gang member equipment.
- * @public
- */
-export interface EquipmentStats {
-  /** Strength multiplier */
-  str?: number;
-  /** Defense multiplier */
-  def?: number;
-  /** Dexterity multiplier */
-  dex?: number;
-  /** Agility multiplier */
-  agi?: number;
-  /** Charisma multiplier */
-  cha?: number;
-  /** Hacking multiplier */
-  hack?: number;
-}
-
-/** @public */
-export interface GangTerritory {
-  /** Money gain impact on task scaling */
-  money: number;
-  /** Respect gain impact on task scaling */
-  respect: number;
-  /** Wanted gain impact on task scaling */
-  wanted: number;
-}
-
-/** @public */
-export interface GangMemberInfo {
-  /** Name of the gang member */
-  name: string;
-  /** Currently assigned task */
-  task: string;
-  earnedRespect: number;
-
-  /** Hack skill level */
-  hack: number;
-  /** Strength skill level */
-  str: number;
-  /** Defense skill level */
-  def: number;
-  /** Dexterity skill level */
-  dex: number;
-  /** Agility skill level */
-  agi: number;
-  /** Charisma skill level */
-  cha: number;
-
-  /** Current hack experience */
-  hack_exp: number;
-  /** Current strength experience */
-  str_exp: number;
-  /** Current defense experience */
-  def_exp: number;
-  /** Current dexterity experience */
-  dex_exp: number;
-  /** Current agility experience */
-  agi_exp: number;
-  /** Current charisma experience */
-  cha_exp: number;
-
-  /** Hack multiplier from equipment */
-  hack_mult: number;
-  /** Strength multiplier from equipment */
-  str_mult: number;
-  /** Defense multiplier from equipment */
-  def_mult: number;
-  /** Dexterity multiplier from equipment */
-  dex_mult: number;
-  /** Agility multiplier from equipment */
-  agi_mult: number;
-  /** Charisma multiplier from equipment */
-  cha_mult: number;
-
-  /** Hack multiplier from ascensions */
-  hack_asc_mult: number;
-  /** Strength multiplier from ascensions */
-  str_asc_mult: number;
-  /** Defense multiplier from ascensions */
-  def_asc_mult: number;
-  /** Dexterity multiplier from ascensions */
-  dex_asc_mult: number;
-  /** Agility multiplier from ascensions */
-  agi_asc_mult: number;
-  /** Charisma multiplier from ascensions */
-  cha_asc_mult: number;
-
-  /** Total earned hack experience */
-  hack_asc_points: number;
-  /** Total earned strength experience */
-  str_asc_points: number;
-  /** Total earned defense experience */
-  def_asc_points: number;
-  /** Total earned dexterity experience */
-  dex_asc_points: number;
-  /** Total earned agility experience */
-  agi_asc_points: number;
-  /** Total earned charisma experience */
-  cha_asc_points: number;
-
-  upgrades: string[];
-  augmentations: string[];
-
-  respectGain: number;
-  wantedLevelGain: number;
-  moneyGain: number;
-}
-
-/** @public */
-export interface GangMemberAscension {
-  /** Amount of respect lost from ascending */
-  respect: number;
-  /** Hacking multiplier gained from ascending */
-  hack: number;
-  /** Strength multiplier gained from ascending */
-  str: number;
-  /** Defense multiplier gained from ascending */
-  def: number;
-  /** Dexterity multiplier gained from ascending */
-  dex: number;
-  /** Agility multiplier gained from ascending */
-  agi: number;
-  /** Charisma multiplier gained from ascending */
-  cha: number;
-}
-
-/**
- * Object representing a sleeve stats.
- * @public
- */
-export interface SleeveSkills {
-  /** Current shock of the sleeve [0-100] */
-  shock: number;
-  /** Current sync of the sleeve [0-100] */
-  sync: number;
-  /** Current memory of the sleeve [1-100] */
-  memory: number;
-  /** Current hacking skill of the sleeve */
-  hacking: number;
-  /** Current strength of the sleeve */
-  strength: number;
-  /** Current defense of the sleeve */
-  defense: number;
-  /** Current dexterity of the sleeve */
-  dexterity: number;
-  /** Current agility of the sleeve */
-  agility: number;
-  /** Current charisma of the sleeve */
-  charisma: number;
-}
-
-/**
- * Object representing sleeve information.
- * @public
- */
-export interface SleeveInformation {
-  /** Location of the sleeve */
-  city: string;
-  /** hp of the sleeve */
-  hp: HP;
-  /** Jobs available to the sleeve */
-  jobs: string[];
-  /** Job titles available to the sleeve */
-  jobTitle: string[];
-  /** Does this sleeve have access to the tor router */
-  tor: boolean;
-  /** Sleeve multipliers */
-  mult: CharacterMult;
-}
-
-/**
- * Object representing a sleeve current task.
- * @public
- */
-export type SleeveTask = any;
-
-/**
- * Object representing a port. A port is a serialized queue.
- * @public
- */
-export interface NetscriptPort {
-  /**
-   * Write data to a port.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns The data popped off the queue if it was full.
-   */
-  write(value: string | number): PortData | null;
-
-  /**
-   * Attempt to write data to the port.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns True if the data was added to the port, false if the port was full
-   */
-  tryWrite(value: string | number): boolean;
-
-  /**
-   * Shift an element out of the port.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function will remove the first element from the port and return it.
-   * If the port is empty, then the string “NULL PORT DATA” will be returned.
-   * @returns the data read.
-   */
-  read(): PortData;
-
-  /**
-   * Retrieve the first element from the port without removing it.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is used to peek at the data from a port. It returns the
-   * first element in the specified port without removing that element. If
-   * the port is empty, the string “NULL PORT DATA” will be returned.
-   * @returns the data read
-   */
-  peek(): PortData;
-
-  /**
-   * Check if the port is full.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns true if the port is full, otherwise false
-   */
-  full(): boolean;
-
-  /**
-   * Check if the port is empty.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns true if the port is empty, otherwise false
-   */
-  empty(): boolean;
-
-  /**
-   * Empties all data from the port.
-   * @remarks
-   * RAM cost: 0 GB
-   */
-  clear(): void;
-}
-
-/**
- * Stock market API
- * @public
- */
-export interface TIX {
-  /**
-   * Returns true if the player has access to a WSE Account
-   * @remarks RAM cost: 0.05 GB
-   */
-  hasWSEAccount(): boolean;
-  /**
-   * Returns true if the player has access to the TIX API
-   * @remarks RAM cost: 0.05 GB
-   */
-  hasTIXAPIAccess(): boolean;
-  /**
-   * Returns true if the player has access to the 4S Data
-   * @remarks RAM cost: 0.05 GB
-   */
-  has4SData(): boolean;
-  /**
-   * Returns true if the player has access to the 4SData TIX API
-   * @remarks RAM cost: 0.05 GB
-   */
-  has4SDataTIXAPI(): boolean;
-  /**
-   * Returns an array of the symbols of the tradable stocks
-   *
-   * @remarks RAM cost: 2 GB
-   * @returns Array of the symbols of the tradable stocks.
-   */
-  getSymbols(): string[];
-
-  /**
-   * Returns the price of a stock.
-   *
-   * @remarks
-   * RAM cost: 2 GB
-   *
-   * The stock’s price is the average of its bid and ask prices. This function requires
-   * that you have the following:
-   *
-   * 1. WSE Account
-   *
-   * 1. TIX API Access
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * stock.getPrice("FSIG");
-   *
-   * // Choose the first stock symbol from the array of stock symbols.  Get the price
-   * // of the corresponding stock.
-   * var sym = stock.getSymbols()[0];
-   * tprint("Stock symbol: " + sym);
-   * tprint("Stock price: " + stock.getPrice(sym));
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * ns.stock.getPrice("FSIG");
-   *
-   * // Choose the first stock symbol from the array of stock symbols.  Get the price
-   * // of the corresponding stock.
-   * const sym = ns.stock.getSymbols()[0];
-   * ns.tprint("Stock symbol: " + sym);
-   * ns.tprint("Stock price: " + ns.stock.getPrice(sym));
-   * ```
-   * @param sym - Stock symbol.
-   * @returns The price of a stock.
-   */
-  getPrice(sym: string): number;
-
-  /**
-   * Returns the ask price of that stock.
-   * @remarks RAM cost: 2 GB
-   *
-   * @param sym - Stock symbol.
-   * @returns The ask price of a stock.
-   */
-  getAskPrice(sym: string): number;
-
-  /**
-   * Returns the bid price of that stock.
-   * @remarks RAM cost: 2 GB
-   *
-   * @param sym - Stock symbol.
-   * @returns The bid price of a stock.
-   */
-  getBidPrice(sym: string): number;
-
-  /**
-   * Returns the player’s position in a stock.
-   * @remarks
-   * RAM cost: 2 GB
-   * Returns an array of four elements that represents the player’s position in a stock.
-   *
-   * The first element is the returned array is the number of shares the player owns of
-   * the stock in the Long position. The second element in the array is the average price
-   * of the player’s shares in the Long position.
-   *
-   * The third element in the array is the number of shares the player owns of the stock
-   * in the Short position. The fourth element in the array is the average price of the
-   * player’s Short position.
-   *
-   * All elements in the returned array are numeric.
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * var pos = stock.getPosition("ECP");
-   * var shares      = pos[0];
-   * var avgPx       = pos[1];
-   * var sharesShort = pos[2];
-   * var avgPxShort  = pos[3];
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * const [shares, avgPx, sharesShort, avgPxShort] = ns.stock.getPosition("ECP");
-   * ```
-   * @param sym - Stock symbol.
-   * @returns Array of four elements that represents the player’s position in a stock.
-   */
-  getPosition(sym: string): [number, number, number, number];
-
-  /**
-   * Returns the maximum number of shares of a stock.
-   * @remarks
-   * RAM cost: 2 GB
-   * This is the maximum amount of the stock that can be purchased
-   * in both the Long and Short positions combined.
-   *
-   * @param sym - Stock symbol.
-   * @returns Maximum number of shares that the stock has.
-   */
-  getMaxShares(sym: string): number;
-
-  /**
-   * Calculates cost of buying stocks.
-   * @remarks
-   * RAM cost: 2 GB
-   * Calculates and returns how much it would cost to buy a given number of shares of a stock.
-   * This takes into account spread, large transactions influencing the price of the stock and commission fees.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares to purchase.
-   * @param posType - Specifies whether the order is a “Long” or “Short” position.
-   * @returns Cost to buy a given number of shares of a stock.
-   */
-  getPurchaseCost(sym: string, shares: number, posType: string): number;
-
-  /**
-   * Calculate profit of selling stocks.
-   * @remarks
-   * RAM cost: 2 GB
-   * Calculates and returns how much you would gain from selling a given number of shares of a stock.
-   * This takes into account spread, large transactions influencing the price of the stock and commission fees.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares to sell.
-   * @param posType - Specifies whether the order is a “Long” or “Short” position.
-   * @returns Gain from selling a given number of shares of a stock.
-   */
-  getSaleGain(sym: string, shares: number, posType: string): number;
-
-  /**
-   * Buy stocks.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Attempts to purchase shares of a stock using a Market Order.
-   *
-   * If the player does not have enough money to purchase the specified number of shares,
-   * then no shares will be purchased. Remember that every transaction on the stock exchange
-   * costs a certain commission fee.
-   *
-   * If this function successfully purchases the shares, it will return the stock price at which
-   * each share was purchased. Otherwise, it will return 0.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares to purchased. Must be positive. Will be rounded to nearest integer.
-   * @returns The stock price at which each share was purchased, otherwise 0 if the shares weren't purchased.
-   */
-  buyStock(sym: string, shares: number): number;
-
-  /**
-   * Sell stocks.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Attempts to sell shares of a stock using a Market Order.
-   *
-   * If the specified number of shares in the function exceeds the amount that the player
-   * actually owns, then this function will sell all owned shares. Remember that every
-   * transaction on the stock exchange costs a certain commission fee.
-   *
-   * The net profit made from selling stocks with this function is reflected in the script’s
-   * statistics. This net profit is calculated as:
-   *
-   *    shares * (sell_price - average_price_of_purchased_shares)
-   *
-   * If the sale is successful, this function will return the stock price at
-   * which each share was sold. Otherwise, it will return 0.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares to sell. Must be positive. Will be rounded to nearest integer.
-   * @returns The stock price at which each share was sold, otherwise 0 if the shares weren't sold.
-   */
-  sellStock(sym: string, shares: number): number;
-
-  /**
-   * Short stocks.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Attempts to purchase a short position of a stock using a Market Order.
-   *
-   * The ability to short a stock is **not** immediately available to the player and
-   * must be unlocked later on in the game.
-   *
-   * If the player does not have enough money to purchase the specified number of shares,
-   * then no shares will be purchased. Remember that every transaction on the stock exchange
-   * costs a certain commission fee.
-   *
-   * If the purchase is successful, this function will return the stock price at which each
-   * share was purchased. Otherwise, it will return 0.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares to short. Must be positive. Will be rounded to nearest integer.
-   * @returns The stock price at which each share was purchased, otherwise 0 if the shares weren't purchased.
-   */
-  buyShort(sym: string, shares: number): number;
-
-  /**
-   * Sell short stock.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Attempts to sell a short position of a stock using a Market Order.
-   *
-   * The ability to short a stock is **not** immediately available to the player and
-   * must be unlocked later on in the game.
-   *
-   * If the specified number of shares exceeds the amount that the player actually owns,
-   * then this function will sell all owned shares. Remember that every transaction on
-   * the stock exchange costs a certain commission fee.
-   *
-   * If the sale is successful, this function will return the stock price at which each
-   * share was sold. Otherwise it will return 0.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares to sell. Must be positive. Will be rounded to nearest integer.
-   * @returns The stock price at which each share was sold, otherwise 0 if the shares weren't sold.
-   */
-  sellShort(sym: string, shares: number): number;
-
-  /**
-   * Place order for stocks.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Places an order on the stock market. This function only works for Limit and Stop Orders.
-   *
-   * The ability to place limit and stop orders is **not** immediately available to the player and
-   * must be unlocked later on in the game.
-   *
-   * Returns true if the order is successfully placed, and false otherwise.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares for order. Must be positive. Will be rounded to nearest integer.
-   * @param price - Execution price for the order.
-   * @param type - Type of order.
-   * @param pos - Specifies whether the order is a “Long” or “Short” position.
-   * @returns True if the order is successfully placed, and false otherwise.
-   */
-  placeOrder(sym: string, shares: number, price: number, type: string, pos: string): boolean;
-
-  /**
-   * Cancel order for stocks.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Cancels an outstanding Limit or Stop order on the stock market.
-   *
-   * The ability to use limit and stop orders is **not** immediately available to the player and
-   * must be unlocked later on in the game.
-   *
-   * @param sym - Stock symbol.
-   * @param shares - Number of shares for order. Must be positive. Will be rounded to nearest integer.
-   * @param price - Execution price for the order.
-   * @param type - Type of order.
-   * @param pos - Specifies whether the order is a “Long” or “Short” position.
-   */
-  cancelOrder(sym: string, shares: number, price: number, type: string, pos: string): void;
-
-  /**
-   * Returns your order book for the stock market.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * This is an object containing information for all the Limit and Stop Orders you have in the stock market.
-   * For each symbol you have a position in, the returned object will have a key with that symbol's name.
-   * The object's properties are each an array of {@link StockOrderObject}
-   * The object has the following structure:
-   *
-   * ```ts
-   * {
-   *  string1: [ // Array of orders for this stock
-   *      {
-   *          shares: Order quantity
-   *          price: Order price
-   *          type: Order type
-   *          position: Either "L" or "S" for Long or Short position
-   *      },
-   *      {
-   *          ...
-   *      },
-   *      ...
-   *  ],
-   *  string2: [ // Array of orders for this stock
-   *      ...
-   *  ],
-   *  ...
-   * }
-   * ```
-   * The “Order type” property can have one of the following four values: "Limit Buy Order", "Limit Sell Order", "Stop Buy Order", "Stop Sell Order".
-   * Note that the order book will only contain information for stocks that you actually have orders in.
-   *
-   * @example
-   * ```ts
-   * "If you do not have orders in Nova Medical (NVMD), then the returned object will not have a “NVMD” property."
-   * {
-   *  ECP: [
-   *      {
-   *          shares: 5,
-   *          price: 100,000
-   *          type: "Stop Buy Order",
-   *          position: "S",
-   *      },
-   *      {
-   *          shares: 25,
-   *          price: 125,000
-   *          type: "Limit Sell Order",
-   *          position: "L",
-   *      },
-   *  ],
-   *  SYSC: [
-   *      {
-   *          shares: 100,
-   *          price: 10,000
-   *          type: "Limit Buy Order",
-   *          position: "L",
-   *      },
-   *  ],
-   * }
-   * ```
-   * @returns Object containing information for all the Limit and Stop Orders you have in the stock market.
-   */
-  getOrders(): StockOrder;
-
-  /**
-   * Returns the volatility of the specified stock.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * Volatility represents the maximum percentage by which a stock’s price can change every tick.
-   * The volatility is returned as a decimal value, NOT a percentage
-   * (e.g. if a stock has a volatility of 3%, then this function will return 0.03, NOT 3).
-   *
-   * In order to use this function, you must first purchase access to the Four Sigma (4S) Market Data TIX API.
-   *
-   * @param sym - Stock symbol.
-   * @returns Volatility of the specified stock.
-   */
-  getVolatility(sym: string): number;
-
-  /**
-   * Returns the probability that the specified stock’s price will increase (as opposed to decrease) during the next tick.
-   * @remarks
-   * RAM cost: 2.5 GB
-   * The probability is returned as a decimal value, NOT a percentage
-   * (e.g. if a stock has a 60% chance of increasing, then this function will return 0.6, NOT 60).
-   *
-   * In other words, if this function returned 0.30 for a stock, then this means that the stock’s price has a
-   * 30% chance of increasing and a 70% chance of decreasing during the next tick.
-   *
-   * In order to use this function, you must first purchase access to the Four Sigma (4S) Market Data TIX API.
-   *
-   * @param sym - Stock symbol.
-   * @returns Probability that the specified stock’s price will increase (as opposed to decrease) during the next tick.
-   */
-  getForecast(sym: string): number;
-
-  /**
-   * Purchase 4S Market Data Access.
-   * @remarks RAM cost: 2.5 GB
-   * @returns True if you successfully purchased it or if you already have access, false otherwise.
-   */
-  purchase4SMarketData(): boolean;
-
-  /**
-   * Purchase 4S Market Data TIX API Access.
-   * @remarks RAM cost: 2.5 GB
-   * @returns True if you successfully purchased it or if you already have access, false otherwise.
-   */
-  purchase4SMarketDataTixApi(): boolean;
-
-  /**
-   * Purchase WSE Account.
-   * @remarks RAM cost: 2.5 GB
-   * @returns True if you successfully purchased it or if you already have access, false otherwise.
-   */
-  purchaseWseAccount(): boolean;
-
-  /**
-   * Purchase TIX API Access
-   * @remarks RAM cost: 2.5 GB
-   * @returns True if you successfully purchased it or if you already have access, false otherwise.
-   */
-  purchaseTixApi(): boolean;
-}
-
-/**
- * Singularity API
- * @remarks
- * This API requires Source-File 4 to use. The RAM cost of all these functions is multiplied by 16/4/1 based on Source-File 4 levels.
- * @public
- */
-export interface Singularity {
-  /**
-   * Backup game save.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function will automatically opens the backup save prompt and claim the free faction favour if available.
-   *
-   */
-  exportGame(): void;
-
-  /**
-   * Returns Backup save bonus availability.
-   * @remarks
-   * RAM cost: 0.5 GB * 16/4/1
-   *
-   *
-   * This function will check if there is a bonus for backing up your save.
-   *
-   */
-  exportGameBonus(): boolean;
-
-  /**
-   * Take university class.
-   *
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * This function will automatically set you to start taking a course at a university.
-   * If you are already in the middle of some “working” action (such as working at a
-   * company, for a faction, or on a program), then running this function will automatically
-   * cancel that action and give you your earnings.
-   *
-   * The cost and experience gains for all of these universities and classes are the same as
-   * if you were to manually visit and take these classes.
-   *
-   * @param universityName - Name of university. You must be in the correct city for whatever university you specify.
-   * @param courseName - Name of course.
-   * @param focus - Acquire player focus on this class. Optional. Defaults to true.
-   * @returns True if action is successfully started, false otherwise.
-   */
-  universityCourse(universityName: string, courseName: string, focus?: boolean): boolean;
-
-  /**
-   * Workout at the gym.
-   *
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-
-   * This function will automatically set you to start working out at a gym to train
-   * a particular stat. If you are already in the middle of some “working” action
-   * (such as working at a company, for a faction, or on a program), then running
-   * this function will automatically cancel that action and give you your earnings.
-   *
-   * The cost and experience gains for all of these gyms are the same as if you were
-   * to manually visit these gyms and train
-   *
-   * @param gymName - Name of gym. You must be in the correct city for whatever gym you specify.
-   * @param stat - The stat you want to train.
-   * @param focus - Acquire player focus on this gym workout. Optional. Defaults to true.
-   * @returns True if actions is successfully started, false otherwise.
-   */
-  gymWorkout(gymName: string, stat: string, focus?: boolean): boolean;
-
-  /**
-   * Travel to another city.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * This function allows the player to travel to any city. The cost for using this
-   * function is the same as the cost for traveling through the Travel Agency.
-   *
-   * @param city - City to travel to.
-   * @returns True if action is successful, false otherwise.
-   */
-  travelToCity(city: string): boolean;
-
-  /**
-   * Purchase the TOR router.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * This function allows you to automatically purchase a TOR router. The cost for
-   * purchasing a TOR router using this function is the same as if you were to
-   * manually purchase one.
-   *
-   * @returns True if actions is successful or you already own TOR router, false otherwise.
-   */
-  purchaseTor(): boolean;
-
-  /**
-   * Purchase a program from the dark web.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * This function allows you to automatically purchase programs. You MUST have a
-   * TOR router in order to use this function. The cost of purchasing programs
-   * using this function is the same as if you were purchasing them through the Dark
-   * Web using the Terminal buy command.
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * purchaseProgram("brutessh.exe");
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * ns.purchaseProgram("brutessh.exe");
-   * ```
-   * @param programName - Name of program to purchase.
-   * @returns True if the specified program is purchased, and false otherwise.
-   */
-  purchaseProgram(programName: string): boolean;
-
-  /**
-   * Check if the player is busy.
-   * @remarks
-   * RAM cost: 0.5 GB * 16/4/1
-   *
-   *
-   * Returns a boolean indicating whether or not the player is currently performing an
-   * ‘action’. These actions include working for a company/faction, studying at a university,
-   * working out at a gym, creating a program, committing a crime, or carrying out a Hacking Mission.
-   *
-   * @returns True if the player is currently performing an ‘action’, false otherwise.
-   */
-  isBusy(): boolean;
-
-  /**
-   * Stop the current action.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function is used to end whatever ‘action’ the player is currently performing.
-   * The player will receive whatever money/experience/etc. he has earned from that action.
-   *
-   * The actions that can be stopped with this function are:
-   *
-   * * Studying at a university
-   * * Working out at a gym
-   * * Working for a company/faction
-   * * Creating a program
-   * * Committing a crime
-   *
-   * This function will return true if the player’s action was ended.
-   * It will return false if the player was not performing an action when this function was called.
-   *
-   * @returns True if the player’s action was ended, false if the player was not performing an action.
-   */
-  stopAction(): boolean;
-
-  /**
-   * Upgrade home computer RAM.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will upgrade amount of RAM on the player’s home computer. The cost is
-   * the same as if you were to do it manually.
-   *
-   * This function will return true if the player’s home computer RAM is successfully upgraded, and false otherwise.
-   *
-   * @returns True if the player’s home computer RAM is successfully upgraded, and false otherwise.
-   */
-  upgradeHomeRam(): boolean;
-
-  /**
-   * Upgrade home computer cores.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will upgrade amount of cores on the player’s home computer. The cost is
-   * the same as if you were to do it manually.
-   *
-   * This function will return true if the player’s home computer cores is successfully upgraded, and false otherwise.
-   *
-   * @returns True if the player’s home computer cores is successfully upgraded, and false otherwise.
-   */
-  upgradeHomeCores(): boolean;
-
-  /**
-   * Get the price of upgrading home RAM.
-   * @remarks
-   * RAM cost: 1.5 GB * 16/4/1
-   *
-   *
-   * Returns the cost of upgrading the player’s home computer RAM.
-   *
-   * @returns Cost of upgrading the player’s home computer RAM.
-   */
-  getUpgradeHomeRamCost(): number;
-
-  /**
-   * Get the price of upgrading home cores.
-   * @remarks
-   * RAM cost: 1.5 GB * 16/4/1
-   *
-   *
-   * Returns the cost of upgrading the player’s home computer cores.
-   *
-   * @returns Cost of upgrading the player’s home computer cores.
-   */
-  getUpgradeHomeCoresCost(): number;
-
-  /**
-   * Work for a company.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will automatically set you to start working at the company
-   * at which you are employed. If you are already in the middle of some “working”
-   * action (such as working for a faction, training at a gym, or creating a program),
-   * then running this function will automatically cancel that action and give you
-   * your earnings.
-   *
-   * This function will return true if the player starts working, and false otherwise.
-   *
-   * Note that when you are working for a company, you will not actually receive your earnings (reputation, money, experience) until you FINISH the action.
-   *
-   * @example
-   * ```ts
-   * // NS1:
-   * //If you only want to work until you get 100,000 company reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
-   * while (getCompanyRep(COMPANY HERE) < VALUE) {
-   *    workForCompany();
-   *    sleep(60000);
-   * }
-   * //This way, your company reputation will be updated every minute.
-   * ```
-   * @example
-   * ```ts
-   * // NS2:
-   * //If you only want to work until you get 100,000 company reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
-   * while (ns.getCompanyRep(COMPANY HERE) < VALUE) {
-   *    ns.workForCompany();
-   *    await ns.sleep(60000);
-   * }
-   * //This way, your company reputation will be updated every minute.
-   * ```
-   * @param companyName - Name of company to work for. Must be an exact match. Optional. If not specified, this argument defaults to the last job that you worked
-   * @param focus - Acquire player focus on this work operation. Optional. Defaults to true.
-   * @returns True if the player starts working, and false otherwise.
-   */
-  workForCompany(companyName: string, focus?: boolean): boolean;
-
-  /**
-   * Quit jobs by company.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will finish work with the company provided and quit any jobs.
-   *
-   * @param companyName - Name of the company.
-   */
-  quitJob(companyName?: string): void;
-
-  /**
-   * Apply for a job at a company.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will automatically try to apply to the specified company
-   * for a position in the specified field. This function can also be used to
-   * apply for promotions by specifying the company and field you are already
-   * employed at.
-   *
-   * This function will return true if you successfully get a job/promotion,
-   * and false otherwise. Note that if you are trying to use this function to
-   * apply for a promotion and you don’t get one, it will return false.
-   *
-   * @param companyName - Name of company to apply to.
-   * @param field - Field to which you want to apply.
-   * @returns True if the player successfully get a job/promotion, and false otherwise.
-   */
-  applyToCompany(companyName: string, field: string): boolean;
-
-  /**
-   * Get company reputation.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function will return the amount of reputation you have at the specified company.
-   * If the company passed in as an argument is invalid, -1 will be returned.
-   *
-   * @param companyName - Name of the company.
-   * @returns Amount of reputation you have at the specified company.
-   */
-  getCompanyRep(companyName: string): number;
-
-  /**
-   * Get company favor.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function will return the amount of favor you have at the specified company.
-   * If the company passed in as an argument is invalid, -1 will be returned.
-   *
-   * @param companyName - Name of the company.
-   * @returns Amount of favor you have at the specified company.
-   */
-  getCompanyFavor(companyName: string): number;
-
-  /**
-   * Get company favor gain.
-   * @remarks
-   * RAM cost: 0.75 GB * 16/4/1
-   *
-   *
-   * This function will return the amount of favor you will gain for the specified
-   * company when you reset by installing Augmentations.
-   *
-   * @param companyName - Name of the company.
-   * @returns Amount of favor you gain at the specified company when you reset by installing Augmentations.
-   */
-  getCompanyFavorGain(companyName: string): number;
-
-  /**
-   * List all current faction invitations.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * Returns an array with the name of all Factions you currently have outstanding invitations from.
-   *
-   * @returns Array with the name of all Factions you currently have outstanding invitations from.
-   */
-  checkFactionInvitations(): string[];
-
-  /**
-   * Join a faction.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will automatically accept an invitation from a faction and join it.
-   *
-   * @param faction - Name of faction to join.
-   * @returns True if player joined the faction, and false otherwise.
-   */
-  joinFaction(faction: string): boolean;
-
-  /**
-   * Work for a faction.
-   * @remarks
-   * RAM cost: 3 GB * 16/4/1
-   *
-   *
-   * This function will automatically set you to start working for the specified faction.
-   * Obviously, you must be a member of the faction or else this function will fail. If
-   * you are already in the middle of some “working” action (such as working for a company,
-   * training at a gym, or creating a program), then running this function will automatically
-   * cancel that action and give you your earnings.
-   *
-   * This function will return true if you successfully start working for the specified faction, and false otherwise.
-   *
-   * Note that when you are working for a faction, you will not actually receive your earnings (reputation, experience) until you FINISH the action.
-   *
-   * @example
-   * ```ts
-   * // NS1:
-   * //If you only want to work until you get 100,000 faction reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
-   * while (getFactionRep(FACTION NAME) < VALUE) {
-   *    workForFaction(FACNAME, WORKTYPE);
-   *    sleep(60000);
-   * }
-   * //This way, your faction reputation will be updated every minute.
-   * ```
-   * @example
-   * ```ts
-   * // NS2:
-   * //If you only want to work until you get 100,000 faction reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
-   * while (ns.getFactionRep(FACTION NAME) < VALUE) {
-   *    ns.workForFaction(FACNAME, WORKTYPE);
-   *    await ns.sleep(60000);
-   * }
-   * //This way, your faction reputation will be updated every minute.
-   * ```
-   * @param faction - Name of faction to work for.
-   * @param workType - Type of work to perform for the faction.
-   * @param focus - Acquire player focus on this work operation. Optional. Defaults to true.
-   * @returns True if the player starts working, and false otherwise.
-   */
-  workForFaction(faction: string, workType: string, focus?: boolean): boolean;
-
-  /**
-   * Get faction reputation.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function returns the amount of reputation you have for the specified faction.
-   *
-   * @param faction - Name of faction to work for.
-   * @returns Amount of reputation you have for the specified faction.
-   */
-  getFactionRep(faction: string): number;
-
-  /**
-   * Get faction favor.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function returns the amount of favor you have for the specified faction.
-   *
-   * @param faction - Name of faction.
-   * @returns Amount of favor you have for the specified faction.
-   */
-  getFactionFavor(faction: string): number;
-
-  /**
-   * Get faction favor gain.
-   * @remarks
-   * RAM cost: 0.75 GB * 16/4/1
-   *
-   *
-   * This function returns the amount of favor you will gain for the specified
-   * faction when you reset by installing Augmentations.
-   *
-   * @param faction - Name of faction.
-   * @returns Amount of favor you will gain for the specified faction when you reset by installing Augmentations.
-   */
-  getFactionFavorGain(faction: string): number;
-
-  /**
-   * Donate to a faction.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * Attempts to donate money to the specified faction in exchange for reputation.
-   * Returns true if you successfully donate the money, and false otherwise.
-   *
-   * @param faction - Name of faction to donate to.
-   * @param amount - Amount of money to donate.
-   * @returns True if the money was donated, and false otherwise.
-   */
-  donateToFaction(faction: string, amount: number): boolean;
-
-  /**
-   * Create a program.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function will automatically set you to start working on creating the
-   * specified program. If you are already in the middle of some “working” action
-   * (such as working for a company, training at a gym, or taking a course), then
-   * running this function will automatically cancel that action and give you your
-   * earnings.
-   *
-   * This function returns true if you successfully start working on the specified program, and false otherwise.
-   *
-   * Note that creating a program using this function has the same hacking level requirements as it normally would. These level requirements are:
-   * * BruteSSH.exe: 50
-   * * FTPCrack.exe: 100
-   * * relaySMTP.exe: 250
-   * * HTTPWorm.exe: 500
-   * * SQLInject.exe: 750
-   * * DeepscanV1.exe: 75
-   * * DeepscanV2.exe: 400
-   * * ServerProfiler.exe: 75
-   * * AutoLink.exe: 25
-   *
-   * @example
-   * ```ts
-   * // NS1:
-   * createProgram(“relaysmtp.exe”);
-   * ```
-   * @example
-   * ```ts
-   * // NS2:
-   * ns.createProgram(“relaysmtp.exe”);
-   * ```
-   * @param program - Name of program to create.
-   * @param focus - Acquire player focus on this program creation. Optional. Defaults to true.
-   * @returns True if you successfully start working on the specified program, and false otherwise.
-   */
-  createProgram(program: string, focus?: boolean): boolean;
-
-  /**
-   * Commit a crime.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function is used to automatically attempt to commit crimes.
-   * If you are already in the middle of some ‘working’ action (such
-   * as working for a company or training at a gym), then running this
-   * function will automatically cancel that action and give you your
-   * earnings.
-   *
-   * This function returns the number of milliseconds it takes to attempt the
-   * specified crime (e.g It takes 60 seconds to attempt the ‘Rob Store’ crime,
-   * so running `commitCrime('rob store')` will return 60,000).
-   *
-   * Warning: I do not recommend using the time returned from this function to try
-   * and schedule your crime attempts. Instead, I would use the isBusy Singularity
-   * function to check whether you have finished attempting a crime. This is because
-   * although the game sets a certain crime to be X amount of seconds, there is no
-   * guarantee that your browser will follow that time limit.
-   *
-   * @param crime - Name of crime to attempt.
-   * @param focus - Acquire player focus on this crime. Optional. Defaults to true.
-   * @returns The number of milliseconds it takes to attempt the specified crime.
-   */
-  commitCrime(crime: string, focus?: boolean): number;
-
-  /**
-   * Get chance to successfully commit a crime.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function returns your chance of success at committing the specified crime.
-   *
-   * @param crime - Name of crime.
-   * @returns Chance of success at committing the specified crime.
-   */
-  getCrimeChance(crime: string): number;
-
-  /**
-   * Get stats related to a crime.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * Returns the stats of the crime.
-   *
-   * @param crime - Name of crime. Not case-sensitive
-   * @returns The stats of the crime.
-   */
-  getCrimeStats(crime: string): CrimeStats;
-
-  /**
-   * Get a list of owned augmentation.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function returns an array containing the names (as strings) of all Augmentations you have.
-   *
-   * @param purchased - Specifies whether the returned array should include Augmentations you have purchased but not yet installed. By default, this argument is false which means that the return value will NOT have the purchased Augmentations.
-   * @returns Array containing the names (as strings) of all Augmentations you have.
-   */
-  getOwnedAugmentations(purchased?: boolean): string[];
-
-  /**
-   * Get a list of acquired Source-Files.
-   * @remarks
-   * RAM cost: 5 GB
-   *
-   * Returns an array of source files
-   *
-   * @returns Array containing an object with number and level of the source file.
-   */
-  getOwnedSourceFiles(): SourceFileLvl[];
-
-  /**
-   * Get a list of augmentation available from a faction.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * Returns an array containing the names (as strings) of all Augmentations
-   * that are available from the specified faction.
-   *
-   * @param faction - Name of faction.
-   * @returns Array containing the names of all Augmentations.
-   */
-  getAugmentationsFromFaction(faction: string): string[];
-
-  /**
-   * Get the pre-requisite of an augmentation.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function returns an array with the names of the prerequisite Augmentation(s) for the specified Augmentation.
-   * If there are no prerequisites, a blank array is returned.
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Array with the names of the prerequisite Augmentation(s) for the specified Augmentation.
-   */
-  getAugmentationPrereq(augName: string): string[];
-
-  /**
-   * Get the price and reputation of an augmentation.
-   * @deprecated use getAugmentationPrice getAugmentationRepReq
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function returns an array with two elements that gives the cost for
-   * the specified Augmentation. The first element in the returned array is the
-   * reputation requirement of the Augmentation, and the second element is the
-   * money cost.
-   *
-   * If an invalid Augmentation name is passed in for the augName argument, this
-   * function will return the array [-1, -1].
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Array with first element as a reputation requirement and second element as the money cost.
-   */
-  getAugmentationCost(augName: string): [number, number];
-
-  /**
-   * Get price of an augmentation.
-   * @remarks
-   * RAM cost: 2.5 GB * 16/4/1
-   *
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Price of the augmentation.
-   */
-  getAugmentationPrice(augName: string): number;
-
-  /**
-   * Get base price of an augmentation.
-   * @remarks
-   * RAM cost: 2.5 GB * 16/4/1
-   *
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Base price of the augmentation, before price multiplier.
-   */
-  getAugmentationBasePrice(augName: string): number;
-
-  /**
-   * Get reputation requirement of an augmentation.
-   * @remarks
-   * RAM cost: 2.5 GB * 16/4/1
-   *
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Reputation requirement of the augmentation.
-   */
-  getAugmentationRepReq(augName: string): number;
-
-  /**
-   * Purchase an augmentation
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function will try to purchase the specified Augmentation through the given Faction.
-   *
-   * This function will return true if the Augmentation is successfully purchased, and false otherwise.
-   *
-   * @param faction - Name of faction to purchase Augmentation from.
-   * @param augmentation - Name of Augmentation to purchase.
-   * @returns True if the Augmentation is successfully purchased, and false otherwise.
-   */
-  purchaseAugmentation(faction: string, augmentation: string): boolean;
-
-  /**
-   * Get the stats of an augmentation.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function returns augmentation stats.
-   *
-   * @param name - Name of Augmentation. CASE-SENSITIVE.
-   * @returns Augmentation stats.
-   */
-  getAugmentationStats(name: string): Multipliers;
-
-  /**
-   * Install your purchased augmentations.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function will automatically install your Augmentations, resetting the game as usual. If you do not own uninstalled Augmentations then the game will not reset.
-   *
-   * @param cbScript - This is a script that will automatically be run after Augmentations are installed (after the reset). This script will be run with no arguments and 1 thread. It must be located on your home computer.
-   */
-  installAugmentations(cbScript?: string): void;
-
-  /**
-   * Hospitalize the player.
-   * @remarks
-   * RAM cost: 0.25 GB * 16/4/1
-   */
-  hospitalize(): void;
-
-  /**
-   * Soft reset the game.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * This function will perform a reset even if you don’t have any augmentation installed.
-   *
-   * @param cbScript - This is a script that will automatically be run after Augmentations are installed (after the reset). This script will be run with no arguments and 1 thread. It must be located on your home computer.
-   */
-  softReset(cbScript: string): void;
-
-  /**
-   * Go to a location.
-   * @remarks
-   * RAM cost: 5 GB * 16/4/1
-   *
-   *
-   * Move the player to a specific location.
-   *
-   * @param locationName - Name of the location.
-   * @returns True if the player was moved there, false otherwise.
-   */
-  goToLocation(locationName: string): boolean;
-
-  /**
-   * Get the current server.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * @returns Name of the current server.
-   */
-  getCurrentServer(): string;
-
-  /**
-   * Connect to a server.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * Run the connect HOSTNAME command in the terminal. Can only connect to neighbors.
-   *
-   * @returns True if the connect command was successful, false otherwise.
-   */
-  connect(hostname: string): boolean;
-
-  /**
-   * Run the hack command in the terminal.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * @returns Amount of money stolen by manual hacking.
-   */
-  manualHack(): Promise<number>;
-
-  /**
-   * Run the backdoor command in the terminal.
-   * @remarks
-   * RAM cost: 2 GB * 16/4/1
-   *
-   *
-   * @returns Promise waiting for the installation to finish.
-   */
-  installBackdoor(): Promise<void>;
-
-  /**
-   * Check if the player is focused.
-   * @remarks
-   * RAM cost: 0.1 GB * 16/4/1
-   *
-   *
-   * @returns True if the player is focused.
-   */
-  isFocused(): boolean;
-
-  /**
-   * Set the players focus.
-   * @remarks
-   * RAM cost: 0.1 GB * 16/4/1
-   *
-   * @returns True if the focus was changed.
-   */
-  setFocus(focus: boolean): boolean;
-
-  /**
-   * Get a list of programs offered on the dark web.
-   * @remarks
-   * RAM cost: 1 GB * 16/4/1
-   *
-   *
-   * This function allows the player to get a list of programs available for purchase
-   * on the dark web. Players MUST have purchased Tor to get the list of programs
-   * available. If Tor has not been purchased yet, this function will return an
-   * empty list.
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * getDarkwebPrograms();
-   * // returns ['BruteSSH.exe', 'FTPCrack.exe'...etc]
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * ns.getDarkwebPrograms();
-   * // returns ['BruteSSH.exe', 'FTPCrack.exe'...etc]
-   * ```
-   * @returns - a list of programs available for purchase on the dark web, or [] if Tor has not
-   * been purchased
-   */
-  getDarkwebPrograms(): string[];
-
-  /**
-   * Check the price of an exploit on the dark web
-   * @remarks
-   * RAM cost: 0.5 GB * 16/4/1
-   *
-   *
-   * This function allows you to check the price of a darkweb exploit/program.
-   * You MUST have a TOR router in order to use this function. The price returned
-   * by this function is the same price you would see with buy -l from the terminal.
-   * Returns the cost of the program if it has not been purchased yet, 0 if it
-   * has already been purchased, or -1 if Tor has not been purchased (and thus
-   * the program/exploit is not available for purchase).
-   *
-   * If the program does not exist, an error is thrown.
-   *
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * getDarkwebProgramCost("brutessh.exe");
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * ns.getDarkwebProgramCost("brutessh.exe");
-   * ```
-   * @param programName - Name of program to check the price of
-   * @returns Price of the specified darkweb program
-   * (if not yet purchased), 0 if it has already been purchased, or -1 if Tor has not been
-   * purchased. Throws an error if the specified program/exploit does not exist
-   */
-  getDarkwebProgramCost(programName: string): number;
-
-  /**
-   * b1t_flum3 into a different BN.
-   * @remarks
-   * RAM cost: 16 GB * 16/4/1
-   *
-   * @param nextBN - BN number to jump to
-   * @param callbackScript - Name of the script to launch in the next BN.
-   */
-  b1tflum3(nextBN: number, callbackScript?: string): void;
-
-  /**
-   * Destroy the w0r1d_d43m0n and move on to the next BN.
-   * @remarks
-   * RAM cost: 32 GB * 16/4/1
-   *
-   * You must have the special augment installed and the required hacking level
-   *   OR
-   * Completed the final black op.
-   *
-   * @param nextBN - BN number to jump to
-   * @param callbackScript - Name of the script to launch in the next BN.
-   */
-  destroyW0r1dD43m0n(nextBN: number, callbackScript?: string): void;
-
-  /**
-   * Get the current work the player is doing.
-   * @remarks
-   * RAM cost: 0.5 GB * 16/4/1
-   *
-   * @returns - An object representing the current work. Fields depend on the kind of work.
-   */
-  getCurrentWork(): any | null;
-}
-
-/**
- * Hacknet API
- * @remarks
- * Not all these functions are immediately available.
- * @public
- */
-export interface Hacknet {
-  /**
-   * Get the number of hacknet nodes you own.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Returns the number of Hacknet Nodes you own.
-   *
-   * @returns Number of hacknet nodes.
-   */
-  numNodes(): number;
-
-  /**
-   * Get the maximum number of hacknet nodes.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns Maximum number of hacknet nodes.
-   */
-  maxNumNodes(): number;
-
-  /**
-   * Purchase a new hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Purchases a new Hacknet Node. Returns a number with the index of the
-   * Hacknet Node. This index is equivalent to the number at the end of
-   * the Hacknet Node’s name (e.g The Hacknet Node named `hacknet-node-4`
-   * will have an index of 4).
-   *
-   * If the player cannot afford to purchase a new Hacknet Node then the function will return -1.
-   *
-   * @returns The index of the Hacknet Node or if the player cannot afford to purchase a new Hacknet Node the function will return -1.
-   */
-  purchaseNode(): number;
-
-  /**
-   * Get the price of the next hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Returns the cost of purchasing a new Hacknet Node.
-   *
-   * @returns Cost of purchasing a new Hacknet Node.
-   */
-  getPurchaseNodeCost(): number;
-
-  /**
-   * Get the stats of a hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Returns an object containing a variety of stats about the specified Hacknet Node.
-   *
-   * Note that for Hacknet Nodes, production refers to the amount of money the node generates.
-   * For Hacknet Servers (the upgraded version of Hacknet Nodes), production refers to the
-   * amount of hashes the node generates.
-   *
-   * @param index - Index/Identifier of Hacknet Node
-   * @returns Object containing a variety of stats about the specified Hacknet Node.
-   */
-  getNodeStats(index: number): NodeStats;
-
-  /**
-   * Upgrade the level of a hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Tries to upgrade the level of the specified Hacknet Node by n.
-   *
-   * Returns true if the Hacknet Node’s level is successfully upgraded by n
-   * or if it is upgraded by some positive amount and the Node reaches its max level.
-   *
-   * Returns false otherwise.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of levels to purchase. Must be positive. Rounded to nearest integer.
-   * @returns True if the Hacknet Node’s level is successfully upgraded, false otherwise.
-   */
-  upgradeLevel(index: number, n: number): boolean;
-
-  /**
-   * Upgrade the RAM of a hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Tries to upgrade the specified Hacknet Node’s RAM n times.
-   * Note that each upgrade doubles the Node’s RAM.
-   * So this is equivalent to multiplying the Node’s RAM by 2 n.
-   *
-   * Returns true if the Hacknet Node’s RAM is successfully upgraded n times
-   * or if it is upgraded some positive number of times and the Node reaches its max RAM.
-   *
-   * Returns false otherwise.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of times to upgrade RAM. Must be positive. Rounded to nearest integer.
-   * @returns True if the Hacknet Node’s RAM is successfully upgraded, false otherwise.
-   */
-  upgradeRam(index: number, n: number): boolean;
-
-  /**
-   * Upgrade the core of a hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Tries to purchase n cores for the specified Hacknet Node.
-   *
-   * Returns true if it successfully purchases n cores for the Hacknet Node
-   * or if it purchases some positive amount and the Node reaches its max number of cores.
-   *
-   * Returns false otherwise.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of cores to purchase. Must be positive. Rounded to nearest integer.
-   * @returns True if the Hacknet Node’s cores are successfully purchased, false otherwise.
-   */
-  upgradeCore(index: number, n: number): boolean;
-
-  /**
-   * Upgrade the cache of a hacknet node.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Tries to upgrade the specified Hacknet Server’s cache n times.
-   *
-   * Returns true if it successfully upgrades the Server’s cache n times,
-   * or if it purchases some positive amount and the Server reaches its max cache level.
-   *
-   * Returns false otherwise.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of cache levels to purchase. Must be positive. Rounded to nearest integer.
-   * @returns True if the Hacknet Node’s cache level is successfully upgraded, false otherwise.
-   */
-  upgradeCache(index: number, n: number): boolean;
-
-  /**
-   * Calculate the cost of upgrading hacknet node levels.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Returns the cost of upgrading the specified Hacknet Node by n levels.
-   *
-   * If an invalid value for n is provided, then this function returns 0.
-   * If the specified Hacknet Node is already at max level, then Infinity is returned.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of levels to upgrade. Must be positive. Rounded to nearest integer.
-   * @returns Cost of upgrading the specified Hacknet Node.
-   */
-  getLevelUpgradeCost(index: number, n: number): number;
-
-  /**
-   * Calculate the cost of upgrading hacknet node RAM.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Returns the cost of upgrading the RAM of the specified Hacknet Node n times.
-   *
-   * If an invalid value for n is provided, then this function returns 0.
-   * If the specified Hacknet Node already has max RAM, then Infinity is returned.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of times to upgrade RAM. Must be positive. Rounded to nearest integer.
-   * @returns Cost of upgrading the specified Hacknet Node's RAM.
-   */
-  getRamUpgradeCost(index: number, n: number): number;
-
-  /**
-   * Calculate the cost of upgrading hacknet node cores.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * Returns the cost of upgrading the number of cores of the specified Hacknet Node by n.
-   *
-   * If an invalid value for n is provided, then this function returns 0.
-   * If the specified Hacknet Node is already at max level, then Infinity is returned.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of times to upgrade cores. Must be positive. Rounded to nearest integer.
-   * @returns Cost of upgrading the specified Hacknet Node's number of cores.
-   */
-  getCoreUpgradeCost(index: number, n: number): number;
-
-  /**
-   * Calculate the cost of upgrading hacknet node cache.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Returns the cost of upgrading the cache level of the specified Hacknet Server by n.
-   *
-   * If an invalid value for n is provided, then this function returns 0.
-   * If the specified Hacknet Node is already at max level, then Infinity is returned.
-   *
-   * @param index - Index/Identifier of Hacknet Node.
-   * @param n - Number of times to upgrade cache. Must be positive. Rounded to nearest integer.
-   * @returns Cost of upgrading the specified Hacknet Node's cache.
-   */
-  getCacheUpgradeCost(index: number, n: number): number;
-
-  /**
-   * Get the total number of hashes stored.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Returns the number of hashes you have.
-   *
-   * @returns Number of hashes you have.
-   */
-  numHashes(): number;
-
-  /**
-   * Get the maximum number of hashes you can store.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Returns the number of hashes you can store.
-   *
-   * @returns Number of hashes you can store.
-   */
-  hashCapacity(): number;
-
-  /**
-   * Get the cost of a hash upgrade.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Returns the number of hashes required for the specified upgrade. The name of the upgrade must be an exact match.
-   *
-   * @example
-   * ```ts
-   * // NS1:
-   * var upgradeName = "Sell for Corporation Funds";
-   * if (hacknet.numHashes() > hacknet.hashCost(upgradeName)) {
-   *    hacknet.spendHashes(upgradeName);
-   * }
-   * ```
-   * @example
-   * ```ts
-   * // NS2:
-   * const upgradeName = "Sell for Corporation Funds";
-   * if (ns.hacknet.numHashes() > ns.hacknet.hashCost(upgradeName)) {
-   *    ns.hacknet.spendHashes(upgradeName);
-   * }
-   * ```
-   * @param upgName - Name of the upgrade of Hacknet Node.
-   * @param count - Number of upgrades to buy at once. Defaults to 1 if not specified.
-   * @returns Number of hashes required for the specified upgrade.
-   */
-  hashCost(upgName: string, count?: number): number;
-
-  /**
-   * Purchase a hash upgrade.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Spend the hashes generated by your Hacknet Servers on an upgrade.
-   * Returns a boolean value - true if the upgrade is successfully purchased, and false otherwise.
-   *
-   * The name of the upgrade must be an exact match.
-   * The `upgTarget` argument is used for upgrades such as `Reduce Minimum Security`, which applies to a specific server.
-   * In this case, the `upgTarget` argument must be the hostname of the server.
-   *
-   * @example
-   * ```ts
-   * // NS1:
-   * hacknet.spendHashes("Sell for Corporation Funds");
-   * hacknet.spendHashes("Increase Maximum Money", "foodnstuff");
-   * ```
-   * @example
-   * ```ts
-   * NS2:
-   * ns.hacknet.spendHashes("Sell for Corporation Funds");
-   * ns.hacknet.spendHashes("Increase Maximum Money", "foodnstuff");
-   * ```
-   * @param upgName - Name of the upgrade of Hacknet Node.
-   * @param upgTarget - Object to which upgrade applies. Required for certain upgrades.
-   * @param count - Number of upgrades to buy at once. Defaults to 1 if not specified.
-   * For compatibility reasons, upgTarget must be specified, even if it is not used, in order to specify count.
-   * @returns True if the upgrade is successfully purchased, and false otherwise.
-   */
-  spendHashes(upgName: string, upgTarget?: string, count?: number): boolean;
-
-  /**
-   * Get the list of hash upgrades
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * Returns the list of all available hash upgrades that can be used in the spendHashes function.
-   * @example
-   * ```ts
-   * // NS1:
-   * var upgrades = hacknet.getHashUpgrades(); // ["Sell for Money","Sell for Corporation Funds",...]
-   * ```
-   * @example
-   * ```ts
-   * // NS2:
-   * const upgrades = ns.hacknet.getHashUpgrades(); // ["Sell for Money","Sell for Corporation Funds",...]
-   * ```
-   * @returns An array containing the available upgrades
-   */
-  getHashUpgrades(): string[];
-
-  /**
-   * Get the level of a hash upgrade.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * @returns Level of the upgrade.
-   */
-  getHashUpgradeLevel(upgName: string): number;
-
-  /**
-   * Get the multiplier to study.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * @returns Multiplier.
-   */
-  getStudyMult(): number;
-
-  /**
-   * Get the multiplier to training.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
-   *
-   * @returns Multiplier.
-   */
-  getTrainingMult(): number;
-}
-
-/**
- * Bladeburner API
- * @remarks
- * You have to be employed in the Bladeburner division and be in BitNode-7
- * or have Source-File 7 in order to use this API.
- * @public
- */
-export interface Bladeburner {
+* Bladeburner API
+* @remarks
+* You have to be employed in the Bladeburner division and be in BitNode-7
+* or have Source-File 7 in order to use this API.
+* @public
+*/
+export declare interface Bladeburner {
   /**
    * List all contracts.
    * @remarks
@@ -3203,10 +700,70 @@ export interface Bladeburner {
 }
 
 /**
- * Coding Contract API
- * @public
- */
-export interface CodingContract {
+* Bladeburner current action.
+* @public
+*/
+export declare interface BladeburnerCurAction {
+  /** Type of Action */
+  type: string;
+  /** Name of Action */
+  name: string;
+}
+
+/**
+* @public
+*/
+export declare interface CharacterMult {
+  /** Agility stat */
+  agility: number;
+  /** Agility exp */
+  agilityExp: number;
+  /** Charisma stat */
+  charisma: number;
+  /** Charisma exp */
+  charismaExp: number;
+  /** Company reputation */
+  companyRep: number;
+  /** Money earned from crimes */
+  crimeMoney: number;
+  /** Crime success chance */
+  crimeSuccess: number;
+  /** Defense stat */
+  defense: number;
+  /** Defense exp */
+  defenseExp: number;
+  /** Dexterity stat */
+  dexterity: number;
+  /** Dexterity exp */
+  dexterityExp: number;
+  /** Faction reputation */
+  factionRep: number;
+  /** Hacking stat */
+  hacking: number;
+  /** Hacking exp */
+  hackingExp: number;
+  /** Strength stat */
+  strength: number;
+  /** Strength exp */
+  strengthExp: number;
+  /** Money earned from jobs */
+  workMoney: number;
+}
+
+/**
+* Options to affect the behavior of {@link CodingContract} attempt.
+* @public
+*/
+export declare interface CodingAttemptOptions {
+  /** If truthy, then the function will return a string that states the contract’s reward when it is successfully solved. */
+  returnReward: boolean;
+}
+
+/**
+* Coding Contract API
+* @public
+*/
+export declare interface CodingContract {
   /**
    * Attempts a coding contract.
    * @remarks
@@ -3221,10 +778,10 @@ export interface CodingContract {
    * @returns True if the solution was correct, false otherwise. If the returnReward option is configured, then the function will instead return a string. If the contract is successfully solved, the string will contain a description of the contract’s reward. Otherwise, it will be an empty string.
    */
   attempt(
-    answer: string | number | any[],
-    filename: string,
-    host?: string,
-    opts?: CodingAttemptOptions,
+  answer: string | number | any[],
+  filename: string,
+  host?: string,
+  opts?: CodingAttemptOptions,
   ): boolean | string;
 
   /**
@@ -3281,33 +838,427 @@ export interface CodingContract {
    * @returns How many attempts are remaining for the contract.
    */
   getNumTriesRemaining(filename: string, host?: string): number;
-
-  /**
-   * Generate a dummy contract.
-   * @remarks
-   * RAM cost: 2 GB
-   *
-   * Generate a dummy contract on the home computer with no reward. Used to test various algorithms.
-   *
-   * @param type - Type of contract to generate
-   */
-  createDummyContract(type: string): void;
-
-  /**
-   * List all contract types.
-   * @remarks
-   * RAM cost: 2 GB
-   */
-  getContractTypes(): string[];
 }
 
 /**
- * Gang API
- * @remarks
- * If you are not in BitNode-2, then you must have Source-File 2 in order to use this API.
- * @public
- */
-export interface Gang {
+* Coding contract data will differ depending on coding contract.
+* @public
+*/
+export declare type CodingContractData = any;
+
+/**
+* Corporation API
+* @public
+*/
+export declare interface Corporation extends WarehouseAPI, OfficeAPI {
+  /**
+   * Create a Corporation
+   * @param divisionName - Name of the division
+   * @param selfFund - If you should self fund, defaults to true, false will only work on Bitnode 3
+   * @returns true if created and false if not
+   */
+  createCorporation(corporationName: string, selfFund: boolean): boolean;
+  /**
+   * Check if you have a one time unlockable upgrade
+   * @param upgradeName - Name of the upgrade
+   * @returns true if unlocked and false if not
+   */
+  hasUnlockUpgrade(upgradeName: string): boolean;
+  /**
+   * Gets the cost to unlock a one time unlockable upgrade
+   * @param upgradeName - Name of the upgrade
+   * @returns cost of the upgrade
+   */
+  getUnlockUpgradeCost(upgradeName: string): number;
+  /**
+   * Get the level of a levelable upgrade
+   * @param upgradeName - Name of the upgrade
+   * @returns the level of the upgrade
+   */
+  getUpgradeLevel(upgradeName: string): number;
+  /**
+   * Gets the cost to unlock the next level of a levelable upgrade
+   * @param upgradeName - Name of the upgrade
+   * @returns cost of the upgrade
+   */
+  getUpgradeLevelCost(upgradeName: string): number;
+  /**
+   * Gets the cost to expand into a new industry
+   * @param industryName - Name of the industry
+   * @returns cost
+   */
+  getExpandIndustryCost(industryName: string): number;
+  /**
+   * Gets the cost to expand into a new city
+   * @returns cost
+   */
+  getExpandCityCost(): number;
+  /**
+   * Get an offer for investment based on you companies current valuation
+   * @returns An offer of investment
+   */
+  getInvestmentOffer(): InvestmentOffer;
+  /**
+   * Get list of materials
+   * @returns material names
+   */
+  getMaterialNames(): string[];
+  /**
+   * Get list of industry types
+   * @returns industry names
+   */
+  getIndustryTypes(): string[];
+  /**
+   * Get list of one-time unlockable upgrades
+   * @returns unlockable upgrades names
+   */
+  getUnlockables(): string[];
+  /**
+   * Get list of upgrade names
+   * @returns upgrade names
+   */
+  getUpgradeNames(): string[];
+  /**
+   * Get list of research names
+   * @returns research names
+   */
+  getResearchNames(): string[];
+  /**
+   * Accept investment based on you companies current valuation
+   * @remarks
+   * Is based on current valuation and will not honer a specific Offer
+   * @returns An offer of investment
+   */
+  acceptInvestmentOffer(): boolean;
+  /**
+   * Go public
+   * @param numShares - number of shares you would like to issue for your IPO
+   * @returns true if you successfully go public, false if not
+   */
+  goPublic(numShares: number): boolean;
+  /**
+   * Bribe a faction
+   * @param factionName - Faction name
+   * @param amountCash - Amount of money to bribe
+   * @returns True if successful, false if not
+   */
+  bribe(factionName: string, amountCash: number): boolean;
+  /**
+   * Get corporation data
+   * @returns Corporation data
+   */
+  getCorporation(): CorporationInfo;
+  /**
+   * Get division data
+   * @param divisionName - Name of the division
+   * @returns Division data
+   */
+  getDivision(divisionName: string): Division;
+  /**
+   * Expand to a new industry
+   * @param industryType - Name of the industry
+   * @param divisionName - Name of the division
+   */
+  expandIndustry(industryType: string, divisionName: string): void;
+  /**
+   * Expand to a new city
+   * @param divisionName - Name of the division
+   * @param cityName - Name of the city
+   */
+  expandCity(divisionName: string, cityName: string): void;
+  /**
+   * Unlock an upgrade
+   * @param upgradeName - Name of the upgrade
+   */
+  unlockUpgrade(upgradeName: string): void;
+  /**
+   * Level an upgrade.
+   * @param upgradeName - Name of the upgrade
+   */
+  levelUpgrade(upgradeName: string): void;
+  /**
+   * Issue dividends
+   * @param rate - Fraction of profit to issue as dividends.
+   */
+  issueDividends(rate: number): void;
+  /**
+   * Buyback Shares
+   * @param amount - Amount of shares to buy back.
+   *
+   */
+  buyBackShares(amount: number): void;
+  /**
+   * Sell Shares
+   * @param amount -  Amount of shares to sell.
+   *
+   */
+  sellShares(amount: number): void;
+  /**
+   * Get bonus time.
+   *
+   * “Bonus time” is accumulated when the game is offline or if the game is inactive in the browser.
+   *
+   * “Bonus time” makes the game progress faster.
+   *
+   * @returns Bonus time for the Corporation mechanic in milliseconds.
+   */
+  getBonusTime(): number;
+}
+
+/**
+* General info about a corporation
+* @public
+*/
+export declare interface CorporationInfo {
+  /** Name of the corporation */
+  name: string;
+  /** Funds available */
+  funds: number;
+  /** Revenue per second this cycle */
+  revenue: number;
+  /** Expenses per second this cycle */
+  expenses: number;
+  /** Indicating if the company is public */
+  public: boolean;
+  /** Total number of shares issues by this corporation */
+  totalShares: number;
+  /** Amount of share owned */
+  numShares: number;
+  /** Cooldown until shares can be sold again */
+  shareSaleCooldown: number;
+  /** Amount of aqcuirable shares. */
+  issuedShares: number;
+  /** Price of the shares */
+  sharePrice: number;
+  /** Fraction of profits issued as dividends */
+  dividendRate: number;
+  /** Tax applied on your earnings as a shareholder */
+  dividendTax: number;
+  /** Your earnings as a shareholder per second this cycle */
+  dividendEarnings: number;
+  /** State of the corporation. Possible states are START, PURCHASE, PRODUCTION, SALE, EXPORT. */
+  state: string;
+  /** Array of all divisions */
+  divisions: Division[];
+}
+
+/**
+* Data representing the internal values of a crime.
+* @public
+*/
+export declare interface CrimeStats {
+  /** Number representing the difficulty of the crime. Used for success chance calculations */
+  difficulty: number;
+  /** Amount of karma lost for successfully committing this crime */
+  karma: number;
+  /** How many people die as a result of this crime */
+  kills: number;
+  /** How much money is given */
+  money: number;
+  /** Name of crime */
+  name: string;
+  /** Milliseconds it takes to attempt the crime */
+  time: number;
+  /** Description of the crime activity */
+  type: string;
+  /** hacking level impact on success change of the crime */
+  hacking_success_weight: number;
+  /** strength level impact on success change of the crime */
+  strength_success_weight: number;
+  /** defense level impact on success change of the crime */
+  defense_success_weight: number;
+  /** dexterity level impact on success change of the crime */
+  dexterity_success_weight: number;
+  /** agility level impact on success change of the crime */
+  agility_success_weight: number;
+  /** charisma level impact on success change of the crime */
+  charisma_success_weight: number;
+  /** hacking exp gained from crime */
+  hacking_exp: number;
+  /** strength exp gained from crime */
+  strength_exp: number;
+  /** defense exp gained from crime */
+  defense_exp: number;
+  /** dexterity exp gained from crime */
+  dexterity_exp: number;
+  /** agility exp gained from crime */
+  agility_exp: number;
+  /** charisma exp gained from crime */
+  charisma_exp: number;
+  /** intelligence exp gained from crime */
+  intelligence_exp: number;
+}
+
+/**
+* Corporation division
+* @public
+*/
+export declare interface Division {
+  /** Name of the division */
+  name: string;
+  /** Type of division, like Agriculture */
+  type: string;
+  /** Awareness of the division */
+  awareness: number;
+  /** Popularity of the division */
+  popularity: number;
+  /** Production multiplier */
+  prodMult: number;
+  /** Amount of research in that division */
+  research: number;
+  /** Revenue last cycle */
+  lastCycleRevenue: number;
+  /** Expenses last cycle */
+  lastCycleExpenses: number;
+  /** Revenue this cycle */
+  thisCycleRevenue: number;
+  /** Expenses this cycle */
+  thisCycleExpenses: number;
+  /** All research bought */
+  upgrades: number[];
+  /** Cities in which this division has expanded */
+  cities: string[];
+  /** Products developed by this division */
+  products: string[];
+  /** Whether the industry this division is in is capable of making products */
+  makesProducts: boolean;
+}
+
+/**
+* Employee in an office
+* @public
+*/
+export declare interface Employee {
+  /** Name of the employee */
+  name: string;
+  /** Morale of the employee */
+  mor: number;
+  /** Happiness of the employee */
+  hap: number;
+  /** Energy of the employee */
+  ene: number;
+  /** Intelligence of the employee */
+  int: number;
+  /** Charisma of the employee */
+  cha: number;
+  /** Experience of the employee */
+  exp: number;
+  /** Creativity of the employee */
+  cre: number;
+  /** Efficiency of the employee */
+  eff: number;
+  /** Salary of the employee */
+  sal: number;
+  /** Current Location (city) */
+  loc: string;
+  /** Current job position */
+  pos: string;
+}
+
+/**
+* Object representing the number of employee in each job.
+* @public
+*/
+export declare interface EmployeeJobs {
+  Operations: number;
+  Engineer: number;
+  Business: number;
+  Management: number;
+  "Research & Development": number;
+  Training: number;
+  Unassigned: number;
+}
+
+/**
+* Object representing data representing a gang member equipment.
+* @public
+*/
+export declare interface EquipmentStats {
+  /** Strength multiplier */
+  str?: number;
+  /** Defense multiplier */
+  def?: number;
+  /** Dexterity multiplier */
+  dex?: number;
+  /** Agility multiplier */
+  agi?: number;
+  /** Charisma multiplier */
+  cha?: number;
+  /** Hacking multiplier */
+  hack?: number;
+}
+
+/**
+* Export order for a material
+* @public
+*/
+export declare interface Export {
+  /** Division the material is being exported to */
+  div: string;
+  /** City the material is being exported to */
+  loc: string;
+  /** Amount of material exported */
+  amt: string;
+}
+
+/**
+* @public
+*/
+export declare type FilenameOrPID = number | string;
+
+/**
+* Formulas API
+* @remarks
+* You need Formulas.exe on your home computer to use this API.
+* @public
+*/
+export declare interface Formulas {
+  mockServer(): Server;
+  mockPlayer(): Player;
+  /** Reputation formulas */
+  reputation: ReputationFormulas;
+  /** Skills formulas */
+  skills: SkillsFormulas;
+  /** Hacking formulas */
+  hacking: HackingFormulas;
+  /** Hacknet Nodes formulas */
+  hacknetNodes: HacknetNodesFormulas;
+  /** Hacknet Servers formulas */
+  hacknetServers: HacknetServersFormulas;
+  /** Gang formulas */
+  gang: GangFormulas;
+  /** Work formulas */
+  work: WorkFormulas;
+}
+
+/**
+* @public
+*/
+export declare interface Fragment {
+  id: number;
+  shape: boolean[][];
+  type: number;
+  power: number;
+  limit: number;
+}
+
+/**
+* Game Information
+* @internal
+*/
+export declare interface GameInfo {
+  version: string;
+  commit: string;
+  platform: string;
+}
+
+/**
+* Gang API
+* @remarks
+* If you are not in BitNode-2, then you must have Source-File 2 in order to use this API.
+* @public
+*/
+export declare interface Gang {
   /**
    * Create a gang.
    * @remarks
@@ -3376,15 +1327,7 @@ export interface Gang {
    * @remarks
    * RAM cost: 1 GB
    *
-   * Returns a boolean indicating whether a member can currently be recruited.
-   *
-   * Once you have successfully created a gang by using the function
-   * {@link Gang.createGang | createGang}, you can immediately recruit a small
-   * number of members to your gang. After you have recruited the founding
-   * members, to recruit another member you must increase your respect. The
-   * more members you want to recruit, the more respect you require. If your
-   * gang has the maximum number of members, then this function would return
-   * false.
+   * Returns boolean indicating whether a member can currently be recruited
    *
    * @returns True if a member can currently be recruited, false otherwise.
    */
@@ -3569,285 +1512,263 @@ export interface Gang {
 }
 
 /**
- * Sleeve API
- * @remarks
- * If you are not in BitNode-10, then you must have Source-File 10 in order to use this API.
- * @public
- */
-export interface Sleeve {
+* Gang formulas
+* @public
+*/
+export declare interface GangFormulas {
   /**
-   * Get the number of sleeves you own.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return the number of duplicate sleeves the player has.
-   *
-   * @returns number of duplicate sleeves the player has.
+   * Calculate the wanted penalty.
+   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
+   * @returns The calculated wanted penalty.
    */
-  getNumSleeves(): number;
+  wantedPenalty(gang: GangGenInfo): number;
+  /**
+   * Calculate respect gain per tick.
+   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
+   * @param member - Gang info from {@link Gang.getMemberInformation | getMemberInformation}
+   * @param task - Gang info from {@link Gang.getTaskStats | getTaskStats}
+   * @returns The calculated respect gain.
+   */
+  respectGain(gang: GangGenInfo, member: GangMemberInfo, task: GangTaskStats): number;
+  /**
+   * Calculate wanted gain per tick.
+   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
+   * @param member - Member info from {@link Gang.getMemberInformation | getMemberInformation}
+   * @param task - Task info from {@link Gang.getTaskStats | getTaskStats}
+   * @returns The calculated wanted gain.
+   */
+  wantedLevelGain(gang: GangGenInfo, member: GangMemberInfo, task: GangTaskStats): number;
+  /**
+   * Calculate money gain per tick.
+   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
+   * @param member - Member info from {@link Gang.getMemberInformation | getMemberInformation}
+   * @param task - Task info from {@link Gang.getTaskStats | getTaskStats}
+   * @returns The calculated money gain.
+   */
+  moneyGain(gang: GangGenInfo, member: GangMemberInfo, task: GangTaskStats): number;
 
   /**
-   * Get the stats of a sleeve.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a structure containing the stats of the sleeve.
-   *
-   * @param sleeveNumber - Index of the sleeve to get stats of.
-   * @returns Object containing the stats of the sleeve.
+   * Calculate ascension point gain.
+   * @param exp - Experience point before ascension.
+   * @returns The calculated ascension point gain.
    */
-  getSleeveStats(sleeveNumber: number): SleeveSkills;
+  ascensionPointsGain(exp: number): number;
 
   /**
-   * Get information about a sleeve.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a struct containing tons of information about this sleeve
-   *
-   * @param sleeveNumber - Index of the sleeve to retrieve information.
-   * @returns Object containing tons of information about this sleeve.
+   * Calculate ascension mult.
+   * @param points - Amount of ascension points.
+   * @returns The calculated ascension mult.
    */
-  getInformation(sleeveNumber: number): SleeveInformation;
-
-  /**
-   * Get task of a sleeve.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return the current task that the sleeve is performing. type is set to “Idle” if the sleeve isn’t doing anything.
-   *
-   * @param sleeveNumber - Index of the sleeve to retrieve task from.
-   * @returns Object containing information the current task that the sleeve is performing.
-   */
-  getTask(sleeveNumber: number): SleeveTask;
-
-  /**
-   * Set a sleeve to shock recovery.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not this action was set successfully.
-   *
-   * @param sleeveNumber - Index of the sleeve to start recovery.
-   * @returns True if this action was set successfully, false otherwise.
-   */
-  setToShockRecovery(sleeveNumber: number): boolean;
-
-  /**
-   * Set a sleeve to synchronize.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not this action was set successfully.
-   *
-   * @param sleeveNumber - Index of the sleeve to start synchronizing.
-   * @returns True if this action was set successfully, false otherwise.
-   */
-  setToSynchronize(sleeveNumber: number): boolean;
-
-  /**
-   * Set a sleeve to commit crime.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not this action was set successfully.
-   *
-   * Returns false if an invalid action is specified.
-   *
-   * You can set a sleeve to commit one of the following crimes. The crime names are not
-   * case sensitive. For example, you can pass in the crime name as `"Shoplift"`,
-   * `"shoplift"`, `"shopLift"`, or even `"SHOPLIFT"`.
-   *
-   * - Assassination
-   * - Bond forgery
-   * - Deal drugs
-   * - Grand theft auto
-   * - Heist
-   * - Homicide
-   * - Kidnap
-   * - Larceny
-   * - Mug
-   * - Rob store
-   * - Shoplift
-   * - Traffick arms
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * // Assign the first 3 sleeves to commit various crimes.
-   * var crime = ["mug", "rob store", "shoplift"];
-   * for (var i = 0; i < crime.length; i++) {
-   *     tprintf("Sleeve %d commits crime: %s", i, crime[i]);
-   *     sleeve.setToCommitCrime(i, crime[i]);
-   * }
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * // Assign the first 3 sleeves to commit various crimes.
-   * const crime = ["mug", "rob store", "shoplift"];
-   * for (let i = 0; i < crime.length; i++) {
-   *     ns.tprintf("Sleeve %d commits crime: %s", i, crime[i]);
-   *     ns.sleeve.setToCommitCrime(i, crime[i]);
-   * }
-   * ```
-   *
-   * @param sleeveNumber - Index of the sleeve to start committing crime. Sleeves are numbered starting from 0.
-   * @param name - Name of the crime. Must be an exact match. Refer to the list of crimes.
-   * @returns True if this action was set successfully, false otherwise.
-   */
-  setToCommitCrime(sleeveNumber: number, name: string): boolean;
-
-  /**
-   * Set a sleeve to work for a faction.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not the sleeve started working or this faction.
-   *
-   * @param sleeveNumber - Index of the sleeve to work for the faction.
-   * @param factionName - Name of the faction to work for.
-   * @param factionWorkType - Name of the action to perform for this faction.
-   * @returns True if the sleeve started working on this faction, false otherwise, can also throw on errors
-   */
-  setToFactionWork(sleeveNumber: number, factionName: string, factionWorkType: string): boolean | undefined;
-
-  /**
-   * Set a sleeve to work for a company.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not the sleeve started working or this company.
-   *
-   * @param sleeveNumber - Index of the sleeve to work for the company.
-   * @param companyName - Name of the company to work for.
-   * @returns True if the sleeve started working on this company, false otherwise.
-   */
-  setToCompanyWork(sleeveNumber: number, companyName: string): boolean;
-
-  /**
-   * Set a sleeve to take a class at a university.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not this action was set successfully.
-   *
-   * @param sleeveNumber - Index of the sleeve to start taking class.
-   * @param university - Name of the university to attend.
-   * @param className - Name of the class to follow.
-   * @returns True if this action was set successfully, false otherwise.
-   */
-  setToUniversityCourse(sleeveNumber: number, university: string, className: string): boolean;
-
-  /**
-   * Set a sleeve to workout at the gym.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not the sleeve started working out.
-   *
-   * @param sleeveNumber - Index of the sleeve to workout at the gym.
-   * @param gymName - Name of the gym.
-   * @param stat - Name of the stat to train.
-   * @returns True if the sleeve started working out, false otherwise.
-   */
-  setToGymWorkout(sleeveNumber: number, gymName: string, stat: string): boolean;
-
-  /**
-   * Make a sleeve travel to another city.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not the sleeve reached destination.
-   *
-   * @param sleeveNumber - Index of the sleeve to travel.
-   * @param cityName - Name of the destination city.
-   * @returns True if the sleeve reached destination, false otherwise.
-   */
-  travel(sleeveNumber: number, cityName: string): boolean;
-
-  /**
-   * Get augmentations installed on a sleeve.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a list of augmentation names that this sleeve has installed.
-   *
-   * @param sleeveNumber - Index of the sleeve to retrieve augmentations from.
-   * @returns List of augmentation names that this sleeve has installed.
-   */
-  getSleeveAugmentations(sleeveNumber: number): string[];
-
-  /**
-   * Get price of an augmentation.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Price of the augmentation.
-   */
-  getSleeveAugmentationPrice(augName: string): number;
-
-  /**
-   * Get reputation requirement of an augmentation.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   *
-   * @param augName - Name of Augmentation.
-   * @returns Reputation requirement of the augmentation.
-   */
-  getSleeveAugmentationRepReq(augName: string): number;
-
-  /**
-   * List purchasable augs for a sleeve.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a list of augmentations that the player can buy for this sleeve.
-   *
-   * @param sleeveNumber - Index of the sleeve to retrieve purchasable augmentations from.
-   * @returns List of augmentations that the player can buy for this sleeve.
-   */
-  getSleevePurchasableAugs(sleeveNumber: number): AugmentPair[];
-
-  /**
-   * Purchase an aug for a sleeve.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return true if the aug was purchased and installed on the sleeve.
-   *
-   * @param sleeveNumber - Index of the sleeve to buy an aug for.
-   * @param augName - Name of the aug to buy. Must be an exact match.
-   * @returns True if the aug was purchased and installed on the sleeve, false otherwise.
-   */
-  purchaseSleeveAug(sleeveNumber: number, augName: string): boolean;
-
-  /**
-   * Set a sleeve to perform bladeburner actions.
-   * @remarks
-   * RAM cost: 4 GB
-   *
-   * Return a boolean indicating whether or not the sleeve started working out.
-   *
-   * @param sleeveNumber - Index of the sleeve to workout at the gym.
-   * @param action - Name of the action to be performed.
-   * @param contract - Name of the contract if applicable.
-   * @returns True if the sleeve started working out, false otherwise.
-   */
-  setToBladeburnerAction(sleeveNumber: number, action: string, contract?: string): boolean;
+  ascensionMultiplier(points: number): number;
 }
 
 /**
- * Grafting API
- * @remarks
- * This API requires Source-File 10 to use.
- * @public
- */
-export interface Grafting {
+* Gang general info.
+* @public
+*/
+export declare interface GangGenInfo {
+  /** Name of faction that the gang belongs to ("Slum Snakes", etc.) */
+  faction: string;
+  /** Indicating whether or not it's a hacking gang */
+  isHacking: boolean;
+  /** Money earned per game cycle */
+  moneyGainRate: number;
+  /** Gang's power for territory warfare */
+  power: number;
+  /** Gang's respect */
+  respect: number;
+  /** Respect earned per game cycle */
+  respectGainRate: number;
+  /** Amount of territory held */
+  territory: number;
+  /** Clash chance */
+  territoryClashChance: number;
+  /** Gang's wanted level */
+  wantedLevel: number;
+  /** Wanted level gained/lost per game cycle (negative for losses) */
+  wantedLevelGainRate: number;
+  /** Indicating if territory warfare is enabled */
+  territoryWarfareEngaged: boolean;
+  /** Number indicating the current wanted penalty */
+  wantedPenalty: number;
+}
+
+/**
+* @public
+*/
+export declare interface GangMemberAscension {
+  /** Amount of respect lost from ascending */
+  respect: number;
+  /** Hacking multiplier gained from ascending */
+  hack: number;
+  /** Strength multiplier gained from ascending */
+  str: number;
+  /** Defense multiplier gained from ascending */
+  def: number;
+  /** Dexterity multiplier gained from ascending */
+  dex: number;
+  /** Agility multiplier gained from ascending */
+  agi: number;
+  /** Charisma multiplier gained from ascending */
+  cha: number;
+}
+
+/**
+* @public
+*/
+export declare interface GangMemberInfo {
+  /** Name of the gang member */
+  name: string;
+  /** Currently assigned task */
+  task: string;
+  earnedRespect: number;
+
+  /** Hack skill level */
+  hack: number;
+  /** Strength skill level */
+  str: number;
+  /** Defense skill level */
+  def: number;
+  /** Dexterity skill level */
+  dex: number;
+  /** Agility skill level */
+  agi: number;
+  /** Charisma skill level */
+  cha: number;
+
+  /** Current hack experience */
+  hack_exp: number;
+  /** Current strength experience */
+  str_exp: number;
+  /** Current defense experience */
+  def_exp: number;
+  /** Current dexterity experience */
+  dex_exp: number;
+  /** Current agility experience */
+  agi_exp: number;
+  /** Current charisma experience */
+  cha_exp: number;
+
+  /** Hack multiplier from equipment */
+  hack_mult: number;
+  /** Strength multiplier from equipment */
+  str_mult: number;
+  /** Defense multiplier from equipment */
+  def_mult: number;
+  /** Dexterity multiplier from equipment */
+  dex_mult: number;
+  /** Agility multiplier from equipment */
+  agi_mult: number;
+  /** Charisma multiplier from equipment */
+  cha_mult: number;
+
+  /** Hack multiplier from ascensions */
+  hack_asc_mult: number;
+  /** Strength multiplier from ascensions */
+  str_asc_mult: number;
+  /** Defense multiplier from ascensions */
+  def_asc_mult: number;
+  /** Dexterity multiplier from ascensions */
+  dex_asc_mult: number;
+  /** Agility multiplier from ascensions */
+  agi_asc_mult: number;
+  /** Charisma multiplier from ascensions */
+  cha_asc_mult: number;
+
+  /** Total earned hack experience */
+  hack_asc_points: number;
+  /** Total earned strength experience */
+  str_asc_points: number;
+  /** Total earned defense experience */
+  def_asc_points: number;
+  /** Total earned dexterity experience */
+  dex_asc_points: number;
+  /** Total earned agility experience */
+  agi_asc_points: number;
+  /** Total earned charisma experience */
+  cha_asc_points: number;
+
+  upgrades: string[];
+  augmentations: string[];
+
+  respectGain: number;
+  wantedLevelGain: number;
+  moneyGain: number;
+}
+
+/**
+* @public
+*/
+export declare interface GangOtherInfo {
+  [key: string]: GangOtherInfoObject;
+}
+
+/**
+* @public
+*/
+export declare interface GangOtherInfoObject {
+  /** Gang power */
+  power: number;
+  /** Gang territory, in decimal form */
+  territory: number;
+}
+
+/**
+* Object representing data representing a gang member task.
+* @public
+*/
+export declare interface GangTaskStats {
+  /** Task name */
+  name: string;
+  /** Task Description */
+  desc: string;
+  /** Is a task of a hacking gang */
+  isHacking: boolean;
+  /** Is a task of a combat gang */
+  isCombat: boolean;
+  /** Base respect earned */
+  baseRespect: number;
+  /** Base wanted earned */
+  baseWanted: number;
+  /** Base money earned */
+  baseMoney: number;
+  /** Hacking skill impact on task scaling */
+  hackWeight: number;
+  /** Strength skill impact on task scaling */
+  strWeight: number;
+  /** Defense skill impact on task scaling */
+  defWeight: number;
+  /** Dexterity skill impact on task scaling */
+  dexWeight: number;
+  /** Agility skill impact on task scaling */
+  agiWeight: number;
+  /** Charisma skill impact on task scaling */
+  chaWeight: number;
+  /** Number representing the difficulty of the task */
+  difficulty: number;
+  /** Territory impact on task scaling */
+  territory: GangTerritory;
+}
+
+/**
+* @public
+*/
+export declare interface GangTerritory {
+  /** Money gain impact on task scaling */
+  money: number;
+  /** Respect gain impact on task scaling */
+  respect: number;
+  /** Wanted gain impact on task scaling */
+  wanted: number;
+}
+
+/**
+* Grafting API
+* @remarks
+* This API requires Source-File 10 to use.
+* @public
+*/
+export declare interface Grafting {
   /**
    * Retrieve the grafting cost of an aug.
    * @remarks
@@ -3897,81 +1818,10 @@ export interface Grafting {
 }
 
 /**
- * Skills formulas
- * @public
- */
-interface SkillsFormulas {
-  /**
-   * Calculate skill level.
-   * @param exp - experience for that skill
-   * @param skillMult - Multiplier for that skill, defaults to 1.
-   * @returns The calculated skill level.
-   */
-  calculateSkill(exp: number, skillMult?: number): number;
-  /**
-   * Calculate exp for skill level.
-   * @param skill - target skill level
-   * @param skillMult - Multiplier for that skill, defaults to 1.
-   * @returns The calculated exp required.
-   */
-  calculateExp(skill: number, skillMult?: number): number;
-}
-
-/** @public */
-export interface WorkStats {
-  money: number;
-  reputation: number;
-  hackExp: number;
-  strExp: number;
-  defExp: number;
-  dexExp: number;
-  agiExp: number;
-  chaExp: number;
-  intExp: number;
-}
-
-/**
- * Work formulas
- * @public
- */
-interface WorkFormulas {
-  crimeGains(crimeType: string): WorkStats;
-  classGains(player: Player, classType: string, locationName: string): WorkStats;
-  factionGains(player: Player, workType: string, favor: number): WorkStats;
-}
-
-/**
- * Reputation formulas
- * @public
- */
-interface ReputationFormulas {
-  /**
-   * Calculate the total required amount of faction reputation to reach a target favor.
-   * @param favor - target faction favor.
-   * @returns The calculated faction reputation required.
-   */
-  calculateFavorToRep(favor: number): number;
-  /**
-   * Calculate the resulting faction favor of a total amount of reputation.
-   * (Faction favor is gained whenever you install an Augmentation.)
-   * @param rep - amount of reputation.
-   * @returns The calculated faction favor.
-   */
-  calculateRepToFavor(rep: number): number;
-
-  /**
-   * Calculate how much rep would be gained.
-   * @param amount - Amount of money donated
-   * @param player - Player info from {@link NS.getPlayer | getPlayer}
-   */
-  repFromDonation(amount: number, player: Player): number;
-}
-
-/**
- * Hacking formulas
- * @public
- */
-interface HackingFormulas {
+* Hacking formulas
+* @public
+*/
+export declare interface HackingFormulas {
   /**
    * Calculate hack chance.
    * (Ex: 0.25 would indicate a 25% chance of success.)
@@ -4033,10 +1883,432 @@ interface HackingFormulas {
 }
 
 /**
- * Hacknet Node formulas
- * @public
- */
-interface HacknetNodesFormulas {
+* Hack related multipliers.
+* @public
+*/
+export declare interface HackingMultipliers {
+  /** Player's hacking chance multiplier. */
+  chance: number;
+  /** Player's hacking speed multiplier. */
+  speed: number;
+  /** Player's hacking money stolen multiplier. */
+  money: number;
+  /** Player's hacking growth multiplier */
+  growth: number;
+}
+
+/**
+* Hacknet API
+* @remarks
+* Not all these functions are immediately available.
+* @public
+*/
+export declare interface Hacknet {
+  /**
+   * Get the number of hacknet nodes you own.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Returns the number of Hacknet Nodes you own.
+   *
+   * @returns Number of hacknet nodes.
+   */
+  numNodes(): number;
+
+  /**
+   * Get the maximum number of hacknet nodes.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns Maximum number of hacknet nodes.
+   */
+  maxNumNodes(): number;
+
+  /**
+   * Purchase a new hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Purchases a new Hacknet Node. Returns a number with the index of the
+   * Hacknet Node. This index is equivalent to the number at the end of
+   * the Hacknet Node’s name (e.g The Hacknet Node named `hacknet-node-4`
+   * will have an index of 4).
+   *
+   * If the player cannot afford to purchase a new Hacknet Node then the function will return -1.
+   *
+   * @returns The index of the Hacknet Node or if the player cannot afford to purchase a new Hacknet Node the function will return -1.
+   */
+  purchaseNode(): number;
+
+  /**
+   * Get the price of the next hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Returns the cost of purchasing a new Hacknet Node.
+   *
+   * @returns Cost of purchasing a new Hacknet Node.
+   */
+  getPurchaseNodeCost(): number;
+
+  /**
+   * Get the stats of a hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Returns an object containing a variety of stats about the specified Hacknet Node.
+   *
+   * Note that for Hacknet Nodes, production refers to the amount of money the node generates.
+   * For Hacknet Servers (the upgraded version of Hacknet Nodes), production refers to the
+   * amount of hashes the node generates.
+   *
+   * @param index - Index/Identifier of Hacknet Node
+   * @returns Object containing a variety of stats about the specified Hacknet Node.
+   */
+  getNodeStats(index: number): NodeStats;
+
+  /**
+   * Upgrade the level of a hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Tries to upgrade the level of the specified Hacknet Node by n.
+   *
+   * Returns true if the Hacknet Node’s level is successfully upgraded by n
+   * or if it is upgraded by some positive amount and the Node reaches its max level.
+   *
+   * Returns false otherwise.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of levels to purchase. Must be positive. Rounded to nearest integer.
+   * @returns True if the Hacknet Node’s level is successfully upgraded, false otherwise.
+   */
+  upgradeLevel(index: number, n: number): boolean;
+
+  /**
+   * Upgrade the RAM of a hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Tries to upgrade the specified Hacknet Node’s RAM n times.
+   * Note that each upgrade doubles the Node’s RAM.
+   * So this is equivalent to multiplying the Node’s RAM by 2 n.
+   *
+   * Returns true if the Hacknet Node’s RAM is successfully upgraded n times
+   * or if it is upgraded some positive number of times and the Node reaches its max RAM.
+   *
+   * Returns false otherwise.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of times to upgrade RAM. Must be positive. Rounded to nearest integer.
+   * @returns True if the Hacknet Node’s RAM is successfully upgraded, false otherwise.
+   */
+  upgradeRam(index: number, n: number): boolean;
+
+  /**
+   * Upgrade the core of a hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Tries to purchase n cores for the specified Hacknet Node.
+   *
+   * Returns true if it successfully purchases n cores for the Hacknet Node
+   * or if it purchases some positive amount and the Node reaches its max number of cores.
+   *
+   * Returns false otherwise.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of cores to purchase. Must be positive. Rounded to nearest integer.
+   * @returns True if the Hacknet Node’s cores are successfully purchased, false otherwise.
+   */
+  upgradeCore(index: number, n: number): boolean;
+
+  /**
+   * Upgrade the cache of a hacknet node.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Tries to upgrade the specified Hacknet Server’s cache n times.
+   *
+   * Returns true if it successfully upgrades the Server’s cache n times,
+   * or if it purchases some positive amount and the Server reaches its max cache level.
+   *
+   * Returns false otherwise.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of cache levels to purchase. Must be positive. Rounded to nearest integer.
+   * @returns True if the Hacknet Node’s cache level is successfully upgraded, false otherwise.
+   */
+  upgradeCache(index: number, n: number): boolean;
+
+  /**
+   * Calculate the cost of upgrading hacknet node levels.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Returns the cost of upgrading the specified Hacknet Node by n levels.
+   *
+   * If an invalid value for n is provided, then this function returns 0.
+   * If the specified Hacknet Node is already at max level, then Infinity is returned.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of levels to upgrade. Must be positive. Rounded to nearest integer.
+   * @returns Cost of upgrading the specified Hacknet Node.
+   */
+  getLevelUpgradeCost(index: number, n: number): number;
+
+  /**
+   * Calculate the cost of upgrading hacknet node RAM.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Returns the cost of upgrading the RAM of the specified Hacknet Node n times.
+   *
+   * If an invalid value for n is provided, then this function returns 0.
+   * If the specified Hacknet Node already has max RAM, then Infinity is returned.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of times to upgrade RAM. Must be positive. Rounded to nearest integer.
+   * @returns Cost of upgrading the specified Hacknet Node's RAM.
+   */
+  getRamUpgradeCost(index: number, n: number): number;
+
+  /**
+   * Calculate the cost of upgrading hacknet node cores.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * Returns the cost of upgrading the number of cores of the specified Hacknet Node by n.
+   *
+   * If an invalid value for n is provided, then this function returns 0.
+   * If the specified Hacknet Node is already at max level, then Infinity is returned.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of times to upgrade cores. Must be positive. Rounded to nearest integer.
+   * @returns Cost of upgrading the specified Hacknet Node's number of cores.
+   */
+  getCoreUpgradeCost(index: number, n: number): number;
+
+  /**
+   * Calculate the cost of upgrading hacknet node cache.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Returns the cost of upgrading the cache level of the specified Hacknet Server by n.
+   *
+   * If an invalid value for n is provided, then this function returns 0.
+   * If the specified Hacknet Node is already at max level, then Infinity is returned.
+   *
+   * @param index - Index/Identifier of Hacknet Node.
+   * @param n - Number of times to upgrade cache. Must be positive. Rounded to nearest integer.
+   * @returns Cost of upgrading the specified Hacknet Node's cache.
+   */
+  getCacheUpgradeCost(index: number, n: number): number;
+
+  /**
+   * Get the total number of hashes stored.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Returns the number of hashes you have.
+   *
+   * @returns Number of hashes you have.
+   */
+  numHashes(): number;
+
+  /**
+   * Get the maximum number of hashes you can store.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Returns the number of hashes you can store.
+   *
+   * @returns Number of hashes you can store.
+   */
+  hashCapacity(): number;
+
+  /**
+   * Get the cost of a hash upgrade.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Returns the number of hashes required for the specified upgrade. The name of the upgrade must be an exact match.
+   *
+   * @example
+   * ```ts
+   * // NS1:
+   * var upgradeName = "Sell for Corporation Funds";
+   * if (hacknet.numHashes() > hacknet.hashCost(upgradeName)) {
+   *    hacknet.spendHashes(upgradeName);
+   * }
+   * ```
+   * @example
+   * ```ts
+   * // NS2:
+   * const upgradeName = "Sell for Corporation Funds";
+   * if (ns.hacknet.numHashes() > ns.hacknet.hashCost(upgradeName)) {
+   *    ns.hacknet.spendHashes(upgradeName);
+   * }
+   * ```
+   * @param upgName - Name of the upgrade of Hacknet Node.
+   * @param count - Number of upgrades to buy at once. Defaults to 1 if not specified.
+   * @returns Number of hashes required for the specified upgrade.
+   */
+  hashCost(upgName: string, count?: number): number;
+
+  /**
+   * Purchase a hash upgrade.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Spend the hashes generated by your Hacknet Servers on an upgrade.
+   * Returns a boolean value - true if the upgrade is successfully purchased, and false otherwise.
+   *
+   * The name of the upgrade must be an exact match.
+   * The `upgTarget` argument is used for upgrades such as `Reduce Minimum Security`, which applies to a specific server.
+   * In this case, the `upgTarget` argument must be the hostname of the server.
+   *
+   * @example
+   * ```ts
+   * // NS1:
+   * hacknet.spendHashes("Sell for Corporation Funds");
+   * hacknet.spendHashes("Increase Maximum Money", "foodnstuff");
+   * ```
+   * @example
+   * ```ts
+   * NS2:
+   * ns.hacknet.spendHashes("Sell for Corporation Funds");
+   * ns.hacknet.spendHashes("Increase Maximum Money", "foodnstuff");
+   * ```
+   * @param upgName - Name of the upgrade of Hacknet Node.
+   * @param upgTarget - Object to which upgrade applies. Required for certain upgrades.
+   * @param count - Number of upgrades to buy at once. Defaults to 1 if not specified.
+   * For compatability reasons, upgTarget must be specified, even if it is not used, in order to specify count.
+   * @returns True if the upgrade is successfully purchased, and false otherwise.
+   */
+  spendHashes(upgName: string, upgTarget?: string, count?: number): boolean;
+
+  /**
+   * Get the list of hash upgrades
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * Returns the list of all available hash upgrades that can be used in the spendHashes function.
+   * @example
+   * ```ts
+   * // NS1:
+   * var upgrades = hacknet.getHashUpgrades(); // ["Sell for Money","Sell for Corporation Funds",...]
+   * ```
+   * @example
+   * ```ts
+   * // NS2:
+   * const upgrades = ns.hacknet.getHashUpgrades(); // ["Sell for Money","Sell for Corporation Funds",...]
+   * ```
+   * @returns An array containing the available upgrades
+   */
+  getHashUpgrades(): string[];
+
+  /**
+   * Get the level of a hash upgrade.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * @returns Level of the upgrade.
+   */
+  getHashUpgradeLevel(upgName: string): number;
+
+  /**
+   * Get the multiplier to study.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * @returns Multiplier.
+   */
+  getStudyMult(): number;
+
+  /**
+   * Get the multiplier to training.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is only applicable for Hacknet Servers (the upgraded version of a Hacknet Node).
+   *
+   * @returns Multiplier.
+   */
+  getTrainingMult(): number;
+}
+
+/**
+* Hacknet related multipliers.
+* @public
+*/
+export declare interface HacknetMultipliers {
+  /** Player's hacknet production multiplier */
+  production: number;
+  /** Player's hacknet purchase cost multiplier */
+  purchaseCost: number;
+  /** Player's hacknet ram cost multiplier */
+  ramCost: number;
+  /** Player's hacknet core cost multiplier */
+  coreCost: number;
+  /** Player's hacknet level cost multiplier */
+  levelCost: number;
+}
+
+/**
+* Hacknet node related constants
+* @public
+*/
+export declare interface HacknetNodeConstants {
+  /** Amount of money gained per level */
+  MoneyGainPerLevel: number;
+  /** Base cost for a new node */
+  BaseCost: number;
+  /** Base cost per level */
+  LevelBaseCost: number;
+  /** Base cost to incrase RAM */
+  RamBaseCost: number;
+  /** Base cost to increase cores */
+  CoreBaseCost: number;
+  /** Multiplier to purchase new node */
+  PurchaseNextMult: number;
+  /** Multiplier to increase node level */
+  UpgradeLevelMult: number;
+  /** Multiplier to increase RAM */
+  UpgradeRamMult: number;
+  /** Multiplier to increase cores */
+  UpgradeCoreMult: number;
+  /** Max node level */
+  MaxLevel: number;
+  /** Max amount of RAM in GB */
+  MaxRam: number;
+  /** Max number of cores */
+  MaxCores: number;
+}
+
+/**
+* Hacknet Node formulas
+* @public
+*/
+export declare interface HacknetNodesFormulas {
   /**
    * Calculate money gain rate.
    * @param level - level of the node.
@@ -4085,10 +2357,47 @@ interface HacknetNodesFormulas {
 }
 
 /**
- * Hacknet Server formulas
- * @public
- */
-interface HacknetServersFormulas {
+* Hacknet server related constants
+* @public
+*/
+export declare interface HacknetServerConstants {
+  /** Number of hashes calculated per level */
+  HashesPerLevel: number;
+  /** Base cost for a new server */
+  BaseCost: number;
+  /** Base cost to increase RAM */
+  RamBaseCost: number;
+  /** Base cost to increase cores */
+  CoreBaseCost: number;
+  /** Base cost to upgrade cache */
+  CacheBaseCost: number;
+  /** Multiplier to purchase a new server */
+  PurchaseMult: number;
+  /** Multiplier to increase server level */
+  UpgradeLevelMult: number;
+  /** Multiplier to increase RAM */
+  UpgradeRamMult: number;
+  /** Multiplier to increase cores */
+  UpgradeCoreMult: number;
+  /** Multiplier to upgrade cache */
+  UpgradeCacheMult: number;
+  /** Max number of servers */
+  MaxServers: number;
+  /** Max level for a server */
+  MaxLevel: number;
+  /** Max amount of RAM in GB */
+  MaxRam: number;
+  /** Max number of cores */
+  MaxCores: number;
+  /** Max cache size */
+  MaxCache: number;
+}
+
+/**
+* Hacknet Server formulas
+* @public
+*/
+export declare interface HacknetServersFormulas {
   /**
    * Calculate hash gain rate.
    * @param level - level of the server.
@@ -4152,237 +2461,26 @@ interface HacknetServersFormulas {
 }
 
 /**
- * Gang formulas
- * @public
- */
-interface GangFormulas {
-  /**
-   * Calculate the wanted penalty.
-   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
-   * @returns The calculated wanted penalty.
-   */
-  wantedPenalty(gang: GangGenInfo): number;
-  /**
-   * Calculate respect gain per tick.
-   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
-   * @param member - Gang info from {@link Gang.getMemberInformation | getMemberInformation}
-   * @param task - Gang info from {@link Gang.getTaskStats | getTaskStats}
-   * @returns The calculated respect gain.
-   */
-  respectGain(gang: GangGenInfo, member: GangMemberInfo, task: GangTaskStats): number;
-  /**
-   * Calculate wanted gain per tick.
-   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
-   * @param member - Member info from {@link Gang.getMemberInformation | getMemberInformation}
-   * @param task - Task info from {@link Gang.getTaskStats | getTaskStats}
-   * @returns The calculated wanted gain.
-   */
-  wantedLevelGain(gang: GangGenInfo, member: GangMemberInfo, task: GangTaskStats): number;
-  /**
-   * Calculate money gain per tick.
-   * @param gang - Gang info from {@link Gang.getGangInformation | getGangInformation}
-   * @param member - Member info from {@link Gang.getMemberInformation | getMemberInformation}
-   * @param task - Task info from {@link Gang.getTaskStats | getTaskStats}
-   * @returns The calculated money gain.
-   */
-  moneyGain(gang: GangGenInfo, member: GangMemberInfo, task: GangTaskStats): number;
-
-  /**
-   * Calculate ascension point gain.
-   * @param exp - Experience point before ascension.
-   * @returns The calculated ascension point gain.
-   */
-  ascensionPointsGain(exp: number): number;
-
-  /**
-   * Calculate ascension mult.
-   * @param points - Amount of ascension points.
-   * @returns The calculated ascension mult.
-   */
-  ascensionMultiplier(points: number): number;
+* @public
+*/
+export declare interface HP {
+  current: number;
+  max: number;
 }
 
 /**
- * Formulas API
- * @remarks
- * You need Formulas.exe on your home computer to use this API.
- * @public
- */
-export interface Formulas {
-  mockServer(): Server;
-  mockPlayer(): Player;
-  /** Reputation formulas */
-  reputation: ReputationFormulas;
-  /** Skills formulas */
-  skills: SkillsFormulas;
-  /** Hacking formulas */
-  hacking: HackingFormulas;
-  /** Hacknet Nodes formulas */
-  hacknetNodes: HacknetNodesFormulas;
-  /** Hacknet Servers formulas */
-  hacknetServers: HacknetServersFormulas;
-  /** Gang formulas */
-  gang: GangFormulas;
-  /** Work formulas */
-  work: WorkFormulas;
-}
-
-/** @public */
-export interface Fragment {
-  id: number;
-  shape: boolean[][];
-  type: number;
-  power: number;
-  limit: number;
-}
-
-/** @public */
-export interface ActiveFragment {
-  id: number;
-  highestCharge: number;
-  numCharge: number;
-  rotation: number;
-  x: number;
-  y: number;
-}
-
-/**
- * Stanek's Gift API.
- * @public
- */
-interface Stanek {
-  /**
-   * Stanek's Gift width.
-   * @remarks
-   * RAM cost: 0.4 GB
-   * @returns The width of the gift.
-   */
-  giftWidth(): number;
-  /**
-   * Stanek's Gift height.
-   * @remarks
-   * RAM cost: 0.4 GB
-   * @returns The height of the gift.
-   */
-  giftHeight(): number;
-
-  /**
-   * Charge a fragment, increasing its power.
-   * @remarks
-   * RAM cost: 0.4 GB
-   * @param rootX - rootX Root X against which to align the top left of the fragment.
-   * @param rootY - rootY Root Y against which to align the top left of the fragment.
-   * @returns Promise that lasts until the charge action is over.
-   */
-  chargeFragment(rootX: number, rootY: number): Promise<void>;
-
-  /**
-   * List possible fragments.
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns List of possible fragments.
-   */
-  fragmentDefinitions(): Fragment[];
-
-  /**
-   * List of fragments in Stanek's Gift.
-   * @remarks
-   * RAM cost: 5 GB
-   *
-   * @returns List of active fragments placed on Stanek's Gift.
-   */
-  activeFragments(): ActiveFragment[];
-
-  /**
-   * Clear the board of all fragments.
-   * @remarks
-   * RAM cost: 0 GB
-   */
-  clearGift(): void;
-
-  /**
-   * Check if fragment can be placed at specified location.
-   * @remarks
-   * RAM cost: 0.5 GB
-   *
-   * @param rootX - rootX Root X against which to align the top left of the fragment.
-   * @param rootY - rootY Root Y against which to align the top left of the fragment.
-   * @param rotation - rotation A number from 0 to 3, the mount of 90 degree turn to take.
-   * @param fragmentId - fragmentId ID of the fragment to place.
-   * @returns true if the fragment can be placed at that position. false otherwise.
-   */
-  canPlaceFragment(rootX: number, rootY: number, rotation: number, fragmentId: number): boolean;
-  /**
-   * Place fragment on Stanek's Gift.
-   * @remarks
-   * RAM cost: 5 GB
-   *
-   * @param rootX - X against which to align the top left of the fragment.
-   * @param rootY - Y against which to align the top left of the fragment.
-   * @param rotation - A number from 0 to 3, the mount of 90 degree turn to take.
-   * @param fragmentId - ID of the fragment to place.
-   * @returns true if the fragment can be placed at that position. false otherwise.
-   */
-  placeFragment(rootX: number, rootY: number, rotation: number, fragmentId: number): boolean;
-  /**
-   * Get placed fragment at location.
-   * @remarks
-   * RAM cost: 5 GB
-   *
-   * @param rootX - X against which to align the top left of the fragment.
-   * @param rootY - Y against which to align the top left of the fragment.
-   * @returns The fragment at [rootX, rootY], if any.
-   */
-  getFragment(rootX: number, rootY: number): ActiveFragment | undefined;
-
-  /**
-   * Remove fragment at location.
-   * @remarks
-   * RAM cost: 0.15 GB
-   *
-   * @param rootX - X against which to align the top left of the fragment.
-   * @param rootY - Y against which to align the top left of the fragment.
-   * @returns The fragment at [rootX, rootY], if any.
-   */
-  removeFragment(rootX: number, rootY: number): boolean;
-
-  /**
-   * Accept Stanek's Gift by joining the Church of the Machine God
-   * @remarks
-   * RAM cost: 2 GB
-   *
-   * @returns true if the player is a member of the church and has the gift installed,
-   * false otherwise.
-   */
-  acceptGift(): boolean;
-}
-
-/** @public */
-export interface InfiltrationReward {
-  tradeRep: number;
-  sellCash: number;
-  SoARep: number;
-}
-
-/** @public */
-export interface ILocation {
+* @public
+*/
+export declare interface ILocation {
   city: string;
   name: string;
 }
 
-/** @public */
-export interface InfiltrationLocation {
-  location: ILocation;
-  reward: InfiltrationReward;
-  difficulty: number;
-}
-
 /**
- * Infiltration API.
- * @public
- */
-interface Infiltration {
+* Infiltration API.
+* @public
+*/
+export declare interface Infiltration {
   /**
    * Get all locations that can be infiltrated.
    * @remarks
@@ -4402,176 +2500,288 @@ interface Infiltration {
 }
 
 /**
- * User Interface API.
- * @public
- */
-interface UserInterface {
-  /**
-   * Get the current window size
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns An array of 2 value containing the window width and height.
-   */
-  windowSize(): [number, number];
-
-  /**
-   * Get the current theme
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns An object containing the theme's colors
-   */
-  getTheme(): UserInterfaceTheme;
-
-  /**
-   * Sets the current theme
-   * @remarks
-   * RAM cost: 0 GB
-   * @example
-   * Usage example (NS2)
-   * ```ts
-   * const theme = ns.ui.getTheme();
-   * theme.primary = '#ff5500';
-   * ns.ui.setTheme(theme);
-   * ```
-   */
-  setTheme(newTheme: UserInterfaceTheme): void;
-
-  /**
-   * Resets the player's theme to the default values
-   * @remarks
-   * RAM cost: 0 GB
-   */
-  resetTheme(): void;
-
-  /**
-   * Get the current styles
-   * @remarks
-   * RAM cost: 0 GB
-   *
-   * @returns An object containing the player's styles
-   */
-  getStyles(): IStyleSettings;
-
-  /**
-   * Sets the current styles
-   * @remarks
-   * RAM cost: 0 GB
-   * @example
-   * Usage example (NS2)
-   * ```ts
-   * const styles = ns.ui.getStyles();
-   * styles.fontFamily = 'Comic Sans Ms';
-   * ns.ui.setStyles(styles);
-   * ```
-   */
-  setStyles(newStyles: IStyleSettings): void;
-
-  /**
-   * Resets the player's styles to the default values
-   * @remarks
-   * RAM cost: 0 GB
-   */
-  resetStyles(): void;
-
-  /**
-   * Gets the current game information (version, commit, ...)
-   * @remarks
-   * RAM cost: 0 GB
-   */
-  getGameInfo(): GameInfo;
-
-  /**
-   * Clear the Terminal window, as if the player ran `clear` in the terminal
-   * @remarks
-   * RAM cost: 0.2 GB
-   */
-  clearTerminal(): void;
+* @public
+*/
+export declare interface InfiltrationLocation {
+  location: ILocation;
+  reward: InfiltrationReward;
+  difficulty: number;
 }
 
 /**
- * Collection of all functions passed to scripts
- * @public
- * @remarks
- * <b>Basic ns1 usage example:</b>
- * ```ts
- *  // Basic ns functions can be used directly
- *  getHostname();
- *  // Some related functions are gathered within a common namespace
- *  stock.getPrice();
- * ```
- * {@link https://bitburner.readthedocs.io/en/latest/netscript/netscript1.html| ns1 in-game docs}
- * <hr>
- * <b>Basic ns2 usage example:</b>
- * ```ts
- * export async function main(ns) {
- *  // Basic ns functions can be accessed on the ns object
- *  ns.getHostname();
- *  // Some related functions are gathered under a sub-property of the ns object
- *  ns.stock.getPrice();
- *  // Some functions need to be awaited
- *  await ns.hack('n00dles');
- * }
- * ```
- * {@link https://bitburner.readthedocs.io/en/latest/netscript/netscriptjs.html| ns2 in-game docs}
- * <hr>
- */
-export interface NS {
+* @public
+*/
+export declare interface InfiltrationReward {
+  tradeRep: number;
+  sellCash: number;
+  SoARep: number;
+}
+
+/**
+* Corporation investment offer
+* @public
+*/
+export declare interface InvestmentOffer {
+  /** Amount of funds you will get from this investment */
+  funds: number;
+  /** Amount of share you will give in exchange for this investment */
+  shares: number;
+  /** Current round of funding (max 4) */
+  round: number;
+}
+
+/**
+* Interface Styles
+* @internal
+*/
+export declare interface IStyleSettings {
+  fontFamily: string;
+  lineHeight: number;
+}
+
+/**
+* Material in a warehouse
+* @public
+*/
+export declare interface Material {
+  /** Name of the material */
+  name: string;
+  /** Amount of material  */
+  qty: number;
+  /** Quality of the material */
+  qlt: number;
+  /** Demand for the material, only present if "Market Research - Demand" unlocked */
+  dmd: number | undefined;
+  /** Competition for the material, only present if "Market Research - Competition" unlocked */
+  cmp: number | undefined;
+  /** Amount of material produced  */
+  prod: number;
+  /** Amount of material sold */
+  sell: number;
+  /** Cost to buy material */
+  cost: number;
+  /** Sell cost, can be "MP+5" */
+  sCost: string | number;
+  /** Export orders */
+  exp: Export[];
+}
+
+/**
+* @public
+*/
+export declare interface Multipliers {
+  hacking_chance: number;
+  hacking_speed: number;
+  hacking_money: number;
+  hacking_grow: number;
+  hacking: number;
+  hacking_exp: number;
+  strength: number;
+  strength_exp: number;
+  defense: number;
+  defense_exp: number;
+  dexterity: number;
+  dexterity_exp: number;
+  agility: number;
+  agility_exp: number;
+  charisma: number;
+  charisma_exp: number;
+  hacknet_node_money: number;
+  hacknet_node_purchase_cost: number;
+  hacknet_node_ram_cost: number;
+  hacknet_node_core_cost: number;
+  hacknet_node_level_cost: number;
+  company_rep: number;
+  faction_rep: number;
+  work_money: number;
+  crime_success: number;
+  crime_money: number;
+  bladeburner_max_stamina: number;
+  bladeburner_stamina_gain: number;
+  bladeburner_analysis: number;
+  bladeburner_success_chance: number;
+}
+
+/**
+* Object representing a port. A port is a serialized queue.
+* @public
+*/
+export declare interface NetscriptPort {
+  /**
+   * Write data to a port.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns The data popped off the queue if it was full.
+   */
+  write(value: string | number): null | string | number;
+
+  /**
+   * Attempt to write data to the port.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns True if the data was added to the port, false if the port was full
+   */
+  tryWrite(value: string | number): boolean;
+
+  /**
+   * Shift an element out of the port.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function will remove the first element from the port and return it.
+   * If the port is empty, then the string “NULL PORT DATA” will be returned.
+   * @returns the data read.
+   */
+  read(): string | number;
+
+  /**
+   * Retrieve the first element from the port without removing it.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * This function is used to peek at the data from a port. It returns the
+   * first element in the specified port without removing that element. If
+   * the port is empty, the string “NULL PORT DATA” will be returned.
+   * @returns the data read
+   */
+  peek(): string | number;
+
+  /**
+   * Check if the port is full.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns true if the port is full, otherwise false
+   */
+  full(): boolean;
+
+  /**
+   * Check if the port is empty.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns true if the port is empty, otherwise false
+   */
+  empty(): boolean;
+
+  /**
+   * Empties all data from the port.
+   * @remarks
+   * RAM cost: 0 GB
+   */
+  clear(): void;
+}
+
+/**
+* Object representing all the values related to a hacknet node.
+* @public
+*/
+export declare interface NodeStats {
+  /** Node's name */
+  name: string;
+  /** Node's level */
+  level: number;
+  /** Node's RAM (GB) */
+  ram: number;
+  /** Node's used RAM (GB) */
+  ramUsed?: number;
+  /** Node's number of cores */
+  cores: number;
+  /** Cache level. Only applicable for Hacknet Servers */
+  cache?: number;
+  /** Hash Capacity provided by this Node. Only applicable for Hacknet Servers */
+  hashCapacity?: number;
+  /** Node's production per second */
+  production: number;
+  /** Number of seconds since Node has been purchased */
+  timeOnline: number;
+  /** Total number of money Node has produced */
+  totalProduction: number;
+}
+
+/**
+* Collection of all functions passed to scripts
+* @public
+* @remarks
+* <b>Basic ns1 usage example:</b>
+* ```ts
+*  // Basic ns functions can be used directly
+*  getHostname();
+*  // Some related functions are gathered within a common namespace
+*  stock.getPrice();
+* ```
+* {@link https://bitburner.readthedocs.io/en/latest/netscript/netscript1.html| ns1 in-game docs}
+* <hr>
+* <b>Basic ns2 usage example:</b>
+* ```ts
+* export async function main(ns) {
+*  // Basic ns functions can be accessed on the ns object
+*  ns.getHostname();
+*  // Some related functions are gathered under a sub-property of the ns object
+*  ns.stock.getPrice();
+*  // Some functions need to be awaited
+*  await ns.hack('n00dles');
+* }
+* ```
+* {@link https://bitburner.readthedocs.io/en/latest/netscript/netscriptjs.html| ns2 in-game docs}
+* <hr>
+*/
+export declare interface NS {
   /**
    * Namespace for hacknet functions.
    * @remarks RAM cost: 4 GB
    */
   readonly hacknet: Hacknet;
-
   /**
+   *
    * Namespace for bladeburner functions.
    * @remarks RAM cost: 0 GB
    */
   readonly bladeburner: Bladeburner;
-
   /**
+   *
    * Namespace for codingcontract functions.
    * @remarks RAM cost: 0 GB
    */
   readonly codingcontract: CodingContract;
-
   /**
+   *
    * Namespace for gang functions.
    * @remarks RAM cost: 0 GB
    */
   readonly gang: Gang;
-
   /**
+   *
    * Namespace for sleeve functions.
    * @remarks RAM cost: 0 GB
    */
   readonly sleeve: Sleeve;
-
   /**
+   *
    * Namespace for stock functions.
-   * @remarks RAM cost: 0 GB
+   * @remarks
+   * RAM cost: 0 GB
    */
   readonly stock: TIX;
-
   /**
+   *
    * Namespace for formulas functions.
-   * @remarks RAM cost: 0 GB
+   * @remarks
+   * RAM cost: 0 GB
    */
   readonly formulas: Formulas;
-
   /**
    * Namespace for stanek functions.
    * RAM cost: 0 GB
    */
   readonly stanek: Stanek;
-
   /**
    * Namespace for infiltration functions.
    * RAM cost: 0 GB
    */
   readonly infiltration: Infiltration;
-
   /**
    * Namespace for corporation functions.
    * RAM cost: 1022.4 GB
@@ -4592,7 +2802,8 @@ export interface NS {
 
   /**
    * Namespace for grafting functions.
-   * @remarks RAM cost: 0 GB
+   * @remarks
+   * RAM cost: 0 GB
    */
   readonly grafting: Grafting;
 
@@ -4887,77 +3098,6 @@ export interface NS {
    * @remarks
    * RAM cost: 0 GB
    *
-   * If the argument is a string, you can color code your message by prefixing your
-   * string with one of these strings:
-   *
-   * - `"ERROR"`: The whole string will be printed in red. Use this prefix to indicate
-   *   that an error has occurred.
-   *
-   * - `"SUCCESS"`: The whole string will be printed in green, similar to the default
-   *   theme of the Terminal. Use this prefix to indicate that something is correct.
-   *
-   * - `"WARN"`: The whole string will be printed in yellow. Use this prefix to
-   *   indicate that you or a user of your script should be careful of something.
-   *
-   * - `"INFO"`: The whole string will be printed in purplish blue. Use this prefix to
-   *   remind yourself or a user of your script of something. Think of this prefix as
-   *   indicating an FYI (for your information).
-   *
-   * For custom coloring, use ANSI escape sequences. The examples below use the Unicode
-   * escape code `\u001b`. The color coding also works if `\u001b` is replaced with
-   * the hexadecimal escape code `\x1b`. The Bash escape code `\e` is not supported.
-   * The octal escape code `\033` is not allowed because the game runs JavaScript in
-   * strict mode.
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * // Default color coding.
-   * print("ERROR means something's wrong.");
-   * print("SUCCESS means everything's OK.");
-   * print("WARN Tread with caution!");
-   * print("WARNING, warning, danger, danger!");
-   * print("WARNing! Here be dragons.");
-   * print("INFO for your I's only (FYI).");
-   * print("INFOrmation overload!");
-   * // Custom color coding.
-   * var cyan = "\u001b[36m";
-   * var green = "\u001b[32m";
-   * var red = "\u001b[31m";
-   * var reset = "\u001b[0m";
-   * var msgError = red + "Ugh! What a mess." + reset;
-   * var msgSuccess = green + "Well done!" + reset;
-   * var msgMixed = cyan + "ERROR Should this be in red?" + reset;
-   * print(msgError);
-   * print(msgSuccess);
-   * print(msgMixed);
-   * tail();
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * // Default color coding.
-   * ns.print("ERROR means something's wrong.");
-   * ns.print("SUCCESS means everything's OK.");
-   * ns.print("WARN Tread with caution!");
-   * ns.print("WARNING, warning, danger, danger!");
-   * ns.print("WARNing! Here be dragons.");
-   * ns.print("INFO for your I's only (FYI).");
-   * ns.print("INFOrmation overload!");
-   * // Custom color coding.
-   * const cyan = "\u001b[36m";
-   * const green = "\u001b[32m";
-   * const red = "\u001b[31m";
-   * const reset = "\u001b[0m";
-   * const msgError = "Ugh! What a mess.";
-   * const msgSuccess = "Well done!";
-   * const msgMixed = "ERROR Should this be in red?";
-   * ns.print(`${red + msgError + reset}`);
-   * ns.print(`${green + msgSuccess + reset}`);
-   * ns.print(`${cyan + msgMixed + reset}`);
-   * ns.tail();
-   * ```
-   *
    * @param args - Value(s) to be printed.
    */
   print(...args: any[]): void;
@@ -4967,38 +3107,8 @@ export interface NS {
    * @remarks
    * RAM cost: 0 GB
    *
-   * - See {@link NS.print | print} for how to add color to your printed strings.
-   *
-   * - For more detail, see: https://github.com/alexei/sprintf.js
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * var name = "Bit";
-   * var age = 4;
-   * printf("My name is %s.", name);
-   * printf("I'm %d seconds old.", age);
-   * printf("My age in binary is %b.", age);
-   * printf("My age in scientific notation is %e.", age);
-   * printf("In %d seconds, I'll be %s.", 6, "Byte");
-   * printf("Am I a nibble? %t", (4 == age));
-   * tail();
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * const name = "Bit";
-   * const age = 4;
-   * ns.printf("My name is %s.", name);
-   * ns.printf("I'm %d seconds old.", age);
-   * ns.printf("My age in binary is %b.", age);
-   * ns.printf("My age in scientific notation is %e.", age);
-   * ns.printf("In %d seconds, I'll be %s.", 6, "Byte");
-   * ns.printf("Am I a nibble? %t", (4 == age));
-   * ns.tail();
-   * ```
-   *
-   * @param format - Format of the message.
+   * see: https://github.com/alexei/sprintf.js
+   * @param format - format of the message
    * @param args - Value(s) to be printed.
    */
   printf(format: string, ...args: any[]): void;
@@ -5007,8 +3117,6 @@ export interface NS {
    * Prints one or more values or variables to the Terminal.
    * @remarks
    * RAM cost: 0 GB
-   *
-   * See {@link NS.print | print} for how to add color to your printed strings.
    *
    * @param args - Value(s) to be printed.
    */
@@ -5019,14 +3127,9 @@ export interface NS {
    * @remarks
    * RAM cost: 0 GB
    *
-   * - See {@link NS.print | print} for how to add color to your printed strings.
-   *
-   * - See {@link NS.printf | printf} for examples on formatted strings.
-   *
-   * - For more detail, see: https://github.com/alexei/sprintf.js
-   *
-   * @param format - Format of the message.
-   * @param values - Value(s) to be printed.
+   * see: https://github.com/alexei/sprintf.js
+   * @param format - format of the message
+   * @param msg - Value to be printed.
    */
   tprintf(format: string, ...values: any[]): void;
 
@@ -5231,43 +3334,8 @@ export interface NS {
    * node way from the specified target server. The hostnames in the returned
    * array are strings.
    *
-   * @example
-   * ```ts
-   * // NS1
-   * // All servers that are one hop from the current server.
-   * tprint("Neighbors of current server.");
-   * var neighbor = scan();
-   * for (var i = 0; i < neighbor.length; i++) {
-   *     tprint(neighbor[i]);
-   * }
-   * // All neighbors of n00dles.
-   * var target = "n00dles";
-   * neighbor = scan(target);
-   * tprintf("Neighbors of %s.", target);
-   * for (var i = 0; i < neighbor.length; i++) {
-   *     tprint(neighbor[i]);
-   * }
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * // All servers that are one hop from the current server.
-   * ns.tprint("Neighbors of current server.");
-   * let neighbor = ns.scan();
-   * for (let i = 0; i < neighbor.length; i++) {
-   *     ns.tprint(neighbor[i]);
-   * }
-   * // All neighbors of n00dles.
-   * const target = "n00dles";
-   * neighbor = ns.scan(target);
-   * ns.tprintf("Neighbors of %s.", target);
-   * for (let i = 0; i < neighbor.length; i++) {
-   *     ns.tprint(neighbor[i]);
-   * }
-   * ```
-   *
-   * @param host - Optional. Hostname of the server to scan, default to current server.
-   * @returns Returns an array of hostnames.
+   * @param host - Optional, Hostname of the server to scan, default to current server.
+   * @returns Returns an string of hostnames.
    */
   scan(host?: string): string[];
 
@@ -5451,10 +3519,10 @@ export interface NS {
    * @remarks
    * RAM cost: 1.3 GB
    *
-   * Run a script as a separate process on a specified server. This is similar to the function {@link NS.run | run}
+   * Run a script as a separate process on a specified server. This is similar to the run function
    * except that it can be used to run a script on any server, instead of just the current server.
    *
-   * If the script was successfully started, then this function returns the PID of that script.
+   * If the script was successfully started, then this functions returns the PID of that script.
    * Otherwise, it returns 0.
    *
    * PID stands for Process ID. The PID is a unique identifier for each script.
@@ -5465,40 +3533,30 @@ export interface NS {
    * @example
    * ```ts
    * // NS1:
-   * // The simplest way to use the exec command is to call it with just the script name
-   * // and the target server. The following example will try to run generic-hack.script
-   * // on the foodnstuff server.
+   * //The simplest way to use the exec command is to call it with just the script name and the target server. The following example will try to run generic-hack.script on the foodnstuff server:
    * exec("generic-hack.script", "foodnstuff");
    *
-   * // The following example will try to run the script generic-hack.script on the
-   * // joesguns server with 10 threads.
+   * //The following example will try to run the script generic-hack.script on the joesguns server with 10 threads:
    * exec("generic-hack.script", "joesguns", 10);
    *
-   * // This last example will try to run the script foo.script on the foodnstuff server
-   * // with 5 threads. It will also pass the number 1 and the string “test” in as
-   * // arguments to the script.
+   * //This last example will try to run the script foo.script on the foodnstuff server with 5 threads. It will also pass the number 1 and the string “test” in as arguments to the script:
    * exec("foo.script", "foodnstuff", 5, 1, "test");
    * ```
-   * @example
+   * * @example
    * ```ts
    * // NS2:
-   * // The simplest way to use the exec command is to call it with just the script name
-   * // and the target server. The following example will try to run generic-hack.script
-   * // on the foodnstuff server.
+   * //The simplest way to use the exec command is to call it with just the script name and the target server. The following example will try to run generic-hack.script on the foodnstuff server:
    * ns.exec("generic-hack.script", "foodnstuff");
    *
-   * // The following example will try to run the script generic-hack.script on the
-   * // joesguns server with 10 threads.
+   * //The following example will try to run the script generic-hack.script on the joesguns server with 10 threads:
    * ns.exec("generic-hack.script", "joesguns", 10);
    *
-   * // This last example will try to run the script foo.script on the foodnstuff server
-   * // with 5 threads. It will also pass the number 1 and the string “test” in as
-   * // arguments to the script.
+   * //This last example will try to run the script foo.script on the foodnstuff server with 5 threads. It will also pass the number 1 and the string “test” in as arguments to the script:
    * ns.exec("foo.script", "foodnstuff", 5, 1, "test");
    * ```
    * @param script - Filename of script to execute.
    * @param host - Hostname of the `target server` on which to execute the script.
-   * @param numThreads - Optional thread count for new script. Set to 1 by default. Will be rounded down to the nearest integer.
+   * @param numThreads - Optional thread count for new script. Set to 1 by default. Will be rounded to nearest integer.
    * @param args - Additional arguments to pass into the new script that is being run. Note that if any arguments are being passed into the new script, then the third argument numThreads must be filled in with a value.
    * @returns Returns the PID of a successfully started script, and 0 otherwise.
    */
@@ -6085,9 +4143,9 @@ export interface NS {
    * @returns The info about the running script if found, and null otherwise.
    */
   getRunningScript(
-    filename?: FilenameOrPID,
-    hostname?: string,
-    ...args: (string | number | boolean)[]
+  filename?: FilenameOrPID,
+  hostname?: string,
+  ...args: (string | number | boolean)[]
   ): RunningScript | null;
 
   /**
@@ -6165,39 +4223,6 @@ export interface NS {
   purchaseServer(hostname: string, ram: number): string;
 
   /**
-   * Get cost of upgrading a purchased server to the given ram.
-   * @remarks
-   * RAM cost: 0.1 GB
-   *
-   * @param hostname - Hostname of the server to upgrade.
-   * @param ram - Amount of RAM of the purchased server, in GB. Must be a power of 2 (2, 4, 8, 16, etc.). Maximum value of 1048576 (2^20).
-   * @returns The price to upgrade.
-   */
-  getPurchasedServerUpgradeCost(hostname: string, ram: number): number;
-
-  /**
-   * Upgrade a purchased servers ram.
-   * @remarks
-   * RAM cost: 0.25 GB
-   *
-   * @param hostname - Hostname of the server to upgrade.
-   * @param ram - Amount of RAM of the purchased server, in GB. Must be a power of 2 (2, 4, 8, 16, etc.). Maximum value of 1048576 (2^20).
-   * @returns True if the upgrade succeeded.
-   */
-  upgradePurchasedServer(hostname: string, ram: number): boolean;
-
-  /**
-   * Rename a purchased server.
-   * @remarks
-   * RAM cost: 2.00 GB
-   *
-   * @param hostname - current server hostname
-   * @param newName - new server hostname
-   * @returns True if the upgrade succeeded.
-   */
-  renamePurchasedServer(hostname: string, newName: string): boolean;
-
-  /**
    * Delete a purchased server.
    * @remarks
    * 2.25 GB
@@ -6255,7 +4280,7 @@ export interface NS {
    * @param data - Data to write.
    * @param mode - Defines the write mode.
    */
-  write(filename: string, data?: string, mode?: "w" | "a"): void;
+  write(filename: string, data?: string[] | number | string, mode?: "w" | "a"): void;
 
   /**
    * Attempt to write to a port.
@@ -6270,7 +4295,7 @@ export interface NS {
    * @param data - Data to write.
    * @returns True if the data is successfully written to the port, and false otherwise.
    */
-  tryWritePort(port: number, data: string | number): boolean;
+  tryWritePort(port: number, data: string | number): Promise<boolean>;
 
   /**
    * Read content of a file.
@@ -6317,7 +4342,7 @@ export interface NS {
    * @remarks
    * RAM cost: 0 GB
    *
-   * Delete all data from the underlying queue.
+   * Deleta all data from the underlying queue.
    *
    * @param handle - Port to clear.
    */
@@ -6559,8 +4584,8 @@ export interface NS {
    *
    * see: https://github.com/alexei/sprintf.js
    * @param format - String to format.
-   * @param args - Formatting arguments.
-   * @returns Formatted text.
+   * @param args - Formating arguments.
+   * @returns Formated text.
    */
   sprintf(format: string, ...args: any[]): string;
 
@@ -6571,8 +4596,8 @@ export interface NS {
    *
    * see: https://github.com/alexei/sprintf.js
    * @param format - String to format.
-   * @param args - Formatting arguments.
-   * @returns Formatted text.
+   * @param args - Formating arguments.
+   * @returns Formated text.
    */
   vsprintf(format: string, args: any[]): string;
 
@@ -6582,13 +4607,13 @@ export interface NS {
    * RAM cost: 0 GB
    *
    * Converts a number into a string with the specified formatter.
-   * This uses the numeral.js library, so the formatters must be compatible with that.
+   * This uses the numeraljs library, so the formatters must be compatible with that.
    * This is the same function that the game itself uses to display numbers.
    *
    * see: http://numeraljs.com/
    * @param n - Number to format.
    * @param format - Formatter.
-   * @returns Formatted number.
+   * @returns Formated number.
    */
   nFormat(n: number, format: string): string;
 
@@ -6608,88 +4633,20 @@ export interface NS {
    * @remarks
    * RAM cost: 0 GB
    *
-   * Prompts the player with a dialog box. Here is an explanation of the various options.
-   *
-   * - `options.type` is not provided to the function. If `options.type` is left out and
-   *   only a string is passed to the function, then the default behavior is to create a
-   *   boolean dialog box.
-   *
-   * - `options.type` has value `undefined` or `"boolean"`. A boolean dialog box is
-   *   created. The player is shown "Yes" and "No" prompts, which return true and false
-   *   respectively. The script's execution is halted until the player presses either the
-   *   "Yes" or "No" button.
-   *
-   * - `options.type` has value `"text"`. The player is given a text field to enter
-   *   free-form text. The script's execution is halted until the player enters some text
-   *   and/or presses the "Confirm" button.
-   *
-   * - `options.type` has value `"select"`. The player is shown a drop-down field.
-   *   Choosing type `"select"` will require an array to be passed via the
-   *   `options.choices` property. The array can be an array of strings, an array of
-   *   numbers (not BigInt numbers), or a mixture of both numbers and strings. Any other
-   *   types of array elements will result in an error or an undefined/unexpected
-   *   behavior. The `options.choices` property will be ignored if `options.type` has a
-   *   value other than `"select"`. The script's execution is halted until the player
-   *   chooses one of the provided options and presses the "Confirm" button.
-   *
-   * @example
-   * ```ts
-   * // NS1
-   * // A Yes/No question. The default is to create a boolean dialog box.
-   * var queryA = "Do you enjoy Bitburner?";
-   * var resultA = prompt(queryA);
-   * tprint(queryA + " " + resultA);
-   *
-   * // Another Yes/No question. Can also create a boolean dialog box by explicitly
-   * // passing the option {"type": "boolean"}.
-   * var queryB = "Is programming fun?";
-   * var resultB = prompt(queryB, { type: "boolean" });
-   * tprint(queryB + " " + resultB);
-   *
-   * // Free-form text box.
-   * var resultC = prompt("Please enter your name.", { type: "text" });
-   * tprint("Hello, " + resultC + ".");
-   *
-   * // A drop-down list.
-   * var resultD = prompt("Please select your favorite fruit.", {
-   *     type: "select",
-   *     choices: ["Apple", "Banana", "Orange", "Pear", "Strawberry"]
-   * });
-   * tprint("Your favorite fruit is " + resultD.toLowerCase() + ".");
-   * ```
-   * @example
-   * ```ts
-   * // NS2
-   * // A Yes/No question. The default is to create a boolean dialog box.
-   * const queryA = "Do you enjoy Bitburner?";
-   * const resultA = await ns.prompt(queryA);
-   * ns.tprint(`${queryA} ${resultA}`);
-   *
-   * // Another Yes/No question. Can also create a boolean dialog box by explicitly
-   * // passing the option {"type": "boolean"}.
-   * const queryB = "Is programming fun?";
-   * const resultB = await ns.prompt(queryB, { type: "boolean" });
-   * ns.tprint(`${queryB} ${resultB}`);
-   *
-   * // Free-form text box.
-   * const resultC = await ns.prompt("Please enter your name.", { type: "text" });
-   * ns.tprint(`Hello, ${resultC}.`);
-   *
-   * // A drop-down list.
-   * const resultD = await ns.prompt("Please select your favorite fruit.", {
-   *     type: "select",
-   *     choices: ["Apple", "Banana", "Orange", "Pear", "Strawberry"]
-   * });
-   * ns.tprint(`Your favorite fruit is ${resultD.toLowerCase()}.`);
-   * ```
+   * Prompts the player with a dialog box. If `options.type` is undefined or "boolean",
+   * the player is shown "Yes" and "No" prompts, which return true and false respectively.
+   * Passing a type of "text" will give the player a text field and a value of "select"
+   * will show a drop-down field. Choosing type "select" will require an array or object
+   * to be passed via the `options.choices` property.
+   * The script’s execution is halted until the player selects one of the options.
    *
    * @param txt - Text to appear in the prompt dialog box.
    * @param options - Options to modify the prompt the player is shown.
-   * @returns True if the player clicks “Yes”; false if the player clicks “No”; or the value entered by the player.
+   * @returns True if the player click “Yes”; false if the player clicks “No”; or the value entered by the player.
    */
   prompt(
-    txt: string,
-    options?: { type?: "boolean" | "text" | "select"; choices?: string[] },
+  txt: string,
+  options?: { type?: "boolean" | "text" | "select" | undefined; choices?: string[] },
   ): Promise<boolean | string>;
 
   /**
@@ -6704,7 +4661,7 @@ export interface NS {
    * @param variant - Type of toast, must be one of success, info, warning, error. Defaults to success.
    * @param duration - Duration of toast in ms. Can also be `null` to create a persistent toast. Defaults to 2000
    */
-  toast(msg: string, variant?: ToastVariant, duration?: number | null): void;
+  toast(msg: string, variant?: ToastVariantValues, duration?: number | null): void;
 
   /**
    * Download a file from the internet.
@@ -6758,7 +4715,7 @@ export interface NS {
    * @remarks
    * RAM cost: 4 GB
    *
-   * Returns an object containing the current (or supplied) BitNode multipliers.
+   * Returns an object containing the current BitNode multipliers.
    * This function requires you to be in Bitnode 5 or have Source-File 5 in order to run.
    * The multipliers are returned in decimal forms (e.g. 1.5 instead of 150%).
    * The multipliers represent the difference between the current BitNode and
@@ -6784,7 +4741,7 @@ export interface NS {
    * ```
    * @returns Object containing the current BitNode multipliers.
    */
-  getBitNodeMultipliers(n?: number, lvl?: number): BitNodeMultipliers;
+  getBitNodeMultipliers(): BitNodeMultipliers;
 
   /**
    * Get information about the player.
@@ -6796,17 +4753,6 @@ export interface NS {
    * @returns Player info
    */
   getPlayer(): Player;
-
-  /**
-   * Get information about the sources of income for this run.
-   * @remarks
-   * RAM cost: 1.0 GB
-   *
-   * Returns an object with information on the income sources for this run
-   *
-   * @returns Money sources
-   */
-  getMoneySources(): MoneySources;
 
   /**
    * Add callback function when the script dies
@@ -6904,27 +4850,46 @@ export interface NS {
 }
 
 /** @public */
-declare const enums = {
-  toast: {
-    SUCCESS: "success",
-    WARNING: "warning",
-    ERROR: "error",
-    INFO: "info",
-  },
-};
+export declare interface NSEnums {
+  toast: typeof ToastVariant;
+}
 
-/** @public */
-type ToastVariant = ValuesFrom<typeof enums.toast>;
-
-/** @public */
-export type NSEnums = typeof enums;
 /**
- * Corporation Office API
- * @remarks
- * requires the Office API upgrade from your corporation.
- * @public
- */
-export interface OfficeAPI {
+* Office for a division in a city.
+* @public
+*/
+export declare interface Office {
+  /** City of the office */
+  loc: string;
+  /** Maximum number of employee */
+  size: number;
+  /** Minimum amount of energy of the employees */
+  minEne: number;
+  /** Maximum amount of energy of the employees */
+  maxEne: number;
+  /** Minimum happiness of the employees */
+  minHap: number;
+  /** Maximum happiness of the employees */
+  maxHap: number;
+  /** Minimum morale of the employees */
+  minMor: number;
+  /** Maximum morale of the employees */
+  maxMor: number;
+  /** Name of all the employees */
+  employees: string[];
+  /** Production of the employees */
+  employeeProd: EmployeeJobs;
+  /** Positions of the employees */
+  employeeJobs: EmployeeJobs;
+}
+
+/**
+* Corporation Office API
+* @remarks
+* Requires the Office API upgrade from your corporation.
+* @public
+*/
+export declare interface OfficeAPI {
   /**
    * Assign an employee to a job.
    * @param divisionName - Name of the division
@@ -7034,12 +4999,2203 @@ export interface OfficeAPI {
 }
 
 /**
- * Corporation Warehouse API
- * @remarks
- * Requires the Warehouse API upgrade from your corporation.
- * @public
- */
-export interface WarehouseAPI {
+* @public
+*/
+export declare enum OrderTypes {
+  LimitBuy = "Limit Buy Order",
+  LimitSell = "Limit Sell Order",
+  StopBuy = "Stop Buy Order",
+  StopSell = "Stop Sell Order",
+}
+
+/**
+* @public
+*/
+export declare interface Player {
+  hp: HP;
+  skills: Skills;
+  exp: Skills;
+  mults: Multipliers;
+  numPeopleKilled: number;
+  money: number;
+  city: string;
+  location: string;
+  bitNodeN: number;
+  totalPlaytime: number;
+  playtimeSinceLastAug: number;
+  playtimeSinceLastBitnode: number;
+  jobs: Record<string, string>;
+  factions: string[];
+  tor: boolean;
+  hasCorporation: boolean;
+  inBladeburner: boolean;
+  entropy: number;
+}
+
+/**
+* @public
+*/
+export declare type PortData = string | number;
+
+/**
+* @public
+*/
+export declare enum PositionTypes {
+  Long = "L",
+  Short = "S",
+}
+
+/**
+* @public
+*/
+export declare interface PossibleInfiltrationLocation {
+  city: string;
+  name: string;
+}
+
+/**
+* A single process on a server.
+* @public
+*/
+export declare interface ProcessInfo {
+  /** Script name. */
+  filename: string;
+  /** Number of threads script is running with */
+  threads: number;
+  /** Script's arguments */
+  args: (string | number | boolean)[];
+  /** Process ID */
+  pid: number;
+}
+
+/**
+* Product in a warehouse
+* @public
+*/
+export declare interface Product {
+  /** Name of the product */
+  name: string;
+  /** Demand for the product, only present if "Market Research - Demand" unlocked */
+  dmd: number | undefined;
+  /** Competition for the product, only present if "Market Research - Competition" unlocked */
+  cmp: number | undefined;
+  /** Product Rating */
+  rat: number;
+  /** Product Properties. The data is \{qlt, per, dur, rel, aes, fea\} */
+  properties: { [key: string]: number };
+  /** Production cost */
+  pCost: number;
+  /** Sell cost, can be "MP+5" */
+  sCost: string | number;
+  /** Data refers to the production, sale, and quantity of the products
+   * These values are specific to a city
+   * For each city, the data is [qty, prod, sell] */
+  cityData: { [key: string]: number[] };
+  /** Creation progress - A number between 0-100 representing percentage */
+  developmentProgress: number;
+}
+
+/**
+* @public
+*/
+export declare interface RecentScript extends RunningScript {
+  /** Timestamp of when the script was killed */
+  timeOfDeath: Date;
+}
+
+/**
+* Reputation formulas
+* @public
+*/
+export declare interface ReputationFormulas {
+  /**
+   * Calculate the total required amount of faction reputation to reach a target favor.
+   * @param favor - target faction favor.
+   * @returns The calculated faction reputation required.
+   */
+  calculateFavorToRep(favor: number): number;
+  /**
+   * Calculate the resulting faction favor of a total amount of reputation.
+   * (Faction favor is gained whenever you install an Augmentation.)
+   * @param rep - amount of reputation.
+   * @returns The calculated faction favor.
+   */
+  calculateRepToFavor(rep: number): number;
+
+  /**
+   * Calculate how much rep would be gained.
+   * @param amount - Amount of money donated
+   * @param player - Player info from {@link NS.getPlayer | getPlayer}
+   */
+  repFromDonation(amount: number, player: Player): number;
+}
+
+/**
+* @public
+*/
+export declare interface RunningScript {
+  /** Arguments the script was called with */
+  args: (string | number | boolean)[];
+  /** Filename of the script */
+  filename: string;
+  /**
+   * Script logs as an array. The newest log entries are at the bottom.
+   * Timestamps, if enabled, are placed inside `[brackets]` at the start of each line.
+   **/
+  logs: string[];
+  /** Total amount of hacking experience earned from this script when offline */
+  offlineExpGained: number;
+  /** Total amount of money made by this script when offline */
+  offlineMoneyMade: number;
+  /** Number of seconds that the script has been running offline */
+  offlineRunningTime: number;
+  /** Total amount of hacking experience earned from this script when online */
+  onlineExpGained: number;
+  /** Total amount of money made by this script when online */
+  onlineMoneyMade: number;
+  /** Number of seconds that this script has been running online */
+  onlineRunningTime: number;
+  /** Process ID. Must be an integer */
+  pid: number;
+  /** How much RAM this script uses for ONE thread */
+  ramUsage: number;
+  /** Hostname of the server on which this script runs */
+  server: string;
+  /** Number of threads that this script runs with */
+  threads: number;
+}
+
+/**
+* @public
+*/
+export declare type ScriptArg = string | number | boolean;
+
+/**
+* A single server.
+* @public
+*/
+export declare interface Server {
+  /**
+   * How many CPU cores this server has. Maximum of 8.
+   * Affects magnitude of grow and weaken.
+   */
+  cpuCores: number;
+
+  /** Flag indicating whether the FTP port is open */
+  ftpPortOpen: boolean;
+
+  /** Flag indicating whether player has admin/root access to this server */
+  hasAdminRights: boolean;
+
+  /** Hostname. Must be unique */
+  hostname: string;
+
+  /** Flag indicating whether HTTP Port is open */
+  httpPortOpen: boolean;
+
+  /** IP Address. Must be unique */
+  ip: string;
+
+  /** Flag indicating whether player is currently connected to this server */
+  isConnectedTo: boolean;
+
+  /** RAM (GB) available on this server */
+  maxRam: number;
+
+  /**
+   * Name of company/faction/etc. that this server belongs to.
+   * Optional, not applicable to all Servers
+   */
+  organizationName: string;
+
+  /** RAM (GB) used. i.e. unavailable RAM */
+  ramUsed: number;
+
+  /** Flag indicating whether SMTP Port is open */
+  smtpPortOpen: boolean;
+
+  /** Flag indicating whether SQL Port is open */
+  sqlPortOpen: boolean;
+
+  /** Flag indicating whether the SSH Port is open */
+  sshPortOpen: boolean;
+
+  /** Flag indicating whether this is a purchased server */
+  purchasedByPlayer: boolean;
+
+  /** Flag indicating whether this server has a backdoor installed by a player */
+  backdoorInstalled: boolean;
+
+  /**
+   * Initial server security level
+   * (i.e. security level when the server was created)
+   */
+  baseDifficulty: number;
+
+  /** Server Security Level */
+  hackDifficulty: number;
+
+  /** Minimum server security level that this server can be weakened to */
+  minDifficulty: number;
+
+  /** How much money currently resides on the server and can be hacked */
+  moneyAvailable: number;
+
+  /** Maximum amount of money that this server can hold */
+  moneyMax: number;
+
+  /** Number of open ports required in order to gain admin/root access */
+  numOpenPortsRequired: number;
+
+  /** How many ports are currently opened on the server */
+  openPortCount: number;
+
+  /** Hacking level required to hack this server */
+  requiredHackingSkill: number;
+
+  /**
+   * Parameter that affects how effectively this server's money can
+   * be increased using the grow() Netscript function
+   */
+  serverGrowth: number;
+}
+
+/**
+* Singularity API
+* @remarks
+* This API requires Source-File 4 to use. The RAM cost of all these functions is multiplied by 16/4/1 based on Source-File 4 levels.
+* @public
+*/
+export declare interface Singularity {
+  /**
+   * Backup game save.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function will automatically opens the backup save prompt and claim the free faction favour if available.
+   *
+   */
+  exportGame(): void;
+
+  /**
+   * Returns Backup save bonus availability.
+   * @remarks
+   * RAM cost: 0.5 GB * 16/4/1
+   *
+   *
+   * This function will check if there is a bonus for backing up your save.
+   *
+   */
+  exportGameBonus(): boolean;
+
+  /**
+   * Take university class.
+   *
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * This function will automatically set you to start taking a course at a university.
+   * If you are already in the middle of some “working” action (such as working at a
+   * company, for a faction, or on a program), then running this function will automatically
+   * cancel that action and give you your earnings.
+   *
+   * The cost and experience gains for all of these universities and classes are the same as
+   * if you were to manually visit and take these classes.
+   *
+   * @param universityName - Name of university. You must be in the correct city for whatever university you specify.
+   * @param courseName - Name of course.
+   * @param focus - Acquire player focus on this class. Optional. Defaults to true.
+   * @returns True if action is successfully started, false otherwise.
+   */
+  universityCourse(universityName: string, courseName: string, focus?: boolean): boolean;
+
+  /**
+   * Workout at the gym.
+   *
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+
+   * This function will automatically set you to start working out at a gym to train
+   * a particular stat. If you are already in the middle of some “working” action
+   * (such as working at a company, for a faction, or on a program), then running
+   * this function will automatically cancel that action and give you your earnings.
+   *
+   * The cost and experience gains for all of these gyms are the same as if you were
+   * to manually visit these gyms and train
+   *
+   * @param gymName - Name of gym. You must be in the correct city for whatever gym you specify.
+   * @param stat - The stat you want to train.
+   * @param focus - Acquire player focus on this gym workout. Optional. Defaults to true.
+   * @returns True if actions is successfully started, false otherwise.
+   */
+  gymWorkout(gymName: string, stat: string, focus?: boolean): boolean;
+
+  /**
+   * Travel to another city.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * This function allows the player to travel to any city. The cost for using this
+   * function is the same as the cost for traveling through the Travel Agency.
+   *
+   * @param city - City to travel to.
+   * @returns True if action is successful, false otherwise.
+   */
+  travelToCity(city: string): boolean;
+
+  /**
+   * Purchase the TOR router.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * This function allows you to automatically purchase a TOR router. The cost for
+   * purchasing a TOR router using this function is the same as if you were to
+   * manually purchase one.
+   *
+   * @returns True if actions is successful or you already own TOR router, false otherwise.
+   */
+  purchaseTor(): boolean;
+
+  /**
+   * Purchase a program from the dark web.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * This function allows you to automatically purchase programs. You MUST have a
+   * TOR router in order to use this function. The cost of purchasing programs
+   * using this function is the same as if you were purchasing them through the Dark
+   * Web using the Terminal buy command.
+   *
+   * @example
+   * ```ts
+   * // NS1
+   * purchaseProgram("brutessh.exe");
+   * ```
+   * @example
+   * ```ts
+   * // NS2
+   * ns.purchaseProgram("brutessh.exe");
+   * ```
+   * @param programName - Name of program to purchase.
+   * @returns True if the specified program is purchased, and false otherwise.
+   */
+  purchaseProgram(programName: string): boolean;
+
+  /**
+   * Check if the player is busy.
+   * @remarks
+   * RAM cost: 0.5 GB * 16/4/1
+   *
+   *
+   * Returns a boolean indicating whether or not the player is currently performing an
+   * ‘action’. These actions include working for a company/faction, studying at a university,
+   * working out at a gym, creating a program, committing a crime, or carrying out a Hacking Mission.
+   *
+   * @returns True if the player is currently performing an ‘action’, false otherwise.
+   */
+  isBusy(): boolean;
+
+  /**
+   * Stop the current action.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function is used to end whatever ‘action’ the player is currently performing.
+   * The player will receive whatever money/experience/etc. he has earned from that action.
+   *
+   * The actions that can be stopped with this function are:
+   *
+   * * Studying at a university
+   * * Working out at a gym
+   * * Working for a company/faction
+   * * Creating a program
+   * * Committing a crime
+   *
+   * This function will return true if the player’s action was ended.
+   * It will return false if the player was not performing an action when this function was called.
+   *
+   * @returns True if the player’s action was ended, false if the player was not performing an action.
+   */
+  stopAction(): boolean;
+
+  /**
+   * Upgrade home computer RAM.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will upgrade amount of RAM on the player’s home computer. The cost is
+   * the same as if you were to do it manually.
+   *
+   * This function will return true if the player’s home computer RAM is successfully upgraded, and false otherwise.
+   *
+   * @returns True if the player’s home computer RAM is successfully upgraded, and false otherwise.
+   */
+  upgradeHomeRam(): boolean;
+
+  /**
+   * Upgrade home computer cores.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will upgrade amount of cores on the player’s home computer. The cost is
+   * the same as if you were to do it manually.
+   *
+   * This function will return true if the player’s home computer cores is successfully upgraded, and false otherwise.
+   *
+   * @returns True if the player’s home computer cores is successfully upgraded, and false otherwise.
+   */
+  upgradeHomeCores(): boolean;
+
+  /**
+   * Get the price of upgrading home RAM.
+   * @remarks
+   * RAM cost: 1.5 GB * 16/4/1
+   *
+   *
+   * Returns the cost of upgrading the player’s home computer RAM.
+   *
+   * @returns Cost of upgrading the player’s home computer RAM.
+   */
+  getUpgradeHomeRamCost(): number;
+
+  /**
+   * Get the price of upgrading home cores.
+   * @remarks
+   * RAM cost: 1.5 GB * 16/4/1
+   *
+   *
+   * Returns the cost of upgrading the player’s home computer cores.
+   *
+   * @returns Cost of upgrading the player’s home computer cores.
+   */
+  getUpgradeHomeCoresCost(): number;
+
+  /**
+   * Work for a company.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will automatically set you to start working at the company
+   * at which you are employed. If you are already in the middle of some “working”
+   * action (such as working for a faction, training at a gym, or creating a program),
+   * then running this function will automatically cancel that action and give you
+   * your earnings.
+   *
+   * This function will return true if the player starts working, and false otherwise.
+   *
+   * Note that when you are working for a company, you will not actually receive your earnings (reputation, money, experience) until you FINISH the action.
+   *
+   * @example
+   * ```ts
+   * // NS1:
+   * //If you only want to work until you get 100,000 company reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
+   * while (getCompanyRep(COMPANY HERE) < VALUE) {
+   *    workForCompany();
+   *    sleep(60000);
+   * }
+   * //This way, your company reputation will be updated every minute.
+   * ```
+   * @example
+   * ```ts
+   * // NS2:
+   * //If you only want to work until you get 100,000 company reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
+   * while (ns.getCompanyRep(COMPANY HERE) < VALUE) {
+   *    ns.workForCompany();
+   *    await ns.sleep(60000);
+   * }
+   * //This way, your company reputation will be updated every minute.
+   * ```
+   * @param companyName - Name of company to work for. Must be an exact match. Optional. If not specified, this argument defaults to the last job that you worked
+   * @param focus - Acquire player focus on this work operation. Optional. Defaults to true.
+   * @returns True if the player starts working, and false otherwise.
+   */
+  workForCompany(companyName: string, focus?: boolean): boolean;
+
+  /**
+   * Quit jobs by company.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will finish work with the company provided and quit any jobs.
+   *
+   * @param companyName - Name of the company.
+   */
+  quitJob(companyName?: string): void;
+
+  /**
+   * Apply for a job at a company.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will automatically try to apply to the specified company
+   * for a position in the specified field. This function can also be used to
+   * apply for promotions by specifying the company and field you are already
+   * employed at.
+   *
+   * This function will return true if you successfully get a job/promotion,
+   * and false otherwise. Note that if you are trying to use this function to
+   * apply for a promotion and you don’t get one, it will return false.
+   *
+   * @param companyName - Name of company to apply to.
+   * @param field - Field to which you want to apply.
+   * @returns True if the player successfully get a job/promotion, and false otherwise.
+   */
+  applyToCompany(companyName: string, field: string): boolean;
+
+  /**
+   * Get company reputation.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function will return the amount of reputation you have at the specified company.
+   * If the company passed in as an argument is invalid, -1 will be returned.
+   *
+   * @param companyName - Name of the company.
+   * @returns Amount of reputation you have at the specified company.
+   */
+  getCompanyRep(companyName: string): number;
+
+  /**
+   * Get company favor.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function will return the amount of favor you have at the specified company.
+   * If the company passed in as an argument is invalid, -1 will be returned.
+   *
+   * @param companyName - Name of the company.
+   * @returns Amount of favor you have at the specified company.
+   */
+  getCompanyFavor(companyName: string): number;
+
+  /**
+   * Get company favor gain.
+   * @remarks
+   * RAM cost: 0.75 GB * 16/4/1
+   *
+   *
+   * This function will return the amount of favor you will gain for the specified
+   * company when you reset by installing Augmentations.
+   *
+   * @param companyName - Name of the company.
+   * @returns Amount of favor you gain at the specified company when you reset by installing Augmentations.
+   */
+  getCompanyFavorGain(companyName: string): number;
+
+  /**
+   * List all current faction invitations.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * Returns an array with the name of all Factions you currently have oustanding invitations from.
+   *
+   * @returns Array with the name of all Factions you currently have oustanding invitations from.
+   */
+  checkFactionInvitations(): string[];
+
+  /**
+   * Join a faction.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will automatically accept an invitation from a faction and join it.
+   *
+   * @param faction - Name of faction to join.
+   * @returns True if player joined the faction, and false otherwise.
+   */
+  joinFaction(faction: string): boolean;
+
+  /**
+   * Work for a faction.
+   * @remarks
+   * RAM cost: 3 GB * 16/4/1
+   *
+   *
+   * This function will automatically set you to start working for the specified faction.
+   * Obviously, you must be a member of the faction or else this function will fail. If
+   * you are already in the middle of some “working” action (such as working for a company,
+   * training at a gym, or creating a program), then running this function will automatically
+   * cancel that action and give you your earnings.
+   *
+   * This function will return true if you successfully start working for the specified faction, and false otherwise.
+   *
+   * Note that when you are working for a faction, you will not actually receive your earnings (reputation, experience) until you FINISH the action.
+   *
+   * @example
+   * ```ts
+   * // NS1:
+   * //If you only want to work until you get 100,000 faction reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
+   * while (getFactionRep(FACTION NAME) < VALUE) {
+   *    workForFaction(FACNAME, WORKTYPE);
+   *    sleep(60000);
+   * }
+   * //This way, your faction reputation will be updated every minute.
+   * ```
+   * @example
+   * ```ts
+   * // NS2:
+   * //If you only want to work until you get 100,000 faction reputation. One small hack to get around this is to continuously restart the action to receive your earnings:
+   * while (ns.getFactionRep(FACTION NAME) < VALUE) {
+   *    ns.workForFaction(FACNAME, WORKTYPE);
+   *    await ns.sleep(60000);
+   * }
+   * //This way, your faction reputation will be updated every minute.
+   * ```
+   * @param faction - Name of faction to work for.
+   * @param workType - Type of work to perform for the faction.
+   * @param focus - Acquire player focus on this work operation. Optional. Defaults to true.
+   * @returns True if the player starts working, and false otherwise.
+   */
+  workForFaction(faction: string, workType: string, focus?: boolean): boolean;
+
+  /**
+   * Get faction reputation.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function returns the amount of reputation you have for the specified faction.
+   *
+   * @param faction - Name of faction to work for.
+   * @returns Amount of reputation you have for the specified faction.
+   */
+  getFactionRep(faction: string): number;
+
+  /**
+   * Get faction favor.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function returns the amount of favor you have for the specified faction.
+   *
+   * @param faction - Name of faction.
+   * @returns Amount of favor you have for the specified faction.
+   */
+  getFactionFavor(faction: string): number;
+
+  /**
+   * Get faction favor gain.
+   * @remarks
+   * RAM cost: 0.75 GB * 16/4/1
+   *
+   *
+   * This function returns the amount of favor you will gain for the specified
+   * faction when you reset by installing Augmentations.
+   *
+   * @param faction - Name of faction.
+   * @returns Amount of favor you will gain for the specified faction when you reset by installing Augmentations.
+   */
+  getFactionFavorGain(faction: string): number;
+
+  /**
+   * Donate to a faction.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * Attempts to donate money to the specified faction in exchange for reputation.
+   * Returns true if you successfully donate the money, and false otherwise.
+   *
+   * @param faction - Name of faction to donate to.
+   * @param amount - Amount of money to donate.
+   * @returns True if the money was donated, and false otherwise.
+   */
+  donateToFaction(faction: string, amount: number): boolean;
+
+  /**
+   * Create a program.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function will automatically set you to start working on creating the
+   * specified program. If you are already in the middle of some “working” action
+   * (such as working for a company, training at a gym, or taking a course), then
+   * running this function will automatically cancel that action and give you your
+   * earnings.
+   *
+   * This function returns true if you successfully start working on the specified program, and false otherwise.
+   *
+   * Note that creating a program using this function has the same hacking level requirements as it normally would. These level requirements are:
+   * * BruteSSH.exe: 50
+   * * FTPCrack.exe: 100
+   * * relaySMTP.exe: 250
+   * * HTTPWorm.exe: 500
+   * * SQLInject.exe: 750
+   * * DeepscanV1.exe: 75
+   * * DeepscanV2.exe: 400
+   * * ServerProfiler.exe: 75
+   * * AutoLink.exe: 25
+   *
+   * @example
+   * ```ts
+   * // NS1:
+   * createProgram(“relaysmtp.exe”);
+   * ```
+   * @example
+   * ```ts
+   * // NS2:
+   * ns.createProgram(“relaysmtp.exe”);
+   * ```
+   * @param program - Name of program to create.
+   * @param focus - Acquire player focus on this program creation. Optional. Defaults to true.
+   * @returns True if you successfully start working on the specified program, and false otherwise.
+   */
+  createProgram(program: string, focus?: boolean): boolean;
+
+  /**
+   * Commit a crime.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function is used to automatically attempt to commit crimes.
+   * If you are already in the middle of some ‘working’ action (such
+   * as working for a company or training at a gym), then running this
+   * function will automatically cancel that action and give you your
+   * earnings.
+   *
+   * This function returns the number of milliseconds it takes to attempt the
+   * specified crime (e.g It takes 60 seconds to attempt the ‘Rob Store’ crime,
+   * so running `commitCrime('rob store')` will return 60,000).
+   *
+   * Warning: I do not recommend using the time returned from this function to try
+   * and schedule your crime attempts. Instead, I would use the isBusy Singularity
+   * function to check whether you have finished attempting a crime. This is because
+   * although the game sets a certain crime to be X amount of seconds, there is no
+   * guarantee that your browser will follow that time limit.
+   *
+   * @param crime - Name of crime to attempt.
+   * @param focus - Acquire player focus on this crime. Optional. Defaults to true.
+   * @returns The number of milliseconds it takes to attempt the specified crime.
+   */
+  commitCrime(crime: string, focus?: boolean): number;
+
+  /**
+   * Get chance to successfully commit a crime.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function returns your chance of success at commiting the specified crime.
+   *
+   * @param crime - Name of crime.
+   * @returns Chance of success at commiting the specified crime.
+   */
+  getCrimeChance(crime: string): number;
+
+  /**
+   * Get stats related to a crime.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * Returns the stats of the crime.
+   *
+   * @param crime - Name of crime. Not case-sensitive
+   * @returns The stats of the crime.
+   */
+  getCrimeStats(crime: string): CrimeStats;
+
+  /**
+   * Get a list of owned augmentation.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function returns an array containing the names (as strings) of all Augmentations you have.
+   *
+   * @param purchased - Specifies whether the returned array should include Augmentations you have purchased but not yet installed. By default, this argument is false which means that the return value will NOT have the purchased Augmentations.
+   * @returns Array containing the names (as strings) of all Augmentations you have.
+   */
+  getOwnedAugmentations(purchased?: boolean): string[];
+
+  /**
+   * Get a list of acquired Source-Files.
+   * @remarks
+   * RAM cost: 5 GB
+   *
+   * Returns an array of source files
+   *
+   * @returns Array containing an object with number and level of the source file.
+   */
+  getOwnedSourceFiles(): SourceFileLvl[];
+
+  /**
+   * Get a list of augmentation available from a faction.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * Returns an array containing the names (as strings) of all Augmentations
+   * that are available from the specified faction.
+   *
+   * @param faction - Name of faction.
+   * @returns Array containing the names of all Augmentations.
+   */
+  getAugmentationsFromFaction(faction: string): string[];
+
+  /**
+   * Get the pre-requisite of an augmentation.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function returns an array with the names of the prerequisite Augmentation(s) for the specified Augmentation.
+   * If there are no prerequisites, a blank array is returned.
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Array with the names of the prerequisite Augmentation(s) for the specified Augmentation.
+   */
+  getAugmentationPrereq(augName: string): string[];
+
+  /**
+   * Get the price and reputation of an augmentation.
+   * @deprecated use getAugmentationPrice getAugmentationRepCost
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function returns an array with two elements that gives the cost for
+   * the specified Augmentation. The first element in the returned array is the
+   * reputation requirement of the Augmentation, and the second element is the
+   * money cost.
+   *
+   * If an invalid Augmentation name is passed in for the augName argument, this
+   * function will return the array [-1, -1].
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Array with first element as a reputation requirement and second element as the money cost.
+   */
+  getAugmentationCost(augName: string): [number, number];
+
+  /**
+   * Get price of an augmentation.
+   * @remarks
+   * RAM cost: 2.5 GB * 16/4/1
+   *
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Price of the augmentation.
+   */
+  getAugmentationPrice(augName: string): number;
+
+  /**
+   * Get base price of an augmentation.
+   * @remarks
+   * RAM cost: 2.5 GB * 16/4/1
+   *
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Base price of the augmentation, before price multiplier.
+   */
+  getAugmentationBasePrice(augName: string): number;
+
+  /**
+   * Get reputation requirement of an augmentation.
+   * @remarks
+   * RAM cost: 2.5 GB * 16/4/1
+   *
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Reputation requirement of the augmentation.
+   */
+  getAugmentationRepReq(augName: string): number;
+
+  /**
+   * Purchase an augmentation
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function will try to purchase the specified Augmentation through the given Faction.
+   *
+   * This function will return true if the Augmentation is successfully purchased, and false otherwise.
+   *
+   * @param faction - Name of faction to purchase Augmentation from.
+   * @param augmentation - Name of Augmentation to purchase.
+   * @returns True if the Augmentation is successfully purchased, and false otherwise.
+   */
+  purchaseAugmentation(faction: string, augmentation: string): boolean;
+
+  /**
+   * Get the stats of an augmentation.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function returns augmentation stats.
+   *
+   * @param name - Name of Augmentation. CASE-SENSITIVE.
+   * @returns Augmentation stats.
+   */
+  getAugmentationStats(name: string): AugmentationStats;
+
+  /**
+   * Install your purchased augmentations.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function will automatically install your Augmentations, resetting the game as usual. If you do not own uninstalled Augmentations then the game will not reset.
+   *
+   * @param cbScript - This is a script that will automatically be run after Augmentations are installed (after the reset). This script will be run with no arguments and 1 thread. It must be located on your home computer.
+   */
+  installAugmentations(cbScript?: string): void;
+
+  /**
+   * Hospitalize the player.
+   * @remarks
+   * RAM cost: 0.25 GB * 16/4/1
+   */
+  hospitalize(): void;
+
+  /**
+   * Soft reset the game.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * This function will perform a reset even if you don’t have any augmentation installed.
+   *
+   * @param cbScript - This is a script that will automatically be run after Augmentations are installed (after the reset). This script will be run with no arguments and 1 thread. It must be located on your home computer.
+   */
+  softReset(cbScript: string): void;
+
+  /**
+   * Go to a location.
+   * @remarks
+   * RAM cost: 5 GB * 16/4/1
+   *
+   *
+   * Move the player to a specific location.
+   *
+   * @param locationName - Name of the location.
+   * @returns True if the player was moved there, false otherwise.
+   */
+  goToLocation(locationName: string): boolean;
+
+  /**
+   * Get the current server.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * @returns Name of the current server.
+   */
+  getCurrentServer(): string;
+
+  /**
+   * Connect to a server.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * Run the connect HOSTNAME command in the terminal. Can only connect to neighbors.
+   *
+   * @returns True if the connect command was successful, false otherwise.
+   */
+  connect(hostname: string): boolean;
+
+  /**
+   * Run the hack command in the terminal.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * @returns Amount of money stolen by manual hacking.
+   */
+  manualHack(): Promise<number>;
+
+  /**
+   * Run the backdoor command in the terminal.
+   * @remarks
+   * RAM cost: 2 GB * 16/4/1
+   *
+   *
+   * @returns Promise waiting for the installation to finish.
+   */
+  installBackdoor(): Promise<void>;
+
+  /**
+   * Check if the player is focused.
+   * @remarks
+   * RAM cost: 0.1 GB * 16/4/1
+   *
+   *
+   * @returns True if the player is focused.
+   */
+  isFocused(): boolean;
+
+  /**
+   * Set the players focus.
+   * @remarks
+   * RAM cost: 0.1 GB * 16/4/1
+   *
+   * @returns True if the focus was changed.
+   */
+  setFocus(focus: boolean): boolean;
+
+  /**
+   * Get a list of programs offered on the dark web.
+   * @remarks
+   * RAM cost: 1 GB * 16/4/1
+   *
+   *
+   * This function allows the player to get a list of programs available for purchase
+   * on the dark web. Players MUST have purchased Tor to get the list of programs
+   * available. If Tor has not been purchased yet, this function will return an
+   * empty list.
+   *
+   * @example
+   * ```ts
+   * // NS1
+   * getDarkwebPrograms();
+   * // returns ['BruteSSH.exe', 'FTPCrack.exe'...etc]
+   * ```
+   * @example
+   * ```ts
+   * // NS2
+   * ns.getDarkwebPrograms();
+   * // returns ['BruteSSH.exe', 'FTPCrack.exe'...etc]
+   * ```
+   * @returns - a list of programs available for purchase on the dark web, or [] if Tor has not
+   * been purchased
+   */
+  getDarkwebPrograms(): string[];
+
+  /**
+   * Check the price of an exploit on the dark web
+   * @remarks
+   * RAM cost: 0.5 GB * 16/4/1
+   *
+   *
+   * This function allows you to check the price of a darkweb exploit/program.
+   * You MUST have a TOR router in order to use this function. The price returned
+   * by this function is the same price you would see with buy -l from the terminal.
+   * Returns the cost of the program if it has not been purchased yet, 0 if it
+   * has already been purchased, or -1 if Tor has not been purchased (and thus
+   * the program/exploit is not available for purchase).
+   *
+   * If the program does not exist, an error is thrown.
+   *
+   *
+   * @example
+   * ```ts
+   * // NS1
+   * getDarkwebProgramCost("brutessh.exe");
+   * ```
+   * @example
+   * ```ts
+   * // NS2
+   * ns.getDarkwebProgramCost("brutessh.exe");
+   * ```
+   * @param programName - Name of program to check the price of
+   * @returns Price of the specified darkweb program
+   * (if not yet purchased), 0 if it has already been purchased, or -1 if Tor has not been
+   * purchased. Throws an error if the specified program/exploit does not exist
+   */
+  getDarkwebProgramCost(programName: string): number;
+
+  /**
+   * b1t_flum3 into a different BN.
+   * @remarks
+   * RAM cost: 16 GB * 16/4/1
+   *
+   * @param nextBN - BN number to jump to
+   * @param callbackScript - Name of the script to launch in the next BN.
+   */
+  b1tflum3(nextBN: number, callbackScript?: string): void;
+
+  /**
+   * Destroy the w0r1d_d43m0n and move on to the next BN.
+   * @remarks
+   * RAM cost: 32 GB * 16/4/1
+   *
+   * You must have the special augment installed and the required hacking level
+   *   OR
+   * Completed the final black op.
+   *
+   * @param nextBN - BN number to jump to
+   * @param callbackScript - Name of the script to launch in the next BN.
+   */
+  destroyW0r1dD43m0n(nextBN: number, callbackScript?: string): void;
+
+  /**
+   * Get the current work the player is doing.
+   * @remarks
+   * RAM cost: 0.5 GB * 16/4/1
+   *
+   * @returns - An object representing the current work. Fields depend on the kind of work.
+   */
+  getCurrentWork(): any | null;
+}
+
+/**
+* @public
+*/
+export declare interface Skills {
+  hacking: number;
+  strength: number;
+  defense: number;
+  dexterity: number;
+  agility: number;
+  charisma: number;
+  intelligence: number;
+}
+
+/**
+* Skills formulas
+* @public
+*/
+export declare interface SkillsFormulas {
+  /**
+   * Calculate skill level.
+   * @param exp - experience for that skill
+   * @param skillMult - Multiplier for that skill, defaults to 1.
+   * @returns The calculated skill level.
+   */
+  calculateSkill(exp: number, skillMult?: number): number;
+  /**
+   * Calculate exp for skill level.
+   * @param skill - target skill level
+   * @param skillMult - Multiplier for that skill, defaults to 1.
+   * @returns The calculated exp required.
+   */
+  calculateExp(skill: number, skillMult?: number): number;
+}
+
+/**
+* Sleeve API
+* @remarks
+* If you are not in BitNode-10, then you must have Source-File 10 in order to use this API.
+* @public
+*/
+export declare interface Sleeve {
+  /**
+   * Get the number of sleeves you own.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return the number of duplicate sleeves the player has.
+   *
+   * @returns number of duplicate sleeves the player has.
+   */
+  getNumSleeves(): number;
+
+  /**
+   * Get the stats of a sleeve.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a structure containing the stats of the sleeve.
+   *
+   * @param sleeveNumber - Index of the sleeve to get stats of.
+   * @returns Object containing the stats of the sleeve.
+   */
+  getSleeveStats(sleeveNumber: number): SleeveSkills;
+
+  /**
+   * Get information about a sleeve.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a struct containing tons of information about this sleeve
+   *
+   * @param sleeveNumber - Index of the sleeve to retrieve information.
+   * @returns Object containing tons of information about this sleeve.
+   */
+  getInformation(sleeveNumber: number): SleeveInformation;
+
+  /**
+   * Get task of a sleeve.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return the current task that the sleeve is performing. type is set to “Idle” if the sleeve isn’t doing anything.
+   *
+   * @param sleeveNumber - Index of the sleeve to retrieve task from.
+   * @returns Object containing information the current task that the sleeve is performing.
+   */
+  getTask(sleeveNumber: number): SleeveTask;
+
+  /**
+   * Set a sleeve to shock recovery.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not this action was set successfully.
+   *
+   * @param sleeveNumber - Index of the sleeve to start recovery.
+   * @returns True if this action was set successfully, false otherwise.
+   */
+  setToShockRecovery(sleeveNumber: number): boolean;
+
+  /**
+   * Set a sleeve to synchronize.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not this action was set successfully.
+   *
+   * @param sleeveNumber - Index of the sleeve to start synchronizing.
+   * @returns True if this action was set successfully, false otherwise.
+   */
+  setToSynchronize(sleeveNumber: number): boolean;
+
+  /**
+   * Set a sleeve to commit crime.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not this action was set successfully.
+   *
+   * Returns false if an invalid action is specified.
+   *
+   * @param sleeveNumber - Index of the sleeve to start commiting crime.
+   * @param name - Name of the crime. Must be an exact match.
+   * @returns True if this action was set successfully, false otherwise.
+   */
+  setToCommitCrime(sleeveNumber: number, name: string): boolean;
+
+  /**
+   * Set a sleeve to work for a faction.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not the sleeve started working or this faction.
+   *
+   * @param sleeveNumber - Index of the sleeve to work for the faction.
+   * @param factionName - Name of the faction to work for.
+   * @param factionWorkType - Name of the action to perform for this faction.
+   * @returns True if the sleeve started working on this faction, false otherwise, can also throw on errors
+   */
+  setToFactionWork(sleeveNumber: number, factionName: string, factionWorkType: string): boolean | undefined;
+
+  /**
+   * Set a sleeve to work for a company.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not the sleeve started working or this company.
+   *
+   * @param sleeveNumber - Index of the sleeve to work for the company.
+   * @param companyName - Name of the company to work for.
+   * @returns True if the sleeve started working on this company, false otherwise.
+   */
+  setToCompanyWork(sleeveNumber: number, companyName: string): boolean;
+
+  /**
+   * Set a sleeve to take a class at a university.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not this action was set successfully.
+   *
+   * @param sleeveNumber - Index of the sleeve to start taking class.
+   * @param university - Name of the university to attend.
+   * @param className - Name of the class to follow.
+   * @returns True if this action was set successfully, false otherwise.
+   */
+  setToUniversityCourse(sleeveNumber: number, university: string, className: string): boolean;
+
+  /**
+   * Set a sleeve to workout at the gym.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not the sleeve started working out.
+   *
+   * @param sleeveNumber - Index of the sleeve to workout at the gym.
+   * @param gymName - Name of the gym.
+   * @param stat - Name of the stat to train.
+   * @returns True if the sleeve started working out, false otherwise.
+   */
+  setToGymWorkout(sleeveNumber: number, gymName: string, stat: string): boolean;
+
+  /**
+   * Make a sleeve travel to another city.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not the sleeve reached destination.
+   *
+   * @param sleeveNumber - Index of the sleeve to travel.
+   * @param cityName - Name of the destination city.
+   * @returns True if the sleeve reached destination, false otherwise.
+   */
+  travel(sleeveNumber: number, cityName: string): boolean;
+
+  /**
+   * Get augmentations installed on a sleeve.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a list of augmentation names that this sleeve has installed.
+   *
+   * @param sleeveNumber - Index of the sleeve to retrieve augmentations from.
+   * @returns List of augmentation names that this sleeve has installed.
+   */
+  getSleeveAugmentations(sleeveNumber: number): string[];
+
+  /**
+   * Get price of an augmentation.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Price of the augmentation.
+   */
+  getSleeveAugmentationPrice(augName: string): number;
+
+  /**
+   * Get reputation requirement of an augmentation.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   *
+   * @param augName - Name of Augmentation.
+   * @returns Reputation requirement of the augmentation.
+   */
+  getSleeveAugmentationRepReq(augName: string): number;
+
+  /**
+   * List purchasable augs for a sleeve.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a list of augmentations that the player can buy for this sleeve.
+   *
+   * @param sleeveNumber - Index of the sleeve to retrieve purchasable augmentations from.
+   * @returns List of augmentations that the player can buy for this sleeve.
+   */
+  getSleevePurchasableAugs(sleeveNumber: number): AugmentPair[];
+
+  /**
+   * Purchase an aug for a sleeve.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return true if the aug was purchased and installed on the sleeve.
+   *
+   * @param sleeveNumber - Index of the sleeve to buy an aug for.
+   * @param augName - Name of the aug to buy. Must be an exact match.
+   * @returns True if the aug was purchased and installed on the sleeve, false otherwise.
+   */
+  purchaseSleeveAug(sleeveNumber: number, augName: string): boolean;
+
+  /**
+   * Set a sleeve to perform bladeburner actions.
+   * @remarks
+   * RAM cost: 4 GB
+   *
+   * Return a boolean indicating whether or not the sleeve started working out.
+   *
+   * @param sleeveNumber - Index of the sleeve to workout at the gym.
+   * @param action - Name of the action to be performed.
+   * @param contract - Name of the contract if applicable.
+   * @returns True if the sleeve started working out, false otherwise.
+   */
+  setToBladeburnerAction(sleeveNumber: number, action: string, contract?: string): boolean;
+}
+
+/**
+* Object representing sleeve information.
+* @public
+*/
+export declare interface SleeveInformation {
+  /** Location of the sleeve */
+  city: string;
+  /** hp of the sleeve */
+  hp: HP;
+  /** Jobs available to the sleeve */
+  jobs: string[];
+  /** Job titles available to the sleeve */
+  jobTitle: string[];
+  /** Does this sleeve have access to the tor router */
+  tor: boolean;
+  /** Sleeve multipliers */
+  mult: CharacterMult;
+}
+
+/**
+* Object representing a sleeve stats.
+* @public
+*/
+export declare interface SleeveSkills {
+  /** Current shock of the sleeve [0-100] */
+  shock: number;
+  /** Current sync of the sleeve [0-100] */
+  sync: number;
+  /** Current memory of the sleeve [1-100] */
+  memory: number;
+  /** Current hacking skill of the sleeve */
+  hacking: number;
+  /** Current strength of the sleeve */
+  strength: number;
+  /** Current defense of the sleeve */
+  defense: number;
+  /** Current dexterity of the sleeve */
+  dexterity: number;
+  /** Current agility of the sleeve */
+  agility: number;
+  /** Current charisma of the sleeve */
+  charisma: number;
+}
+
+/**
+* Object representing a sleeve current task.
+* @public
+*/
+export declare type SleeveTask = any;
+
+/**
+* @public
+*/
+export declare interface SleeveWorkGains {
+  /** Hacking exp gained from work */
+  workHackExpGain: number;
+  /** Strength exp gained from work */
+  workStrExpGain: number;
+  /** Defense exp gained from work, */
+  workDefExpGain: number;
+  /** Dexterity exp gained from work */
+  workDexExpGain: number;
+  /** Agility exp gained from work */
+  workAgiExpGain: number;
+  /** Charisma exp gained from work */
+  workChaExpGain: number;
+  /** Money gained from work */
+  workMoneyGain: number;
+}
+
+/**
+* @public
+*/
+export declare interface SourceFileLvl {
+  /** The number of the source file */
+  n: number;
+  /** The level of the source file */
+  lvl: number;
+}
+
+/**
+* Stanek's Gift API.
+* @public
+*/
+export declare interface Stanek {
+  /**
+   * Stanek's Gift width.
+   * @remarks
+   * RAM cost: 0.4 GB
+   * @returns The width of the gift.
+   */
+  giftWidth(): number;
+  /**
+   * Stanek's Gift height.
+   * @remarks
+   * RAM cost: 0.4 GB
+   * @returns The height of the gift.
+   */
+  giftHeight(): number;
+
+  /**
+   * Charge a fragment, increasing its power.
+   * @remarks
+   * RAM cost: 0.4 GB
+   * @param rootX - rootX Root X against which to align the top left of the fragment.
+   * @param rootY - rootY Root Y against which to align the top left of the fragment.
+   * @returns Promise that lasts until the charge action is over.
+   */
+  chargeFragment(rootX: number, rootY: number): Promise<void>;
+
+  /**
+   * List possible fragments.
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns List of possible fragments.
+   */
+  fragmentDefinitions(): Fragment[];
+
+  /**
+   * List of fragments in Stanek's Gift.
+   * @remarks
+   * RAM cost: 5 GB
+   *
+   * @returns List of active fragments placed on Stanek's Gift.
+   */
+  activeFragments(): ActiveFragment[];
+
+  /**
+   * Clear the board of all fragments.
+   * @remarks
+   * RAM cost: 0 GB
+   */
+  clearGift(): void;
+
+  /**
+   * Check if fragment can be placed at specified location.
+   * @remarks
+   * RAM cost: 0.5 GB
+   *
+   * @param rootX - rootX Root X against which to align the top left of the fragment.
+   * @param rootY - rootY Root Y against which to align the top left of the fragment.
+   * @param rotation - rotation A number from 0 to 3, the mount of 90 degree turn to take.
+   * @param fragmentId - fragmentId ID of the fragment to place.
+   * @returns true if the fragment can be placed at that position. false otherwise.
+   */
+  canPlaceFragment(rootX: number, rootY: number, rotation: number, fragmentId: number): boolean;
+  /**
+   * Place fragment on Stanek's Gift.
+   * @remarks
+   * RAM cost: 5 GB
+   *
+   * @param rootX - X against which to align the top left of the fragment.
+   * @param rootY - Y against which to align the top left of the fragment.
+   * @param rotation - A number from 0 to 3, the mount of 90 degree turn to take.
+   * @param fragmentId - ID of the fragment to place.
+   * @returns true if the fragment can be placed at that position. false otherwise.
+   */
+  placeFragment(rootX: number, rootY: number, rotation: number, fragmentId: number): boolean;
+  /**
+   * Get placed fragment at location.
+   * @remarks
+   * RAM cost: 5 GB
+   *
+   * @param rootX - X against which to align the top left of the fragment.
+   * @param rootY - Y against which to align the top left of the fragment.
+   * @returns The fragment at [rootX, rootY], if any.
+   */
+  getFragment(rootX: number, rootY: number): ActiveFragment | undefined;
+
+  /**
+   * Remove fragment at location.
+   * @remarks
+   * RAM cost: 0.15 GB
+   *
+   * @param rootX - X against which to align the top left of the fragment.
+   * @param rootY - Y against which to align the top left of the fragment.
+   * @returns The fragment at [rootX, rootY], if any.
+   */
+  removeFragment(rootX: number, rootY: number): boolean;
+
+  /**
+   * Accept Stanek's Gift by joining the Church of the Machine God
+   * @remarks
+   * RAM cost: 2 GB
+   *
+   * @returns true if the player is a member of the church and has the gift installed,
+   * false otherwise.
+   */
+  acceptGift(): boolean;
+}
+
+/**
+* Return value of {@link TIX.getOrders | getOrders}
+*
+* Keys are stock symbols, properties are arrays of {@link StockOrderObject}
+* @public
+*/
+export declare interface StockOrder {
+  [key: string]: StockOrderObject[];
+}
+
+/**
+* Value in map of {@link StockOrder}
+* @public
+*/
+export declare interface StockOrderObject {
+  /** Number of shares */
+  shares: number;
+  /** Price per share */
+  price: number;
+  /** Order type */
+  type: OrderTypes;
+  /** Order position */
+  position: PositionTypes;
+}
+
+/**
+* Stock market API
+* @public
+*/
+export declare interface TIX {
+  /**
+   * Returns true if the player has access to a WSE Account
+   * @remarks RAM cost: 0.05 GB
+   */
+  hasWSEAccount(): boolean;
+  /**
+   * Returns true if the player has access to the TIX API
+   * @remarks RAM cost: 0.05 GB
+   */
+  hasTIXAPIAccess(): boolean;
+  /**
+   * Returns true if the player has access to the 4S Data
+   * @remarks RAM cost: 0.05 GB
+   */
+  has4SData(): boolean;
+  /**
+   * Returns true if the player has access to the 4SData TIX API
+   * @remarks RAM cost: 0.05 GB
+   */
+  has4SDataTIXAPI(): boolean;
+  /**
+   * Returns an array of the symbols of the tradable stocks
+   *
+   * @remarks RAM cost: 2 GB
+   * @returns Array of the symbols of the tradable stocks.
+   */
+  getSymbols(): string[];
+
+  /**
+   * Returns the price of a stock
+   *
+   * @remarks
+   * RAM cost: 2 GB
+   * The stock’s price is the average of its bid and ask price.
+   *
+   * @example
+   * ```ts
+   * // NS1
+   * stock.getPrice("FISG");
+   * ```
+   * @example
+   * ```ts
+   * // NS2
+   * ns.stock.getPrice("FISG");
+   * ```
+   * @param sym - Stock symbol.
+   * @returns The price of a stock.
+   */
+  getPrice(sym: string): number;
+
+  /**
+   * Returns the ask price of that stock.
+   * @remarks RAM cost: 2 GB
+   *
+   * @param sym - Stock symbol.
+   * @returns The ask price of a stock.
+   */
+  getAskPrice(sym: string): number;
+
+  /**
+   * Returns the bid price of that stock.
+   * @remarks RAM cost: 2 GB
+   *
+   * @param sym - Stock symbol.
+   * @returns The bid price of a stock.
+   */
+  getBidPrice(sym: string): number;
+
+  /**
+   * Returns the player’s position in a stock.
+   * @remarks
+   * RAM cost: 2 GB
+   * Returns an array of four elements that represents the player’s position in a stock.
+   *
+   * The first element is the returned array is the number of shares the player owns of
+   * the stock in the Long position. The second element in the array is the average price
+   * of the player’s shares in the Long position.
+   *
+   * The third element in the array is the number of shares the player owns of the stock
+   * in the Short position. The fourth element in the array is the average price of the
+   * player’s Short position.
+   *
+   * All elements in the returned array are numeric.
+   *
+   * @example
+   * ```ts
+   * // NS1
+   * var pos = stock.getPosition("ECP");
+   * var shares      = pos[0];
+   * var avgPx       = pos[1];
+   * var sharesShort = pos[2];
+   * var avgPxShort  = pos[3];
+   * ```
+   * @example
+   * ```ts
+   * // NS2
+   * const [shares, avgPx, sharesShort, avgPxShort] = ns.stock.getPosition("ECP");
+   * ```
+   * @param sym - Stock symbol.
+   * @returns Array of four elements that represents the player’s position in a stock.
+   */
+  getPosition(sym: string): [number, number, number, number];
+
+  /**
+   * Returns the maximum number of shares of a stock.
+   * @remarks
+   * RAM cost: 2 GB
+   * This is the maximum amount of the stock that can be purchased
+   * in both the Long and Short positions combined.
+   *
+   * @param sym - Stock symbol.
+   * @returns Maximum number of shares that the stock has.
+   */
+  getMaxShares(sym: string): number;
+
+  /**
+   * Calculates cost of buying stocks.
+   * @remarks
+   * RAM cost: 2 GB
+   * Calculates and returns how much it would cost to buy a given number of shares of a stock.
+   * This takes into account spread, large transactions influencing the price of the stock and commission fees.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares to purchase.
+   * @param posType - Specifies whether the order is a “Long” or “Short” position.
+   * @returns Cost to buy a given number of shares of a stock.
+   */
+  getPurchaseCost(sym: string, shares: number, posType: string): number;
+
+  /**
+   * Calculate profit of selling stocks.
+   * @remarks
+   * RAM cost: 2 GB
+   * Calculates and returns how much you would gain from selling a given number of shares of a stock.
+   * This takes into account spread, large transactions influencing the price of the stock and commission fees.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares to sell.
+   * @param posType - Specifies whether the order is a “Long” or “Short” position.
+   * @returns Gain from selling a given number of shares of a stock.
+   */
+  getSaleGain(sym: string, shares: number, posType: string): number;
+
+  /**
+   * Buy stocks.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Attempts to purchase shares of a stock using a Market Order.
+   *
+   * If the player does not have enough money to purchase the specified number of shares,
+   * then no shares will be purchased. Remember that every transaction on the stock exchange
+   * costs a certain commission fee.
+   *
+   * If this function successfully purchases the shares, it will return the stock price at which
+   * each share was purchased. Otherwise, it will return 0.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares to purchased. Must be positive. Will be rounded to nearest integer.
+   * @returns The stock price at which each share was purchased, otherwise 0 if the shares weren't purchased.
+   */
+  buyStock(sym: string, shares: number): number;
+
+  /**
+   * Sell stocks.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Attempts to sell shares of a stock using a Market Order.
+   *
+   * If the specified number of shares in the function exceeds the amount that the player
+   * actually owns, then this function will sell all owned shares. Remember that every
+   * transaction on the stock exchange costs a certain commission fee.
+   *
+   * The net profit made from selling stocks with this function is reflected in the script’s
+   * statistics. This net profit is calculated as:
+   *
+   *    shares * (sell_price - average_price_of_purchased_shares)
+   *
+   * If the sale is successful, this function will return the stock price at
+   * which each share was sold. Otherwise, it will return 0.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares to sell. Must be positive. Will be rounded to nearest integer.
+   * @returns The stock price at which each share was sold, otherwise 0 if the shares weren't sold.
+   */
+  sellStock(sym: string, shares: number): number;
+
+  /**
+   * Short stocks.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Attempts to purchase a short position of a stock using a Market Order.
+   *
+   * The ability to short a stock is **not** immediately available to the player and
+   * must be unlocked later on in the game.
+   *
+   * If the player does not have enough money to purchase the specified number of shares,
+   * then no shares will be purchased. Remember that every transaction on the stock exchange
+   * costs a certain commission fee.
+   *
+   * If the purchase is successful, this function will return the stock price at which each
+   * share was purchased. Otherwise, it will return 0.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares to short. Must be positive. Will be rounded to nearest integer.
+   * @returns The stock price at which each share was purchased, otherwise 0 if the shares weren't purchased.
+   */
+  buyShort(sym: string, shares: number): number;
+
+  /**
+   * Sell short stock.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Attempts to sell a short position of a stock using a Market Order.
+   *
+   * The ability to short a stock is **not** immediately available to the player and
+   * must be unlocked later on in the game.
+   *
+   * If the specified number of shares exceeds the amount that the player actually owns,
+   * then this function will sell all owned shares. Remember that every transaction on
+   * the stock exchange costs a certain commission fee.
+   *
+   * If the sale is successful, this function will return the stock price at which each
+   * share was sold. Otherwise it will return 0.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares to sell. Must be positive. Will be rounded to nearest integer.
+   * @returns The stock price at which each share was sold, otherwise 0 if the shares weren't sold.
+   */
+  sellShort(sym: string, shares: number): number;
+
+  /**
+   * Place order for stocks.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Places an order on the stock market. This function only works for Limit and Stop Orders.
+   *
+   * The ability to place limit and stop orders is **not** immediately available to the player and
+   * must be unlocked later on in the game.
+   *
+   * Returns true if the order is successfully placed, and false otherwise.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares for order. Must be positive. Will be rounded to nearest integer.
+   * @param price - Execution price for the order.
+   * @param type - Type of order.
+   * @param pos - Specifies whether the order is a “Long” or “Short” position.
+   * @returns True if the order is successfully placed, and false otherwise.
+   */
+  placeOrder(sym: string, shares: number, price: number, type: string, pos: string): boolean;
+
+  /**
+   * Cancel order for stocks.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Cancels an oustanding Limit or Stop order on the stock market.
+   *
+   * The ability to use limit and stop orders is **not** immediately available to the player and
+   * must be unlocked later on in the game.
+   *
+   * @param sym - Stock symbol.
+   * @param shares - Number of shares for order. Must be positive. Will be rounded to nearest integer.
+   * @param price - Execution price for the order.
+   * @param type - Type of order.
+   * @param pos - Specifies whether the order is a “Long” or “Short” position.
+   */
+  cancelOrder(sym: string, shares: number, price: number, type: string, pos: string): void;
+
+  /**
+   * Returns your order book for the stock market.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * This is an object containing information for all the Limit and Stop Orders you have in the stock market.
+   * For each symbol you have a position in, the returned object will have a key with that symbol's name.
+   * The object's properties are each an array of {@link StockOrderObject}
+   * The object has the following structure:
+   *
+   * ```ts
+   * {
+   *  string1: [ // Array of orders for this stock
+   *      {
+   *          shares: Order quantity
+   *          price: Order price
+   *          type: Order type
+   *          position: Either "L" or "S" for Long or Short position
+   *      },
+   *      {
+   *          ...
+   *      },
+   *      ...
+   *  ],
+   *  string2: [ // Array of orders for this stock
+   *      ...
+   *  ],
+   *  ...
+   * }
+   * ```
+   * The “Order type” property can have one of the following four values: "Limit Buy Order", "Limit Sell Order", "Stop Buy Order", "Stop Sell Order".
+   * Note that the order book will only contain information for stocks that you actually have orders in.
+   *
+   * @example
+   * ```ts
+   * "If you do not have orders in Nova Medical (NVMD), then the returned object will not have a “NVMD” property."
+   * {
+   *  ECP: [
+   *      {
+   *          shares: 5,
+   *          price: 100,000
+   *          type: "Stop Buy Order",
+   *          position: "S",
+   *      },
+   *      {
+   *          shares: 25,
+   *          price: 125,000
+   *          type: "Limit Sell Order",
+   *          position: "L",
+   *      },
+   *  ],
+   *  SYSC: [
+   *      {
+   *          shares: 100,
+   *          price: 10,000
+   *          type: "Limit Buy Order",
+   *          position: "L",
+   *      },
+   *  ],
+   * }
+   * ```
+   * @returns Object containing information for all the Limit and Stop Orders you have in the stock market.
+   */
+  getOrders(): StockOrder;
+
+  /**
+   * Returns the volatility of the specified stock.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * Volatility represents the maximum percentage by which a stock’s price can change every tick.
+   * The volatility is returned as a decimal value, NOT a percentage
+   * (e.g. if a stock has a volatility of 3%, then this function will return 0.03, NOT 3).
+   *
+   * In order to use this function, you must first purchase access to the Four Sigma (4S) Market Data TIX API.
+   *
+   * @param sym - Stock symbol.
+   * @returns Volatility of the specified stock.
+   */
+  getVolatility(sym: string): number;
+
+  /**
+   * Returns the probability that the specified stock’s price will increase (as opposed to decrease) during the next tick.
+   * @remarks
+   * RAM cost: 2.5 GB
+   * The probability is returned as a decimal value, NOT a percentage
+   * (e.g. if a stock has a 60% chance of increasing, then this function will return 0.6, NOT 60).
+   *
+   * In other words, if this function returned 0.30 for a stock, then this means that the stock’s price has a
+   * 30% chance of increasing and a 70% chance of decreasing during the next tick.
+   *
+   * In order to use this function, you must first purchase access to the Four Sigma (4S) Market Data TIX API.
+   *
+   * @param sym - Stock symbol.
+   * @returns Probability that the specified stock’s price will increase (as opposed to decrease) during the next tick.
+   */
+  getForecast(sym: string): number;
+
+  /**
+   * Purchase 4S Market Data Access.
+   * @remarks RAM cost: 2.5 GB
+   * @returns True if you successfully purchased it or if you already have access, false otherwise.
+   */
+  purchase4SMarketData(): boolean;
+
+  /**
+   * Purchase 4S Market Data TIX API Access.
+   * @remarks RAM cost: 2.5 GB
+   * @returns True if you successfully purchased it or if you already have access, false otherwise.
+   */
+  purchase4SMarketDataTixApi(): boolean;
+
+  /**
+   * Purchase WSE Account.
+   * @remarks RAM cost: 2.5 GB
+   * @returns True if you successfully purchased it or if you already have access, false otherwise.
+   */
+  purchaseWseAccount(): boolean;
+
+  /**
+   * Purchase TIX API Access
+   * @remarks RAM cost: 2.5 GB
+   * @returns True if you successfully purchased it or if you already have access, false otherwise.
+   */
+  purchaseTixApi(): boolean;
+}
+
+/** @public */
+export declare enum ToastVariant {
+  SUCCESS = "success",
+  WARNING = "warning",
+  ERROR = "error",
+  INFO = "info",
+}
+
+/** @public */
+export declare type ToastVariantValues = `${ToastVariant}`;
+
+/**
+* User Interface API.
+* @public
+*/
+export declare interface UserInterface {
+  /**
+   * Get the current window size
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns An array of 2 value containing the window width and height.
+   */
+  windowSize(): [number, number];
+
+  /**
+   * Get the current theme
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns An object containing the theme's colors
+   */
+  getTheme(): UserInterfaceTheme;
+
+  /**
+   * Sets the current theme
+   * @remarks
+   * RAM cost: 0 GB
+   * @example
+   * Usage example (NS2)
+   * ```ts
+   * const theme = ns.ui.getTheme();
+   * theme.primary = '#ff5500';
+   * ns.ui.setTheme(theme);
+   * ```
+   */
+  setTheme(newTheme: UserInterfaceTheme): void;
+
+  /**
+   * Resets the player's theme to the default values
+   * @remarks
+   * RAM cost: 0 GB
+   */
+  resetTheme(): void;
+
+  /**
+   * Get the current styles
+   * @remarks
+   * RAM cost: 0 GB
+   *
+   * @returns An object containing the player's styles
+   */
+  getStyles(): IStyleSettings;
+
+  /**
+   * Sets the current styles
+   * @remarks
+   * RAM cost: 0 GB
+   * @example
+   * Usage example (NS2)
+   * ```ts
+   * const styles = ns.ui.getStyles();
+   * styles.fontFamily = 'Comic Sans Ms';
+   * ns.ui.setStyles(styles);
+   * ```
+   */
+  setStyles(newStyles: IStyleSettings): void;
+
+  /**
+   * Resets the player's styles to the default values
+   * @remarks
+   * RAM cost: 0 GB
+   */
+  resetStyles(): void;
+
+  /**
+   * Gets the current game information (version, commit, ...)
+   * @remarks
+   * RAM cost: 0 GB
+   */
+  getGameInfo(): GameInfo;
+
+  /**
+   * Clear the Terminal window, as if the player ran `clear` in the terminal
+   * @remarks
+   * RAM cost: 0.2 GB
+   */
+  clearTerminal(): void;
+}
+
+/**
+* Interface Theme
+* @internal
+*/
+export declare interface UserInterfaceTheme {
+  [key: string]: string | undefined;
+  primarylight: string;
+  primary: string;
+  primarydark: string;
+  successlight: string;
+  success: string;
+  successdark: string;
+  errorlight: string;
+  error: string;
+  errordark: string;
+  secondarylight: string;
+  secondary: string;
+  secondarydark: string;
+  warninglight: string;
+  warning: string;
+  warningdark: string;
+  infolight: string;
+  info: string;
+  infodark: string;
+  welllight: string;
+  well: string;
+  white: string;
+  black: string;
+  hp: string;
+  money: string;
+  hack: string;
+  combat: string;
+  cha: string;
+  int: string;
+  rep: string;
+  disabled: string;
+  backgroundprimary: string;
+  backgroundsecondary: string;
+  button: string;
+}
+
+/**
+* Warehouse for a division in a city
+* @public
+*/
+export declare interface Warehouse {
+  /** Amount of size upgrade bought */
+  level: number;
+  /** City in which the warehouse is located */
+  loc: string;
+  /** Total space in the warehouse */
+  size: number;
+  /** Used space in the warehouse */
+  sizeUsed: number;
+  /** Smart Supply status in the warehouse */
+  smartSupplyEnabled: boolean;
+}
+
+/**
+* Corporation Warehouse API
+* @remarks
+* Requires the Warehouse API upgrade from your corporation.
+* @public
+*/
+export declare interface WarehouseAPI {
   /**
    * Set material sell data.
    * @param divisionName - Name of the division
@@ -7059,12 +7215,12 @@ export interface WarehouseAPI {
    * @param all - Sell in all city
    */
   sellProduct(
-    divisionName: string,
-    cityName: string,
-    productName: string,
-    amt: string,
-    price: string,
-    all: boolean,
+  divisionName: string,
+  cityName: string,
+  productName: string,
+  amt: string,
+  price: string,
+  all: boolean,
   ): void;
   /**
    * Discontinue a product.
@@ -7164,12 +7320,12 @@ export interface WarehouseAPI {
    * @param amt - Amount of material to export.
    */
   exportMaterial(
-    sourceDivision: string,
-    sourceCity: string,
-    targetDivision: string,
-    targetCity: string,
-    materialName: string,
-    amt: number,
+  sourceDivision: string,
+  sourceCity: string,
+  targetDivision: string,
+  targetCity: string,
+  materialName: string,
+  amt: number,
   ): void;
   /**
    * Cancel material export
@@ -7181,12 +7337,12 @@ export interface WarehouseAPI {
    * @param amt - Amount of material to export.
    */
   cancelExportMaterial(
-    sourceDivision: string,
-    sourceCity: string,
-    targetDivision: string,
-    targetCity: string,
-    materialName: string,
-    amt: number,
+  sourceDivision: string,
+  sourceCity: string,
+  targetDivision: string,
+  targetCity: string,
+  materialName: string,
+  amt: number,
   ): void;
   /**
    * Purchase warehouse for a new city
@@ -7210,11 +7366,11 @@ export interface WarehouseAPI {
    * @param marketingInvest - Amount to invest for the marketing of the product.
    */
   makeProduct(
-    divisionName: string,
-    cityName: string,
-    productName: string,
-    designInvest: number,
-    marketingInvest: number,
+  divisionName: string,
+  cityName: string,
+  productName: string,
+  designInvest: number,
+  marketingInvest: number,
   ): void;
   /**
    * Limit Material Production.
@@ -7253,474 +7409,28 @@ export interface WarehouseAPI {
 }
 
 /**
- * Corporation API
- * @public
- */
-export interface Corporation extends WarehouseAPI, OfficeAPI {
-  /**
-   * Create a Corporation
-   * @param divisionName - Name of the division
-   * @param selfFund - If you should self fund, defaults to true, false will only work on Bitnode 3
-   * @returns true if created and false if not
-   */
-  createCorporation(corporationName: string, selfFund: boolean): boolean;
-  /**
-   * Check if you have a one time unlockable upgrade
-   * @param upgradeName - Name of the upgrade
-   * @returns true if unlocked and false if not
-   */
-  hasUnlockUpgrade(upgradeName: string): boolean;
-  /**
-   * Gets the cost to unlock a one time unlockable upgrade
-   * @param upgradeName - Name of the upgrade
-   * @returns cost of the upgrade
-   */
-  getUnlockUpgradeCost(upgradeName: string): number;
-  /**
-   * Get the level of a levelable upgrade
-   * @param upgradeName - Name of the upgrade
-   * @returns the level of the upgrade
-   */
-  getUpgradeLevel(upgradeName: string): number;
-  /**
-   * Gets the cost to unlock the next level of a levelable upgrade
-   * @param upgradeName - Name of the upgrade
-   * @returns cost of the upgrade
-   */
-  getUpgradeLevelCost(upgradeName: string): number;
-  /**
-   * Gets the cost to expand into a new industry
-   * @param industryName - Name of the industry
-   * @returns cost
-   */
-  getExpandIndustryCost(industryName: string): number;
-  /**
-   * Gets the cost to expand into a new city
-   * @returns cost
-   */
-  getExpandCityCost(): number;
-  /**
-   * Get an offer for investment based on you companies current valuation
-   * @returns An offer of investment
-   */
-  getInvestmentOffer(): InvestmentOffer;
-  /**
-   * Get list of materials
-   * @returns material names
-   */
-  getMaterialNames(): string[];
-  /**
-   * Get list of industry types
-   * @returns industry names
-   */
-  getIndustryTypes(): string[];
-  /**
-   * Get list of one-time unlockable upgrades
-   * @returns unlockable upgrades names
-   */
-  getUnlockables(): string[];
-  /**
-   * Get list of upgrade names
-   * @returns upgrade names
-   */
-  getUpgradeNames(): string[];
-  /**
-   * Get list of research names
-   * @returns research names
-   */
-  getResearchNames(): string[];
-  /**
-   * Accept investment based on you companies current valuation
-   * @remarks
-   * Is based on current valuation and will not honer a specific Offer
-   * @returns An offer of investment
-   */
-  acceptInvestmentOffer(): boolean;
-  /**
-   * Go public
-   * @param numShares - number of shares you would like to issue for your IPO
-   * @returns true if you successfully go public, false if not
-   */
-  goPublic(numShares: number): boolean;
-  /**
-   * Bribe a faction
-   * @param factionName - Faction name
-   * @param amountCash - Amount of money to bribe
-   * @returns True if successful, false if not
-   */
-  bribe(factionName: string, amountCash: number): boolean;
-  /**
-   * Get corporation data
-   * @returns Corporation data
-   */
-  getCorporation(): CorporationInfo;
-  /**
-   * Get division data
-   * @param divisionName - Name of the division
-   * @returns Division data
-   */
-  getDivision(divisionName: string): Division;
-  /**
-   * Expand to a new industry
-   * @param industryType - Name of the industry
-   * @param divisionName - Name of the division
-   */
-  expandIndustry(industryType: string, divisionName: string): void;
-  /**
-   * Expand to a new city
-   * @param divisionName - Name of the division
-   * @param cityName - Name of the city
-   */
-  expandCity(divisionName: string, cityName: string): void;
-  /**
-   * Unlock an upgrade
-   * @param upgradeName - Name of the upgrade
-   */
-  unlockUpgrade(upgradeName: string): void;
-  /**
-   * Level an upgrade.
-   * @param upgradeName - Name of the upgrade
-   */
-  levelUpgrade(upgradeName: string): void;
-  /**
-   * Issue dividends
-   * @param rate - Fraction of profit to issue as dividends.
-   */
-  issueDividends(rate: number): void;
-  /**
-   * Buyback Shares
-   * @param amount - Amount of shares to buy back.
-   *
-   */
-  buyBackShares(amount: number): void;
-  /**
-   * Sell Shares
-   * @param amount -  Amount of shares to sell.
-   *
-   */
-  sellShares(amount: number): void;
-  /**
-   * Get bonus time.
-   *
-   * “Bonus time” is accumulated when the game is offline or if the game is inactive in the browser.
-   *
-   * “Bonus time” makes the game progress faster.
-   *
-   * @returns Bonus time for the Corporation mechanic in milliseconds.
-   */
-  getBonusTime(): number;
+* Work formulas
+* @public
+*/
+export declare interface WorkFormulas {
+  crimeGains(crimeType: string): WorkStats;
+  classGains(player: Player, classType: string, locationName: string): WorkStats;
+  factionGains(player: Player, workType: string, favor: number): WorkStats;
 }
 
 /**
- * General info about a corporation
- * @public
- */
-interface CorporationInfo {
-  /** Name of the corporation */
-  name: string;
-  /** Funds available */
-  funds: number;
-  /** Revenue per second this cycle */
-  revenue: number;
-  /** Expenses per second this cycle */
-  expenses: number;
-  /** Indicating if the company is public */
-  public: boolean;
-  /** Total number of shares issues by this corporation */
-  totalShares: number;
-  /** Amount of share owned */
-  numShares: number;
-  /** Cooldown until shares can be sold again */
-  shareSaleCooldown: number;
-  /** Amount of acquirable shares. */
-  issuedShares: number;
-  /** Price of the shares */
-  sharePrice: number;
-  /** Fraction of profits issued as dividends */
-  dividendRate: number;
-  /** Tax applied on your earnings as a shareholder */
-  dividendTax: number;
-  /** Your earnings as a shareholder per second this cycle */
-  dividendEarnings: number;
-  /** State of the corporation. Possible states are START, PURCHASE, PRODUCTION, SALE, EXPORT. */
-  state: string;
-  /** Array of all divisions */
-  divisions: Division[];
+* @public
+*/
+export declare interface WorkStats {
+  money: number;
+  reputation: number;
+  hackExp: number;
+  strExp: number;
+  defExp: number;
+  dexExp: number;
+  agiExp: number;
+  chaExp: number;
+  intExp: number;
 }
 
-/**
- * Employee in an office
- * @public
- */
-export interface Employee {
-  /** Name of the employee */
-  name: string;
-  /** Morale of the employee */
-  mor: number;
-  /** Happiness of the employee */
-  hap: number;
-  /** Energy of the employee */
-  ene: number;
-  /** Intelligence of the employee */
-  int: number;
-  /** Charisma of the employee */
-  cha: number;
-  /** Experience of the employee */
-  exp: number;
-  /** Creativity of the employee */
-  cre: number;
-  /** Efficiency of the employee */
-  eff: number;
-  /** Salary of the employee */
-  sal: number;
-  /** Current Location (city) */
-  loc: string;
-  /** Current job position */
-  pos: string;
-}
-
-/**
- * Product in a warehouse
- * @public
- */
-interface Product {
-  /** Name of the product */
-  name: string;
-  /** Demand for the product, only present if "Market Research - Demand" unlocked */
-  dmd: number | undefined;
-  /** Competition for the product, only present if "Market Research - Competition" unlocked */
-  cmp: number | undefined;
-  /** Product Rating */
-  rat: number;
-  /** Product Properties. The data is \{qlt, per, dur, rel, aes, fea\} */
-  properties: { [key: string]: number };
-  /** Production cost */
-  pCost: number;
-  /** Sell cost, can be "MP+5" */
-  sCost: string | number;
-  /** Data refers to the production, sale, and quantity of the products
-   * These values are specific to a city
-   * For each city, the data is [qty, prod, sell] */
-  cityData: { [key: string]: number[] };
-  /** Creation progress - A number between 0-100 representing percentage */
-  developmentProgress: number;
-}
-
-/**
- * Material in a warehouse
- * @public
- */
-interface Material {
-  /** Name of the material */
-  name: string;
-  /** Amount of material  */
-  qty: number;
-  /** Quality of the material */
-  qlt: number;
-  /** Demand for the material, only present if "Market Research - Demand" unlocked */
-  dmd: number | undefined;
-  /** Competition for the material, only present if "Market Research - Competition" unlocked */
-  cmp: number | undefined;
-  /** Amount of material produced  */
-  prod: number;
-  /** Amount of material sold */
-  sell: number;
-  /** Cost to buy material */
-  cost: number;
-  /** Sell cost, can be "MP+5" */
-  sCost: string | number;
-  /** Export orders */
-  exp: Export[];
-}
-
-/**
- * Export order for a material
- * @public
- */
-interface Export {
-  /** Division the material is being exported to */
-  div: string;
-  /** City the material is being exported to */
-  loc: string;
-  /** Amount of material exported */
-  amt: string;
-}
-
-/**
- * Warehouse for a division in a city
- * @public
- */
-interface Warehouse {
-  /** Amount of size upgrade bought */
-  level: number;
-  /** City in which the warehouse is located */
-  loc: string;
-  /** Total space in the warehouse */
-  size: number;
-  /** Used space in the warehouse */
-  sizeUsed: number;
-  /** Smart Supply status in the warehouse */
-  smartSupplyEnabled: boolean;
-}
-
-/**
- * Office for a division in a city.
- * @public
- */
-export interface Office {
-  /** City of the office */
-  loc: string;
-  /** Maximum number of employee */
-  size: number;
-  /** Minimum amount of energy of the employees */
-  minEne: number;
-  /** Maximum amount of energy of the employees */
-  maxEne: number;
-  /** Minimum happiness of the employees */
-  minHap: number;
-  /** Maximum happiness of the employees */
-  maxHap: number;
-  /** Minimum morale of the employees */
-  minMor: number;
-  /** Maximum morale of the employees */
-  maxMor: number;
-  /** Name of all the employees */
-  employees: string[];
-  /** Production of the employees */
-  employeeProd: EmployeeJobs;
-  /** Positions of the employees */
-  employeeJobs: EmployeeJobs;
-}
-
-/**
- * Object representing the number of employee in each job.
- * @public
- */
-interface EmployeeJobs {
-  Operations: number;
-  Engineer: number;
-  Business: number;
-  Management: number;
-  "Research & Development": number;
-  Training: number;
-  Unassigned: number;
-}
-
-/**
- * Corporation division
- * @public
- */
-interface Division {
-  /** Name of the division */
-  name: string;
-  /** Type of division, like Agriculture */
-  type: string;
-  /** Awareness of the division */
-  awareness: number;
-  /** Popularity of the division */
-  popularity: number;
-  /** Production multiplier */
-  prodMult: number;
-  /** Amount of research in that division */
-  research: number;
-  /** Revenue last cycle */
-  lastCycleRevenue: number;
-  /** Expenses last cycle */
-  lastCycleExpenses: number;
-  /** Revenue this cycle */
-  thisCycleRevenue: number;
-  /** Expenses this cycle */
-  thisCycleExpenses: number;
-  /** All research bought */
-  upgrades: number[];
-  /** Cities in which this division has expanded */
-  cities: string[];
-  /** Products developed by this division */
-  products: string[];
-  /** Whether the industry this division is in is capable of making products */
-  makesProducts: boolean;
-}
-
-/**
- * Corporation investment offer
- * @public
- */
-interface InvestmentOffer {
-  /** Amount of funds you will get from this investment */
-  funds: number;
-  /** Amount of share you will give in exchange for this investment */
-  shares: number;
-  /** Current round of funding (max 4) */
-  round: number;
-}
-
-/**
- * Interface Theme
- * @public
- */
-interface UserInterfaceTheme {
-  [key: string]: string | undefined;
-  primarylight: string;
-  primary: string;
-  primarydark: string;
-  successlight: string;
-  success: string;
-  successdark: string;
-  errorlight: string;
-  error: string;
-  errordark: string;
-  secondarylight: string;
-  secondary: string;
-  secondarydark: string;
-  warninglight: string;
-  warning: string;
-  warningdark: string;
-  infolight: string;
-  info: string;
-  infodark: string;
-  welllight: string;
-  well: string;
-  white: string;
-  black: string;
-  hp: string;
-  money: string;
-  hack: string;
-  combat: string;
-  cha: string;
-  int: string;
-  rep: string;
-  disabled: string;
-  backgroundprimary: string;
-  backgroundsecondary: string;
-  button: string;
-}
-
-/**
- * Interface Styles
- * @public
- */
-interface IStyleSettings {
-  fontFamily: string;
-  lineHeight: number;
-}
-
-/**
- * Game Information
- * @public
- */
-interface GameInfo {
-  version: string;
-  commit: string;
-  platform: string;
-}
-
-/**
- * Used for autocompletion
- * @public
- */
-interface AutocompleteData {
-  servers: string[];
-  scripts: string[];
-  txts: string[];
-  flags(schema: [string, string | number | boolean | string[]][]): { [key: string]: ScriptArg | string[] };
-}
+export { }

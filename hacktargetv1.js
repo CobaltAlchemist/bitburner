@@ -1,13 +1,9 @@
-/** @param {import("..").NS } ns */
+/** @param {import(".").NS } ns */
 export async function main(ns) {
+    ns.disableLog("disableLog");
+    ns.disableLog("enableLog");
     var self = ns.getServer();
-	var hwget = ns.wget("https://raw.githubusercontent.com/CobaltAlchemist/bitburner/main/manager/h.js", "h.js");
-	var gwget = ns.wget("https://raw.githubusercontent.com/CobaltAlchemist/bitburner/main/manager/g.js", "g.js");
-	var wwget = ns.wget("https://raw.githubusercontent.com/CobaltAlchemist/bitburner/main/manager/w.js", "w.js");
-    if (!(await hwget && await gwget && await wwget)){
-        ns.tprint("Failed to fetch files");
-        return;
-    };
+    ns.scp(["h.js", "w.js", "g.js"], self.hostname, "home");
 	var target = ns.args[0]
     var last_script = 0
     while (true){
@@ -31,7 +27,7 @@ export async function main(ns) {
             }
             last_script = ns.exec("g.js", self.hostname, n_t, target);
         }
-        else if (ns.getServerSecurityLevel(target) > ns.getServerMinSecurityLevel(target)){
+        else {
             var n_t = threads(ns, "h.js");
             ns.printf("Running hack with %d threads...", n_t);
             if (0 == n_t){
@@ -41,8 +37,10 @@ export async function main(ns) {
             }
             last_script = ns.exec("h.js", self.hostname, n_t, target);
         }
-        while (ns.scriptRunning(last_script, self.hostname)){
+        while (ns.isRunning(last_script, self.hostname)){
+            ns.disableLog("sleep");
             await ns.sleep(100);
+            ns.enableLog("sleep");
         }
         await ns.sleep(100);
     }
